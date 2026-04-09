@@ -9,13 +9,18 @@ export function Navbar() {
   const { role, logout } = useAuthStore();
 
   return (
-    <header className="border-b bg-background">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
-        <h1 className="font-semibold">Asset Borrowing System</h1>
+    <header className="sticky top-0 z-30 border-b border-white/10 bg-white/5 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
         <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground">Role: {role ?? "Guest"}</span>
+          <h1 className="text-xl font-extrabold tracking-tight text-white">Luminescent</h1>
+          <span className="rounded bg-white px-2 py-0.5 text-[10px] font-black tracking-widest text-black">
+            {role ?? "GUEST"}
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
           <Button
             variant="outline"
+            className="rounded-full"
             onClick={() => {
               logout();
               router.push("/login");
