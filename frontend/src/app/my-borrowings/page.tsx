@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import { UserLayout } from "@/components/layout/UserLayout";
+import { GradientButton } from "@/components/ui/GradientButton";
+import { PageIntro } from "@/components/ui/PageIntro";
 import { AuthService } from "@/services/AuthService";
 import { BorrowService } from "@/services/BorrowService";
 
@@ -10,12 +12,11 @@ export default async function MyBorrowingsPage() {
 
   return (
     <UserLayout active="my-items" avatarUrl={user.avatarUrl}>
-      <header className="mb-12">
-        <h1 className="mb-4 text-[2.25rem] font-extrabold tracking-tight">My Borrowings</h1>
-        <p className="text-sm font-medium text-slate-500">
-          Manage your active asset lifecycle and track upcoming return deadlines.
-        </p>
-      </header>
+      <PageIntro
+        className="mb-12"
+        title="My Borrowings"
+        description="Manage your active asset lifecycle and track upcoming return deadlines."
+      />
 
       <div className="grid grid-cols-1 gap-6">
         {borrows.map((borrow) => (
@@ -36,7 +37,7 @@ export default async function MyBorrowingsPage() {
               </div>
               <div className="flex gap-3">
                 <button className="rounded-full bg-indigo-100 px-6 py-2.5 text-xs font-bold text-indigo-900">Extend</button>
-                <button className="rounded-full bg-gradient-to-br from-indigo-700 to-indigo-500 px-6 py-2.5 text-xs font-bold text-white">Return</button>
+                <GradientButton className="rounded-full px-6 py-2.5 text-xs">Return</GradientButton>
               </div>
             </div>
           </article>

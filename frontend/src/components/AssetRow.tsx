@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Pencil, Trash2 } from "lucide-react";
 
 import type { Asset } from "@/models/Asset";
 
@@ -22,10 +23,10 @@ function formatCurrency(valueUsd: number): string {
 
 export function AssetRow({ asset }: AssetRowProps) {
   return (
-    <tr className="group transition-colors hover:bg-slate-900/30">
+    <tr className="group transition-colors hover:bg-slate-100 dark:hover:bg-slate-900/30">
       <td className="px-6 py-5">
         <div className="flex items-center gap-4">
-          <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-slate-800">
+          <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
             <Image
               className="h-full w-full object-cover"
               src={asset.imageUrl}
@@ -35,8 +36,8 @@ export function AssetRow({ asset }: AssetRowProps) {
             />
           </div>
           <div>
-            <p className="font-bold tracking-tight text-slate-100">{asset.name}</p>
-            <p className="text-xs text-slate-500">SN: {asset.serialNumber}</p>
+            <p className="font-bold tracking-tight text-slate-900 dark:text-slate-100">{asset.name}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-500">SN: {asset.serialNumber}</p>
           </div>
         </div>
       </td>
@@ -52,30 +53,30 @@ export function AssetRow({ asset }: AssetRowProps) {
         </span>
       </td>
 
-      <td className="px-6 py-5 text-sm text-slate-400">{asset.category}</td>
+      <td className="px-6 py-5 text-sm text-slate-600 dark:text-slate-400">{asset.category}</td>
 
       <td className="px-6 py-5">
         {asset.custodianName ? (
           <div className="flex items-center gap-2">
-            <div className="h-6 w-6 rounded-full bg-slate-800" />
-            <p className="text-sm font-medium text-slate-300">{asset.custodianName}</p>
+            <div className="h-6 w-6 rounded-full bg-slate-300 dark:bg-slate-800" />
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{asset.custodianName}</p>
           </div>
         ) : (
           <p className="text-sm text-slate-600">-</p>
         )}
       </td>
 
-      <td className="px-6 py-5 font-mono text-sm text-slate-100">
+      <td className="px-6 py-5 font-mono text-sm text-slate-900 dark:text-slate-100">
         {formatCurrency(asset.valueUsd)}
       </td>
 
       <td className="px-6 py-5 text-right">
         <div className="flex items-center justify-end gap-3 opacity-0 transition-opacity group-hover:opacity-100">
-          <button className="p-2 text-slate-500 transition-colors hover:text-indigo-300">
-            <span className="material-symbols-outlined text-[20px]">edit</span>
+          <button className="p-2 text-slate-500 transition-colors hover:text-indigo-500 dark:hover:text-indigo-300">
+            <Pencil size={16} />
           </button>
           <button className="p-2 text-slate-500 transition-colors hover:text-red-500">
-            <span className="material-symbols-outlined text-[20px]">delete</span>
+            <Trash2 size={16} />
           </button>
         </div>
       </td>

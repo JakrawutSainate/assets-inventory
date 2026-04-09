@@ -1,3 +1,5 @@
+import { TrendingUp, TriangleAlert } from "lucide-react";
+
 import { AssetTable } from "@/components/AssetTable";
 import { PageHeader } from "@/components/PageHeader";
 import { SearchBar } from "@/components/SearchBar";
@@ -24,8 +26,8 @@ export default async function AdminAssetsPage() {
           label="Total Inventory Value"
           value="$1,240,400"
           detail={
-            <div className="flex items-center gap-1 text-xs text-emerald-400">
-              <span className="material-symbols-outlined text-sm">trending_up</span>
+            <div className="flex items-center gap-1 text-xs text-emerald-500 dark:text-emerald-400">
+              <TrendingUp size={14} />
               <span>+12.4% this quarter</span>
             </div>
           }
@@ -41,7 +43,7 @@ export default async function AdminAssetsPage() {
                 <div className="h-6 w-6 rounded-full border-2 border-slate-950 bg-slate-700" />
                 <div className="h-6 w-6 rounded-full border-2 border-slate-950 bg-slate-600" />
               </div>
-              <span className="text-xs text-slate-400">+14 pending</span>
+              <span className="text-xs text-slate-600 dark:text-slate-400">+14 pending</span>
             </div>
           }
         />
@@ -61,7 +63,7 @@ export default async function AdminAssetsPage() {
           value="3 Priority"
           detail={
             <div className="flex items-center gap-1 text-xs text-red-500">
-              <span className="material-symbols-outlined text-sm">warning</span>
+              <TriangleAlert size={14} />
               <span>Immediate action required</span>
             </div>
           }

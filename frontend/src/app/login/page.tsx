@@ -1,36 +1,33 @@
-import { FormInput } from "@/components/FormInput";
+import { LoginFormCard } from "@/components/login/LoginFormCard";
+import { LoginHero } from "@/components/login/LoginHero";
+import { LoginVisualPanel } from "@/components/login/LoginVisualPanel";
 
 export default async function LoginPage() {
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-50 p-6 sm:p-12">
-      <div className="w-full max-w-md">
-        <div className="mb-12">
-          <h1 className="mb-2 text-4xl font-bold tracking-tight text-slate-900">Welcome Back.</h1>
-          <p className="text-sm font-medium text-slate-500">
-            Please enter your credentials to access the ledger.
-          </p>
-        </div>
+    <main className="relative flex min-h-screen flex-col overflow-hidden bg-slate-50 selection:bg-indigo-200 selection:text-indigo-900">
+      <div className="pointer-events-none absolute top-0 left-0 -z-10 h-full w-full overflow-hidden opacity-40">
+        <div className="absolute -top-[10%] -left-[5%] h-[60%] w-[40%] rounded-full bg-slate-200 blur-[120px]" />
+        <div className="absolute -right-[5%] -bottom-[10%] h-[60%] w-[40%] rounded-full bg-indigo-200 opacity-30 blur-[120px]" />
+      </div>
 
-        <div className="relative rounded-xl bg-white p-8 shadow-[0_20px_40px_rgba(13,28,46,0.06)]">
-          <div className="absolute -top-3 -right-3 rounded-full bg-gradient-to-br from-indigo-700 to-indigo-500 px-4 py-1.5">
-            <span className="text-[10px] font-bold tracking-widest text-white uppercase">
-              Portal Access
-            </span>
-          </div>
-          <form className="space-y-6">
-            <FormInput id="email" label="Email Address" type="email" placeholder="name@organization.com" />
-            <FormInput id="password" label="Password" type="password" placeholder="••••••••" />
-            <div className="space-y-3 pt-2">
-              <button className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-indigo-700 to-indigo-500 px-6 py-4 font-bold text-white">
-                Login as Admin
-              </button>
-              <button className="w-full rounded-xl bg-indigo-100 px-6 py-4 font-bold text-indigo-900">
-                Login as User
-              </button>
-            </div>
-          </form>
+      <div className="flex flex-1 items-center justify-center p-6 sm:p-12">
+      <div className="w-full max-w-md">
+        <LoginHero />
+        <LoginFormCard />
+        <div className="mt-8 flex justify-center gap-6 text-xs font-bold text-slate-500 opacity-60">
+          <a className="transition-colors hover:text-indigo-700" href="#">
+            Terms of Service
+          </a>
+          <a className="transition-colors hover:text-indigo-700" href="#">
+            Privacy Policy
+          </a>
+          <a className="transition-colors hover:text-indigo-700" href="#">
+            System Health
+          </a>
         </div>
       </div>
+      </div>
+      <LoginVisualPanel />
     </main>
   );
 }

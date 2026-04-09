@@ -1,8 +1,11 @@
+import type { ReactNode } from "react";
+
 type FormInputProps = {
   id: string;
   label: string;
   type?: "text" | "email" | "password";
   placeholder?: string;
+  labelAction?: ReactNode;
 };
 
 export function FormInput({
@@ -10,15 +13,19 @@ export function FormInput({
   label,
   type = "text",
   placeholder,
+  labelAction,
 }: FormInputProps) {
   return (
     <div className="space-y-2">
-      <label
-        htmlFor={id}
-        className="px-1 text-xs font-bold tracking-widest text-slate-500 uppercase"
-      >
-        {label}
-      </label>
+      <div className="flex items-center justify-between px-1">
+        <label
+          htmlFor={id}
+          className="text-xs font-bold tracking-widest text-slate-500 uppercase"
+        >
+          {label}
+        </label>
+        {labelAction}
+      </div>
       <input
         id={id}
         name={id}

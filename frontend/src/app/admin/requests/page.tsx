@@ -1,4 +1,5 @@
 import { AdminLayout } from "@/components/layout/AdminLayout";
+import { GradientButton } from "@/components/ui/GradientButton";
 import { BorrowService } from "@/services/BorrowService";
 
 export default async function AdminRequestsPage() {
@@ -31,9 +32,7 @@ export default async function AdminRequestsPage() {
               <p className="mt-3 text-sm text-slate-400">Asset ID: {request.assetId}</p>
             </div>
             <div className="col-span-3 flex flex-col justify-center gap-4 rounded-r-2xl border border-slate-700/30 bg-slate-900/60 p-8">
-              <button className="rounded-xl bg-gradient-to-br from-indigo-700 to-indigo-500 px-6 py-4 font-bold text-white">
-                Approve
-              </button>
+              <GradientButton className="rounded-xl px-6 py-4">Approve</GradientButton>
               <button className="rounded-xl bg-slate-800 px-6 py-4 font-bold text-slate-300">Decline</button>
             </div>
           </article>

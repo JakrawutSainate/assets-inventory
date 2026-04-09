@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import { UserLayout } from "@/components/layout/UserLayout";
+import { GradientButton } from "@/components/ui/GradientButton";
+import { PageIntro } from "@/components/ui/PageIntro";
 import { AssetService } from "@/services/AssetService";
 import { AuthService } from "@/services/AuthService";
 
@@ -10,12 +12,11 @@ export default async function UserDashboardPage() {
 
   return (
     <UserLayout active="browse" avatarUrl={user.avatarUrl}>
-      <header className="mb-12">
-        <h1 className="mb-2 text-4xl font-extrabold tracking-tight">Explore Assets</h1>
-        <p className="max-w-2xl text-slate-500">
-          Manage and request professional-grade equipment from our global custodial inventory.
-        </p>
-      </header>
+      <PageIntro
+        className="mb-12"
+        title="Explore Assets"
+        description="Manage and request professional-grade equipment from our global custodial inventory."
+      />
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {assets.map((asset) => (
@@ -28,9 +29,9 @@ export default async function UserDashboardPage() {
               <span className="text-sm font-semibold text-indigo-700">$120/day</span>
             </div>
             <p className="mb-5 text-xs tracking-widest text-slate-500 uppercase">{asset.category}</p>
-            <button className="w-full rounded-lg bg-gradient-to-br from-indigo-700 to-indigo-500 py-3 text-sm font-bold text-white">
+            <GradientButton className="w-full rounded-lg py-3 text-sm">
               Request Asset
-            </button>
+            </GradientButton>
           </article>
         ))}
       </div>

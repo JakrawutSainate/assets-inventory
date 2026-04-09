@@ -2,6 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { UserLayout } from "@/components/layout/UserLayout";
+import { GradientButton } from "@/components/ui/GradientButton";
 import { AssetService } from "@/services/AssetService";
 import { AuthService } from "@/services/AuthService";
 
@@ -50,10 +51,10 @@ export default async function AssetDetailPage({ params }: AssetDetailPageProps) 
               <option>Main Office Hub</option>
             </select>
             <input className="w-full rounded-lg border bg-slate-50 p-4 text-sm" placeholder="Project reference" />
-            <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-br from-indigo-700 to-indigo-500 py-4 font-bold text-white">
+            <GradientButton className="flex w-full items-center justify-center gap-2 rounded-lg py-4">
               <span className="material-symbols-outlined">sync_alt</span>
               Borrow Asset
-            </button>
+            </GradientButton>
           </form>
         </aside>
       </div>
