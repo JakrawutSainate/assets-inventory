@@ -1,5 +1,18 @@
 import type { Asset } from "@/models/Asset";
 
+export type UserAssetStatus = "available" | "borrowed" | "reserved" | "in_transit";
+
+export interface UserAsset {
+  id: string;
+  name: string;
+  imageUrl: string;
+  status: UserAssetStatus;
+  category: string;
+  locationLabel: string;
+  dailyRateUsd: number;
+  actionLabel: string;
+}
+
 const mockAssets: Asset[] = [
   {
     id: "asset-001",
@@ -36,8 +49,68 @@ const mockAssets: Asset[] = [
   },
 ];
 
+const userDashboardAssets: UserAsset[] = [
+  {
+    id: "asset-101",
+    name: "ARRI Alexa Mini LF",
+    imageUrl:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuBhdpPapBwpRxJjPuZ2i7R6WsAYZPH_aFl2mtujkMDnJ4J2jYcl9OZvpQvW5EFlQlZc01aBHEUZoPtw_l0JjEkc_UCwxZvXHSqeiJ2xBAadYBFtff1JtFdT26HaV--p5_REi-A_Kie1f7IcWMdgXy-P4b2wTYO0Mq5SCwJUU1jkYSyrU3cZKozdrOF0OKGS5wxehEjxgR9Ek6TpskghleB8Ztr3v7rZYDjmx9IBrruZL5gCsue1JHzeT01P1yexnALUaVS1TS2B_Kk",
+    status: "available",
+    category: "Production",
+    locationLabel: "London, UK",
+    dailyRateUsd: 450,
+    actionLabel: "Request Asset",
+  },
+  {
+    id: "asset-102",
+    name: "MacBook Pro M3 Max",
+    imageUrl:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuARTKFDSfOMCnp4fEmkFBe9K-2WuJCDl5VpgmQ3O07ltruO3pv_eBanukJMYocuJbRUHOyRM1ThHkJbDDn9sveGWqJ33wQTvMa4V5bUWhNSn9T2TsN3l86nWDpi0ZkBonyYrRScNQlKcRPyTsKE_hIDARCbsStGSOrPsw98XoXMqTqF8qMdoMuBIRL5e6fZzIBHjdlS3JoLypOyN2znqFKp2NK_ECdTf274E41hVyp6BipzXdWuCxel5gwW97gjNiSSY1iPLjCV1ac",
+    status: "borrowed",
+    category: "Computing",
+    locationLabel: "New York, USA",
+    dailyRateUsd: 120,
+    actionLabel: "View Details",
+  },
+  {
+    id: "asset-103",
+    name: "Profoto D2 Duo Kit",
+    imageUrl:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuDIAQdzjw12C-XHTTH_kjvUKoS9Vnlz0KoeigYadOkJu3_ldj306546dUOVYQUV6O-SMpuxtMYEkxh95hX3KrGzKDWMyViMhjGBTiDbyYVuDGaobwiJ2QahEXpe61avKADFr8_ENSSKGIPnGqafh3kyNBWC2ome4uE8acNHxneVtgqueoUKF67qtFB6f5r5TwkFKQfD7Ka3WDG5yxVUya8fennUBHBW2mNJIZu4oIHp0UTqM5kI1p-nB9qnVpzHXwk8M5A6vmtbFOk",
+    status: "reserved",
+    category: "Production",
+    locationLabel: "Berlin, DE",
+    dailyRateUsd: 200,
+    actionLabel: "Notify When Free",
+  },
+  {
+    id: "asset-104",
+    name: "DJI Inspire 3 Combo",
+    imageUrl:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuAC0UHQDOlidDuH8_VI98nxbTsSOrjhIQSzhj1V-tnldiASSL2HuimB9rxK3qXV2SXvGd_zxO8g9ieQnPGZwvfkH2iVcOjvoOZXMCA777LoVG1EldEQiGwt5prkC6hDMawK5cb-XPlABXy3yjeTvgbaTwWkkdP-n9YHdktR-oHlxdFo2JBJXhFDdy0zx1IWW_GOY_cYxqPNG3oMwy_NuiW1SnJCdwK_Kh_e8sRFudo5gbQiyle6aYS1dbpOW3trSZ1YaBYRnvbdROA",
+    status: "in_transit",
+    category: "Production",
+    locationLabel: "Arriving Today",
+    dailyRateUsd: 380,
+    actionLabel: "Track Shipment",
+  },
+];
+
 export class AssetService {
   static async getAllAssets(): Promise<Asset[]> {
     return mockAssets;
+  }
+
+  static async getDashboardAssets(): Promise<UserAsset[]> {
+    return userDashboardAssets;
+  }
+
+  static async getAssetById(id: string): Promise<UserAsset | null> {
+    const asset = userDashboardAssets.find((item) => item.id === id);
+    return asset ?? null;
+  }
+
+  static async getSimilarAssets(): Promise<UserAsset[]> {
+    return userDashboardAssets.slice(0, 3);
   }
 }
