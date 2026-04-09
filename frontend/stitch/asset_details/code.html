@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Asset Detail | Fluid Custodian</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#233144",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d5e3fc",
+                    "on-secondary-fixed": "#140f54",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "outline": "#777587",
+                    "surface-tint": "#4d44e3",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#d5e3fc",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-tertiary-container": "#ffd2be",
+                    "on-error": "#ffffff",
+                    "primary-container": "#4f46e5",
+                    "on-primary-container": "#dad7ff",
+                    "tertiary-container": "#a44100",
+                    "secondary-container": "#b6b4ff",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#464555",
+                    "inverse-primary": "#c3c0ff",
+                    "on-background": "#0d1c2e",
+                    "on-tertiary-fixed": "#351000",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb695",
+                    "on-surface": "#0d1c2e",
+                    "on-error-container": "#93000a",
+                    "secondary": "#58579b",
+                    "surface-dim": "#ccdbf3",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed-variant": "#413f82",
+                    "tertiary-fixed": "#ffdbcc",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "tertiary": "#7e3000",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-container": "#454386",
+                    "surface-container-low": "#eff4ff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e6eeff",
+                    "secondary-fixed": "#e2dfff",
+                    "outline-variant": "#c7c4d8",
+                    "on-primary-fixed": "#0f0069",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #3525cd 0%, #4f46e5 100%);
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-[0_20px_40px_rgba(13,28,46,0.06)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-indigo-700 dark:text-indigo-400">Fluid Custodian</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-indigo-700 dark:text-indigo-400 border-b-2 border-indigo-600 font-semibold transition-colors" href="#">Browse</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors" href="#">My Items</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors" href="#">Activity</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden ring-2 ring-primary-container/20">
+<img alt="User profile with role badge" data-alt="close-up portrait of a professional administrator with a clean tech-focused aesthetic and soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwPgNBB03AUwxoD90NDOoHDpINjURQI2VehpyUK6IkOSaC_15XJgNDYgekGE1chP3nDpgsW7CTGLKKiaWlxbs7HOT6Ngj1LGGBk4E92HMlVUaRoqyXPyU_K9jyGJis8_uKL2jebzw0dcQJUbrhvX3kL6CrPsNSgBjlxY0d0ZlAz6lCv_b6ydjd4edFhbgvGI5sI0dqWRQD1UKSICJfD7A8UTEUxXqIJEspRxLbs2mEGc9wDH_EpLIyuULQLjNDIikJ3vD22E8_bqg"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-20 px-4 md:px-12 max-w-7xl mx-auto">
+<!-- Breadcrumb / Back Navigation -->
+<div class="mb-8 flex items-center gap-2">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+                Back to Inventory
+            </button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Left Column: Hero & Details -->
+<div class="lg:col-span-7 space-y-12">
+<!-- Hero Section: Intentional Asymmetry -->
+<section class="relative">
+<div class="aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low">
+<img alt="Asset Image" class="w-full h-full object-cover" data-alt="high-end modular professional workstation laptop on a minimalist white desk with soft atmospheric sunlight and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2o7tjKO4eyDSGJnygidtjpjgqrZeEv4-1jS4jgKo_X0f27FPtvh3RwhJhGhf2WrXhvuiydMGkOktZ0Uxg4Um4ZZq80ton0H0cEOhySp4e8Y26eYQ5HA3JAaPxwrFQBGQaPyHPgfAi86W_U-mbIdMT9r3bQmoxOJJF4kYFEQ5Cv_zCgVqiwX2r5Q9vSSYdD7GEv6TwXdwRBfWQmkJzxqg4kwTYy84GCJvgFEr8lpAaWuKyftvkNfSggD7jpM2HlLttkgFJ2bCMn7k"/>
+</div>
+<!-- Asset Tag Overlay -->
+<div class="absolute -bottom-6 left-8 bg-surface-container-lowest p-6 rounded-xl shadow-[0_20px_40px_rgba(13,28,46,0.06)] max-w-md">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container text-on-tertiary-fixed-variant text-xs font-bold tracking-widest uppercase mb-3">Available Now</span>
+<h1 class="text-[2.25rem] font-extrabold tracking-tight leading-none text-on-surface mb-2">ProStream Workstation Z1</h1>
+<p class="text-on-surface-variant text-sm font-medium">Serial: #FC-9920-XQ-2024</p>
+</div>
+</section>
+<!-- Description & Specs -->
+<section class="pt-8 space-y-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-low p-4 rounded-lg">
+<span class="label-sm text-on-surface-variant block mb-1">Category</span>
+<span class="font-semibold text-on-surface">Computing</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg">
+<span class="label-sm text-on-surface-variant block mb-1">Condition</span>
+<span class="font-semibold text-on-surface">Mint / Grade A</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg">
+<span class="label-sm text-on-surface-variant block mb-1">Location</span>
+<span class="font-semibold text-on-surface">North Wing</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg">
+<span class="label-sm text-on-surface-variant block mb-1">Owner</span>
+<span class="font-semibold text-on-surface">IT Operations</span>
+</div>
+</div>
+<div class="space-y-4">
+<h2 class="text-xl font-bold tracking-tight text-on-surface">About this asset</h2>
+<p class="text-on-surface-variant leading-relaxed">
+                            The ProStream Workstation Z1 is a high-performance terminal optimized for fluid content creation and architectural rendering. Maintained by the central custodian team, this unit underwent full diagnostics in Q3. Includes hardshell transit case and universal docking station.
+                        </p>
+</div>
+<!-- Usage Timeline: Custom Component -->
+<div class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant">Asset History</h3>
+<div class="relative pl-8 space-y-8 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-outline-variant/20">
+<div class="relative">
+<div class="absolute -left-[27px] top-1 h-3 w-3 rounded-full bg-primary border-4 border-surface-container-low box-content"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Maintenance Check</p>
+<p class="text-xs text-on-surface-variant">Oct 12, 2023 • System diagnostics cleared</p>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[21px] top-1 h-[10px] w-[10px] rounded-full bg-outline-variant/50"></div>
+<div>
+<p class="text-sm font-medium text-on-surface-variant">Returned by Admin</p>
+<p class="text-xs text-on-surface-variant">Sep 28, 2023 • Main Office</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Borrowing Form (Sticky) -->
+<div class="lg:col-span-5 sticky top-24">
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_20px_40px_rgba(13,28,46,0.06)] border border-outline-variant/10">
+<h2 class="text-xl font-bold tracking-tight text-on-surface mb-6">Request Borrowing</h2>
+<form class="space-y-6">
+<!-- Date Picker Mockup -->
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Return Date</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-low border-none border-b-2 border-transparent focus:ring-0 focus:border-primary transition-all p-4 rounded-lg text-sm" placeholder="Select return date..." type="text" value="Friday, Nov 24, 2023"/>
+<span class="material-symbols-outlined absolute right-4 top-3.5 text-on-surface-variant group-focus-within:text-primary">calendar_today</span>
+</div>
+</div>
+<!-- Dropdown Mockup -->
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Return Location</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-none border-b-2 border-transparent focus:ring-0 focus:border-primary appearance-none transition-all p-4 rounded-lg text-sm">
+<option>Main Office Hub</option>
+<option>North Wing Concierge</option>
+<option>Remote (Courier Pickup)</option>
+<option>Custodian Warehouse</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-3.5 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<!-- Notes -->
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Project Reference</label>
+<input class="w-full bg-surface-container-low border-none border-b-2 border-transparent focus:ring-0 focus:border-primary transition-all p-4 rounded-lg text-sm" placeholder="e.g. Q4 Marketing Video" type="text"/>
+</div>
+<!-- Terms & Conditions -->
+<div class="flex items-start gap-3 p-4 bg-surface rounded-lg">
+<div class="flex items-center h-5">
+<input class="h-5 w-5 rounded border-outline-variant text-primary focus:ring-primary/20" id="terms" type="checkbox"/>
+</div>
+<label class="text-xs leading-relaxed text-on-surface-variant" for="terms">
+                                I agree to the <a class="text-primary font-semibold underline decoration-primary/30" href="#">Custodian Agreement</a> and understand that I am liable for any damages during the borrowing period.
+                            </label>
+</div>
+<!-- Borrow Button: Signature Gradient -->
+<button class="w-full signature-gradient text-white font-bold py-4 rounded-lg shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined">sync_alt</span>
+                            Borrow Asset
+                        </button>
+<p class="text-center text-[10px] text-on-surface-variant uppercase tracking-widest">
+                            Estimated Approval Time: 15 Minutes
+                        </p>
+</form>
+</div>
+<!-- Info Card -->
+<div class="mt-6 p-6 rounded-xl bg-secondary-container/10 border border-secondary-container/20 flex gap-4">
+<span class="material-symbols-outlined text-secondary font-variation-settings: 'FILL' 1;">info</span>
+<div>
+<p class="text-sm font-bold text-on-secondary-container">Asset Policy</p>
+<p class="text-xs text-on-secondary-container/80">Maximum borrowing period for this category is 14 business days. Renewals available via request.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Similar Assets Section -->
+<section class="mt-24">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-[1.375rem] font-bold tracking-tight">Similar Assets</h2>
+<p class="text-on-surface-variant text-sm">Recommended computing alternatives</p>
+</div>
+<button class="text-primary font-bold text-sm hover:underline">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-video bg-surface-container-low rounded-xl overflow-hidden mb-4 relative">
+<img alt="Similar Asset 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="sleek modern laptop in a professional workspace with bright natural lighting and high-end materials" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwx79AaX4Q2PMf3SNJIIP5AthPB_oEfZIC52ICREYBd4aFFbxbx2dD_-ZqlVM8pMmGySq4MbDVVzX2_i9qtxPxH5YqtXUm1Xq08M5v2UMJSz6aUJ_MkDurNN5nLm8hM954nshYAjzdK9Di_i3UvBtJmUSvarRcpJChLIBAKz8Vn2cGFUoo-3LX7slWh6oKf2UeNIQhFhJ9hPvP0z8SjvXQmfuZl_AkJ779kJmm0bsplkuY8U4-__tDcypCmRFh4XSTZBbz4bl3uYc"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter">In Stock</div>
+</div>
+<h3 class="font-bold text-on-surface mb-1">MacBook Pro 16" M2</h3>
+<p class="text-xs text-on-surface-variant">High-fidelity display • 32GB RAM</p>
+</div>
+<!-- Card 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-video bg-surface-container-low rounded-xl overflow-hidden mb-4 relative">
+<img alt="Similar Asset 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="top-view of a pro tablet with stylus on a clean wooden desk with architectural blueprints in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeUPB2RFzE71EwSGpqw5L_CVjwgOXl_TjZL0IB11-uAeYb953jOQKx6oeOHO506tJu1rg2HdX_vB5UlGoonFTMRXk18rth_tOJ8PgsQXEs8u0CHKmylcFQJgH3uDRx0KUUONRHD9WxgDpI6mOZVyaOlR9bcU_Kd0PGhJ6pvgNkxzAeqrnPGkNuW_Q0eeEnv_dE8snFUcaHWk52FWjHruTikQx_q2jgHrh1SNx9p17OZRGyQzNgWx-YEX9Mt2p4BlcGVJbJdff1W6k"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter">In Stock</div>
+</div>
+<h3 class="font-bold text-on-surface mb-1">Surface Studio 3</h3>
+<p class="text-xs text-on-surface-variant">Touch interface • Design optimized</p>
+</div>
+<!-- Card 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-video bg-surface-container-low rounded-xl overflow-hidden mb-4 relative opacity-60 grayscale">
+<img alt="Similar Asset 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="heavy-duty industrial laptop in a tech lab environment with blue ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8yQmMq0ETkjfFo1YpJOZHD8S5Xk7JkTxj6jFwutGbestuwnwBhqwa-w6m9QtB_COcFNfKwhoepoOjfZC6o8Min7OZYqL8Xz1Lv0vU_-lggkiUN1hx9-pOSQZgFJ-llnS71zsKgH-zp2wj4ObwD0Uko7QX29miW2wTCDai8KNCwAPFKE_HmYUlhZaWi20s-bGCzhKyWFHeVXxe9f8_rzGgbIgF2G41-rQ5VnCHNuWW1L73BdCmgKE_66VMmFl1-iQKuITEIzk85tI"/>
+<div class="absolute top-3 right-3 bg-error-container text-on-error-container px-2 py-1 rounded text-[10px] font-black uppercase tracking-tighter">Borrowed</div>
+</div>
+<h3 class="font-bold text-on-surface/60 mb-1">Dell Precision T7</h3>
+<p class="text-xs text-on-surface-variant">Rendering rig • Linux pre-installed</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Space -->
+<footer class="h-24 flex items-center justify-center border-t border-outline-variant/10 bg-surface-container-lowest">
+<p class="text-xs text-on-surface-variant">© 2024 Fluid Custodian • Internal Assets Portal</p>
+</footer>
+</body></html>

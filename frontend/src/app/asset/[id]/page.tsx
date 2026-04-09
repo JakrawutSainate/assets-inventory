@@ -1,5 +1,20 @@
-import { AssetDetailClientPage } from "@/app/asset/[id]/AssetDetailClientPage";
+import { notFound } from "next/navigation";
+import { UserLayout } from "@/components/layout/UserLayout";
+import { AssetDetailsContent } from "@/components/user/asset-details/AssetDetailsContent";
+import { AssetService } from "@/services/AssetService";
 
-export default function AssetDetailPage() {
-  return <AssetDetailClientPage />;
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function AssetDetailsPage({ params }: Props) {
+  const { id } = await params;
+  const asset = await AssetService.getAssetById(id);
+  if (!asset) notFound();
+
+  return (
+    <UserLayout activePath="/dashboard">
+      <AssetDetailsContent asset={asset} />
+    </UserLayout>
+  );
 }

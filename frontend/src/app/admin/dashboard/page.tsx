@@ -1,5 +1,10 @@
-import { AdminDashboardClientPage } from "@/app/admin/dashboard/DashboardClientPage";
+import { AdminLayout } from "@/components/layout/AdminLayout";
+import { AdminDashboardContent } from "@/components/admin/dashboard/AdminDashboardContent";
 
-export default function AdminDashboardPage() {
-  return <AdminDashboardClientPage />;
+export default async function AdminDashboardPage() {
+  return (
+    <AdminLayout activePath="/admin/dashboard">
+      <AdminDashboardContent />
+    </AdminLayout>
+  );
 }

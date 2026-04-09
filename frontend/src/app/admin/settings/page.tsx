@@ -1,5 +1,10 @@
-import { SettingsClientPage } from "@/app/admin/settings/SettingsClientPage";
+import { AdminLayout } from "@/components/layout/AdminLayout";
+import { AdminSettingsContent } from "@/components/admin/settings/AdminSettingsContent";
 
-export default function AdminSettingsPage() {
-  return <SettingsClientPage />;
+export default async function AdminSettingsPage() {
+  return (
+    <AdminLayout activePath="/admin/settings">
+      <AdminSettingsContent />
+    </AdminLayout>
+  );
 }

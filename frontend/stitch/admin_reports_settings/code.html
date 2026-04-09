@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fluid Custodian | Admin Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#233144",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d5e3fc",
+                    "on-secondary-fixed": "#140f54",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "outline": "#777587",
+                    "surface-tint": "#4d44e3",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#d5e3fc",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-tertiary-container": "#ffd2be",
+                    "on-error": "#ffffff",
+                    "primary-container": "#4f46e5",
+                    "on-primary-container": "#dad7ff",
+                    "tertiary-container": "#a44100",
+                    "secondary-container": "#b6b4ff",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#464555",
+                    "inverse-primary": "#c3c0ff",
+                    "on-background": "#0d1c2e",
+                    "on-tertiary-fixed": "#351000",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb695",
+                    "on-surface": "#0d1c2e",
+                    "on-error-container": "#93000a",
+                    "secondary": "#58579b",
+                    "surface-dim": "#ccdbf3",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed-variant": "#413f82",
+                    "tertiary-fixed": "#ffdbcc",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "tertiary": "#7e3000",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-container": "#454386",
+                    "surface-container-low": "#eff4ff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e6eeff",
+                    "secondary-fixed": "#e2dfff",
+                    "outline-variant": "#c7c4d8",
+                    "on-primary-fixed": "#0f0069",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(13, 28, 46, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-inverse-surface text-inverse-on-surface antialiased selection:bg-primary selection:text-white">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-4 border-r border-slate-800 bg-slate-950 h-screen w-64 z-50">
+<div class="mb-10 px-2">
+<h1 class="text-lg font-black text-slate-100 tracking-tighter">Admin Portal</h1>
+<p class="text-xs text-slate-400 font-inter">System Custodian</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#">
+<span class="material-symbols-outlined group-hover:text-indigo-400" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#">
+<span class="material-symbols-outlined group-hover:text-indigo-400" data-icon="inventory_2">inventory_2</span>
+<span>Assets</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#">
+<span class="material-symbols-outlined group-hover:text-indigo-400" data-icon="sync_alt">sync_alt</span>
+<span>Requests</span>
+</a>
+<!-- Active Tab: Reports -->
+<a class="flex items-center gap-3 px-4 py-3 bg-indigo-900/30 text-indigo-300 font-bold rounded-lg font-inter text-sm group" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span>Reports</span>
+</a>
+<!-- Active Tab: Settings (Alternative view trigger) -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#settings-section">
+<span class="material-symbols-outlined group-hover:text-indigo-400" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-slate-800">
+<div class="flex items-center gap-3 px-2 mb-6">
+<img alt="Admin Avatar" class="w-10 h-10 rounded-full bg-slate-800" data-alt="professional portrait of a high-level systems administrator with a serious expression in a modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7QOF5vjwNU_WpTRwYX09RHJf0fzli7F6hb-tes9RbiF6IauZFOxd0S4Ca4SM4e_zI6YyqtmkVbH2vSdvYkcQHisz2EYZqP3i6P2dle8VEDn0cOJSJ6Xwm6PZeh9kk9zgsPWQMsfkKLa3FdBzE9Nf_8EsA-XTQUC3z8i4mmPdziO3YRWCZAT7JAe5k5e6HIo6LzI58JCIGkWLejPENIwtPkHvAKq2DLJ-bLnDhMwWEe69u6XifhTYbcAWddxsKvP2DJBEbTdr_gq4"/>
+<div>
+<p class="text-sm font-bold text-slate-100">Alex Custodian</p>
+<p class="text-[10px] uppercase tracking-widest text-indigo-400 font-bold">Root Access</p>
+</div>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-red-900/20 hover:text-red-400 transition-colors font-inter text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-12 min-h-screen">
+<!-- Header Section -->
+<header class="mb-16 flex justify-between items-end">
+<div class="space-y-2">
+<p class="label-md text-indigo-400 font-bold tracking-[0.2em] uppercase">Executive Intelligence</p>
+<h2 class="text-4xl font-black text-white tracking-tighter leading-none">System Reports</h2>
+</div>
+<div class="flex gap-4">
+<button class="bg-indigo-900/20 text-indigo-300 px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-indigo-900/40 transition-all border border-indigo-500/20">
+                    Export PDF
+                </button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-lg font-bold text-sm shadow-xl hover:opacity-90 transition-opacity">
+                    Refresh Metrics
+                </button>
+</div>
+</header>
+<!-- Bento Grid: Analytics -->
+<div class="grid grid-cols-12 gap-8 mb-16">
+<!-- Utilization Main Chart -->
+<div class="col-span-8 bg-slate-900 p-8 rounded-xl relative overflow-hidden group">
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="text-xl font-bold text-white">Utilization Velocity</h3>
+<p class="text-sm text-slate-400">Monthly asset checkout frequency vs. returns</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-green-500/10 text-green-400 text-[10px] font-bold rounded-full border border-green-500/20">+12.5%</span>
+</div>
+</div>
+<!-- Mock Chart Visualization -->
+<div class="h-64 flex items-end justify-between gap-4 px-4 relative">
+<!-- Grid Lines -->
+<div class="absolute inset-x-0 top-0 h-px bg-slate-800"></div>
+<div class="absolute inset-x-0 top-1/4 h-px bg-slate-800"></div>
+<div class="absolute inset-x-0 top-2/4 h-px bg-slate-800"></div>
+<div class="absolute inset-x-0 top-3/4 h-px bg-slate-800"></div>
+<div class="w-full bg-slate-800 h-24 rounded-t-sm group-hover:bg-indigo-500/20 transition-colors"></div>
+<div class="w-full bg-slate-800 h-32 rounded-t-sm group-hover:bg-indigo-500/20 transition-colors"></div>
+<div class="w-full bg-indigo-500 h-48 rounded-t-sm relative">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-indigo-600 text-[10px] px-2 py-1 rounded font-bold">84%</div>
+</div>
+<div class="w-full bg-slate-800 h-40 rounded-t-sm group-hover:bg-indigo-500/20 transition-colors"></div>
+<div class="w-full bg-slate-800 h-56 rounded-t-sm group-hover:bg-indigo-500/20 transition-colors"></div>
+<div class="w-full bg-slate-800 h-36 rounded-t-sm group-hover:bg-indigo-500/20 transition-colors"></div>
+<div class="w-full bg-slate-800 h-28 rounded-t-sm group-hover:bg-indigo-500/20 transition-colors"></div>
+</div>
+<div class="flex justify-between mt-4 px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- Damage Summary -->
+<div class="col-span-4 bg-slate-900 p-8 rounded-xl flex flex-col">
+<div class="mb-8">
+<h3 class="text-xl font-bold text-white">Integrity Health</h3>
+<p class="text-sm text-slate-400">Damage reports by severity</p>
+</div>
+<div class="flex-1 space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold text-slate-300">
+<span>Critical Malfunction</span>
+<span class="text-error">04</span>
+</div>
+<div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-error w-[15%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold text-slate-300">
+<span>Surface Damage</span>
+<span class="text-tertiary-fixed-dim">12</span>
+</div>
+<div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed-dim w-[45%]"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold text-slate-300">
+<span>Operational Wear</span>
+<span class="text-indigo-400">28</span>
+</div>
+<div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-indigo-400 w-[70%]"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-slate-800 flex items-center justify-between">
+<span class="text-[10px] text-slate-500 uppercase font-black tracking-tighter">Total Loss Ratio</span>
+<span class="text-2xl font-black text-white">2.4%</span>
+</div>
+</div>
+<!-- Mini Stats Cards -->
+<div class="col-span-3 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
+<p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Active Custodians</p>
+<h4 class="text-3xl font-black text-white">1,204</h4>
+</div>
+<div class="col-span-3 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
+<p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Inventory Value</p>
+<h4 class="text-3xl font-black text-white">$4.2M</h4>
+</div>
+<div class="col-span-3 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
+<p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Mean Loan Duration</p>
+<h4 class="text-3xl font-black text-white">4.2d</h4>
+</div>
+<div class="col-span-3 bg-slate-900/50 p-6 rounded-xl border border-slate-800">
+<p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Fulfillment Rate</p>
+<h4 class="text-3xl font-black text-white text-indigo-400">98.2%</h4>
+</div>
+</div>
+<!-- Settings Section -->
+<section class="scroll-mt-24 pt-16 border-t border-slate-800" id="settings-section">
+<div class="mb-12">
+<h2 class="text-3xl font-black text-white tracking-tighter mb-2">Platform Configuration</h2>
+<p class="text-slate-400 max-w-2xl">Manage system-wide parameters, compliance documentation, and interface preferences for all custodial tiers.</p>
+</div>
+<div class="grid grid-cols-12 gap-12">
+<!-- Main Settings Form -->
+<div class="col-span-8 space-y-12">
+<!-- Terms & Conditions Editor -->
+<div class="space-y-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-indigo-400" data-icon="gavel">gavel</span>
+<h3 class="text-lg font-bold text-white">Terms &amp; Conditions</h3>
+</div>
+<div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 focus-within:border-indigo-500 transition-colors">
+<div class="bg-slate-800/50 px-4 py-2 border-b border-slate-800 flex gap-4">
+<button class="material-symbols-outlined text-slate-400 hover:text-white" data-icon="format_bold">format_bold</button>
+<button class="material-symbols-outlined text-slate-400 hover:text-white" data-icon="format_italic">format_italic</button>
+<button class="material-symbols-outlined text-slate-400 hover:text-white" data-icon="link">link</button>
+</div>
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-sm text-slate-300 p-6 leading-relaxed font-mono" rows="8">1. ACCEPTANCE OF TERMS
+By accessing the Fluid Custodian platform, you agree to treat all assets with the highest level of care. Any physical damage must be reported within 24 hours of incident.
+
+2. CUSTODIAL RESPONSIBILITIES
+Users are strictly prohibited from transferring ownership of leased assets to third-party entities without explicit executive authorization.
+
+3. DATA PRIVACY
+All inventory logs are monitored for quality assurance and compliance purposes.</textarea>
+</div>
+<div class="flex justify-end">
+<button class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-lg text-sm transition-colors">Update Legal Text</button>
+</div>
+</div>
+<!-- Interface Preferences -->
+<div class="space-y-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-indigo-400" data-icon="palette">palette</span>
+<h3 class="text-lg font-bold text-white">Visual Experience</h3>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<!-- Dark/Light Toggle -->
+<div class="bg-slate-900 p-6 rounded-xl border border-slate-800 flex items-center justify-between">
+<div>
+<p class="font-bold text-white">Dark Mode</p>
+<p class="text-xs text-slate-500">Currently active across admin dashboard</p>
+</div>
+<button class="w-14 h-8 bg-indigo-600 rounded-full relative p-1 transition-all">
+<div class="w-6 h-6 bg-white rounded-full ml-auto shadow-sm"></div>
+</button>
+</div>
+<!-- Maintenance Mode -->
+<div class="bg-slate-900 p-6 rounded-xl border border-slate-800 flex items-center justify-between opacity-60">
+<div>
+<p class="font-bold text-white">Maintenance Mode</p>
+<p class="text-xs text-slate-500">Restricts user checkout access</p>
+</div>
+<button class="w-14 h-8 bg-slate-700 rounded-full relative p-1 transition-all">
+<div class="w-6 h-6 bg-slate-400 rounded-full shadow-sm"></div>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Settings Info -->
+<div class="col-span-4 space-y-6">
+<div class="bg-indigo-900/10 p-8 rounded-xl border border-indigo-500/10">
+<h4 class="text-indigo-300 font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="info">info</span>
+                            System Health
+                        </h4>
+<ul class="space-y-4 text-xs text-slate-400 leading-relaxed">
+<li class="flex justify-between border-b border-indigo-500/10 pb-2">
+<span>Core Version</span>
+<span class="text-white font-mono">v4.8.2-stable</span>
+</li>
+<li class="flex justify-between border-b border-indigo-500/10 pb-2">
+<span>Database Latency</span>
+<span class="text-green-400 font-mono">14ms</span>
+</li>
+<li class="flex justify-between border-b border-indigo-500/10 pb-2">
+<span>Last Backup</span>
+<span class="text-white">2h 14m ago</span>
+</li>
+</ul>
+</div>
+<div class="bg-slate-900 p-8 rounded-xl border border-slate-800">
+<h4 class="text-white font-bold mb-4">Quick Audit</h4>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="w-1 bg-indigo-500 rounded-full"></div>
+<div>
+<p class="text-[10px] text-slate-500 font-black uppercase tracking-tight">Today 14:20</p>
+<p class="text-xs text-slate-300">Admin [Alex] updated Terms &amp; Conditions</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-1 bg-indigo-500 rounded-full"></div>
+<div>
+<p class="text-[10px] text-slate-500 font-black uppercase tracking-tight">Today 11:05</p>
+<p class="text-xs text-slate-300">System backup successful (US-East-1)</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 text-xs font-bold text-indigo-400 hover:text-indigo-300 transition-colors">View All Logs</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Decoration -->
+<footer class="mt-24 pt-12 border-t border-slate-900 flex justify-between items-center opacity-40 grayscale">
+<span class="text-xs font-black tracking-[0.4em] uppercase text-slate-500">Fluid Custodian Administrative Engine</span>
+<div class="flex gap-8">
+<span class="text-xs text-slate-500">Privacy Policy</span>
+<span class="text-xs text-slate-500">Security Protocol</span>
+<span class="text-xs text-slate-500">v4.8.2</span>
+</div>
+</footer>
+</main>
+</body></html>

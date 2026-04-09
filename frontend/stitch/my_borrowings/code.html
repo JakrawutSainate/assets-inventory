@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Borrowings | Fluid Custodian</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#233144",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d5e3fc",
+                    "on-secondary-fixed": "#140f54",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "outline": "#777587",
+                    "surface-tint": "#4d44e3",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#d5e3fc",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-tertiary-container": "#ffd2be",
+                    "on-error": "#ffffff",
+                    "primary-container": "#4f46e5",
+                    "on-primary-container": "#dad7ff",
+                    "tertiary-container": "#a44100",
+                    "secondary-container": "#b6b4ff",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#464555",
+                    "inverse-primary": "#c3c0ff",
+                    "on-background": "#0d1c2e",
+                    "on-tertiary-fixed": "#351000",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb695",
+                    "on-surface": "#0d1c2e",
+                    "on-error-container": "#93000a",
+                    "secondary": "#58579b",
+                    "surface-dim": "#ccdbf3",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed-variant": "#413f82",
+                    "tertiary-fixed": "#ffdbcc",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "tertiary": "#7e3000",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-container": "#454386",
+                    "surface-container-low": "#eff4ff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e6eeff",
+                    "secondary-fixed": "#e2dfff",
+                    "outline-variant": "#c7c4d8",
+                    "on-primary-fixed": "#0f0069",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #3525cd 0%, #4f46e5 100%);
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 glass-nav shadow-[0_20px_40px_rgba(13,28,46,0.06)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-indigo-700 dark:text-indigo-400">Fluid Custodian</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-600 transition-colors" href="#">Browse</a>
+<a class="text-indigo-700 dark:text-indigo-400 border-b-2 border-indigo-600 font-semibold transition-colors" href="#">My Items</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-600 transition-colors" href="#">Activity</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-surface-container-high ring-2 ring-primary/10">
+<img alt="User profile with role badge" class="h-full w-full object-cover" data-alt="Close-up professional portrait of a smiling person with a minimalist soft background, high key lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP4ytIsumNbfZ7r2EORcg3cYZ3I1LvTVEoXHFHGRzTC9h0RB7UJmNZf2GCSUmTPWBQ1ywBg2IJ8G2cZ9lRkxgk1y-EZDTL9iL_HZXuIAMj8H615NXhWmgVFXvZAkqegkGHyO4TEiOcyhum8eO7uumxKT3Ilz9Qi9NjHYN_-61loVJCZRcoUt5-F6yUpQ-_zWDRePHQm5ugUsPElAm-UETrY5dert_iZtlo1NaBrJKh1kMK99sDvSii5kxH8Y3FD_drlAJrRTS3xg0"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-12 px-8 max-w-7xl mx-auto">
+<!-- Hero & Summary Section (Editorial Style) -->
+<header class="mb-12 flex flex-col md:flex-row justify-between items-end gap-8">
+<div class="max-w-2xl">
+<h1 class="text-[2.25rem] font-extrabold tracking-tight text-on-surface leading-none mb-4">My Borrowings</h1>
+<p class="text-on-surface-variant text-sm font-medium">Manage your active asset lifecycle and track upcoming return deadlines across the custodian network.</p>
+</div>
+<!-- Summary Bento Grid -->
+<div class="flex gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_20px_40px_rgba(13,28,46,0.06)] min-w-[160px] relative overflow-hidden">
+<span class="block text-3xl font-black text-primary tracking-tighter">04</span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Active Items</span>
+<div class="absolute -right-2 -bottom-2 opacity-5 text-primary">
+<span class="material-symbols-outlined text-6xl" data-icon="inventory_2">inventory_2</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl min-w-[160px] relative overflow-hidden">
+<span class="block text-3xl font-black text-tertiary tracking-tighter">48h</span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Next Due</span>
+<div class="absolute -right-2 -bottom-2 opacity-5 text-tertiary">
+<span class="material-symbols-outlined text-6xl" data-icon="schedule">schedule</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Asymmetric Asset List -->
+<div class="grid grid-cols-1 gap-6">
+<!-- Asset Card 1: High Contrast Glass/Surface -->
+<article class="group bg-surface-container-lowest rounded-xl flex flex-col md:flex-row overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_rgba(13,28,46,0.08)]">
+<div class="md:w-64 h-48 md:h-auto overflow-hidden relative">
+<img alt="High-end running shoes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Minimalist studio photography of premium black running sneakers on a clean white background with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUMG4i2eSfyw2cGKcu8gKTde6oLHiuWwCp_OAtjDqyRDEbbqqg9upUu7T9Alsy6We6-3oeQnJbAn7GQBIsBcDlhkjiORYORdWwgOHvlATXwhCg6TDwKcJtY3cx4uc8HvwV_tTIOuaOh4yO32ShHcKTXskwX_ieNi-010G7e4hI9CFLw9JZTKZq2uV2N0lyW3mn3SUKwNvvCEGEYtzc3DV2aFctPOBHLpK3uiPhglny6qGJFD5dxtC32q_hOuN79g-Aq1w0xAP_Pp0"/>
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 bg-surface-container/90 backdrop-blur-md rounded-full text-[10px] font-extrabold text-on-tertiary-fixed-variant uppercase tracking-widest">Action Required</span>
+</div>
+</div>
+<div class="flex-1 p-8 flex flex-col justify-between gap-6">
+<div class="flex flex-col md:flex-row justify-between items-start gap-4">
+<div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-1 block">Footwear &amp; Performance</span>
+<h2 class="text-[1.375rem] font-bold text-on-surface tracking-tight">Precision Ultra 4.0</h2>
+<p class="text-sm text-on-surface-variant mt-2 max-w-lg">Advanced biometric tracking sneakers with carbon-plate technology. High-frequency asset.</p>
+</div>
+<div class="text-right">
+<span class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">Due Date</span>
+<span class="text-xl font-black text-error tracking-tighter leading-none">Oct 24, 2023</span>
+<span class="block text-[10px] text-error font-medium mt-1 uppercase tracking-wider">In 2 days</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-outline-variant/15">
+<div class="flex gap-2">
+<span class="px-4 py-2 bg-surface-container rounded-full text-xs font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="qr_code_2">qr_code_2</span>
+                                SN: 882-PLT
+                            </span>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-full text-xs font-bold text-on-secondary-container bg-secondary-container hover:bg-secondary-container/80 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add_time">more_time</span>
+                                Extend
+                            </button>
+<button class="px-6 py-2.5 rounded-full text-xs font-bold text-on-primary signature-gradient hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="assignment_return">assignment_return</span>
+                                Return
+                            </button>
+<button class="p-2.5 rounded-full border border-outline-variant/30 text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="report">report</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Asset Card 2: Alternating Tint -->
+<article class="group bg-surface-container-low rounded-xl flex flex-col md:flex-row overflow-hidden transition-all duration-300">
+<div class="md:w-64 h-48 md:h-auto overflow-hidden">
+<img alt="Sleek laptop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Overhead shot of a sleek silver laptop on a minimalist grey desk with soft side lighting and a neutral palette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFXHgysKBazX_RczgrbgrVr635TS5TrgUwIEsQTh4mETkDcQWwKFcJdEBUf4WcfPIScTCPnte008R6XrrRoa6UwZm3o30fv5Th4dJI-2LpVejx9pqHKbvss4vOaAUn12vi8PdI1HIOomx0OvWkcMhaeF74nVF-xRxz_cwqYgg0zwLXoTabVcJp6qaLzy55RBpuJBlU-iqnsCNBQ5_Q55wM2GVnE9k8SoRJle8Nkwpx9pks7S5j-trlFMTZ95g_a7iKAoy6Rn-ZErg"/>
+</div>
+<div class="flex-1 p-8 flex flex-col justify-between gap-6">
+<div class="flex flex-col md:flex-row justify-between items-start gap-4">
+<div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-1 block">Computing &amp; Hardware</span>
+<h2 class="text-[1.375rem] font-bold text-on-surface tracking-tight">MacBook Pro 16" M2</h2>
+<p class="text-sm text-on-surface-variant mt-2 max-w-lg">Space Grey, 32GB Unified Memory. Assigned for Design Sprint Alpha.</p>
+</div>
+<div class="text-right">
+<span class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">Due Date</span>
+<span class="text-xl font-black text-on-surface tracking-tighter leading-none">Nov 12, 2023</span>
+<span class="block text-[10px] text-on-surface-variant font-medium mt-1 uppercase tracking-wider">In 21 days</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-outline-variant/15">
+<div class="flex gap-2">
+<span class="px-4 py-2 bg-surface-container-lowest rounded-full text-xs font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="verified">verified</span>
+                                Standard Health
+                            </span>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-full text-xs font-bold text-on-secondary-container bg-secondary-container/50 hover:bg-secondary-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add_time">more_time</span>
+                                Extend
+                            </button>
+<button class="px-6 py-2.5 rounded-full text-xs font-bold text-on-primary signature-gradient hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="assignment_return">assignment_return</span>
+                                Return
+                            </button>
+<button class="p-2.5 rounded-full bg-white/50 text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="report">report</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Asset Card 3: Vertical Stacking Timeline Look -->
+<article class="group bg-surface-container-lowest rounded-xl flex flex-col md:flex-row overflow-hidden transition-all duration-300 border border-outline-variant/5">
+<div class="md:w-64 h-48 md:h-auto overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+<img alt="Professional camera gear" class="w-full h-full object-cover" data-alt="High-end digital cinema camera lens close-up with complex glass reflections and professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR6el9-_coS8BnB2lpNHbLV7xRB2TEdryvK9Y5cGwfz-vC-bbCFYYZI02BSg2dLzHVzSedk0DHA6lAGmC17yn1bM9vz76RE8IhtGYfJhw0QE9we10rikfR9pXXbgXNh4hxguAn0bsa07UJzYiR-GMCiGGCzMFHE698p8CyNKaAH4l91Ma3IstxNH4uaaiwQaJD2hNPI0tokifZO7DKwdmMFqVCOcPYwCBUMptTXaJ9erKebVyTUOlA8cWBdV3JTz_lIrueGe13bkc"/>
+</div>
+<div class="flex-1 p-8 flex flex-col justify-between gap-6 relative">
+<!-- Custom Borrowing Timeline Element -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-1/2 w-1 bg-primary/20 rounded-full"></div>
+<div class="flex flex-col md:flex-row justify-between items-start gap-4">
+<div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-1 block">A/V Equipment</span>
+<h2 class="text-[1.375rem] font-bold text-on-surface tracking-tight">Sony CinePrime 35mm</h2>
+<p class="text-sm text-on-surface-variant mt-2 max-w-lg">Professional grade prime lens. Handle with extreme care. Includes protective hard case.</p>
+</div>
+<div class="text-right">
+<span class="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">Due Date</span>
+<span class="text-xl font-black text-on-surface tracking-tighter leading-none">Nov 15, 2023</span>
+<span class="block text-[10px] text-on-surface-variant font-medium mt-1 uppercase tracking-wider">In 24 days</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-outline-variant/15">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-surface bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] font-bold text-primary" data-icon="check">check</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] font-bold text-primary" data-icon="check">check</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface bg-surface-container flex items-center justify-center">
+<span class="text-[8px] font-black text-on-surface-variant">3</span>
+</div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">2 Steps to Return</span>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-full text-xs font-bold text-on-secondary-container bg-secondary-container hover:bg-secondary-container/80 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add_time">more_time</span>
+                                Extend
+                            </button>
+<button class="px-6 py-2.5 rounded-full text-xs font-bold text-on-primary signature-gradient hover:opacity-90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="assignment_return">assignment_return</span>
+                                Return
+                            </button>
+<button class="p-2.5 rounded-full border border-outline-variant/30 text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="report">report</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination or Load More (Editorial Style) -->
+<footer class="mt-16 flex flex-col items-center gap-4">
+<button class="px-12 py-4 bg-surface-container-low text-on-surface-variant text-xs font-bold uppercase tracking-[0.3em] hover:bg-surface-container-high transition-all rounded-lg">
+                Load History
+            </button>
+<p class="text-[10px] font-medium text-on-surface-variant uppercase tracking-widest">Showing 3 of 12 total items borrowed this year</p>
+</footer>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full glass-nav flex justify-around items-center px-4 h-16 z-50">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Dash</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Assets</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-indigo-700" href="#">
+<span class="material-symbols-outlined" data-icon="sync_alt" style="font-variation-settings: 'FILL' 1;">sync_alt</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">My Items</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Stats</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Set</span>
+</a>
+</nav>
+</body></html>

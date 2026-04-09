@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Borrowing History | Fluid Custodian</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#233144",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d5e3fc",
+                    "on-secondary-fixed": "#140f54",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "outline": "#777587",
+                    "surface-tint": "#4d44e3",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#d5e3fc",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-tertiary-container": "#ffd2be",
+                    "on-error": "#ffffff",
+                    "primary-container": "#4f46e5",
+                    "on-primary-container": "#dad7ff",
+                    "tertiary-container": "#a44100",
+                    "secondary-container": "#b6b4ff",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#464555",
+                    "inverse-primary": "#c3c0ff",
+                    "on-background": "#0d1c2e",
+                    "on-tertiary-fixed": "#351000",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb695",
+                    "on-surface": "#0d1c2e",
+                    "on-error-container": "#93000a",
+                    "secondary": "#58579b",
+                    "surface-dim": "#ccdbf3",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed-variant": "#413f82",
+                    "tertiary-fixed": "#ffdbcc",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "tertiary": "#7e3000",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-container": "#454386",
+                    "surface-container-low": "#eff4ff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e6eeff",
+                    "secondary-fixed": "#e2dfff",
+                    "outline-variant": "#c7c4d8",
+                    "on-primary-fixed": "#0f0069",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #3525cd 0%, #4f46e5 100%);
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 glass-header shadow-[0_20px_40px_rgba(13,28,46,0.06)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-indigo-700 dark:text-indigo-400">Fluid Custodian</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors" href="#">Browse</a>
+<a class="text-indigo-700 dark:text-indigo-400 border-b-2 border-indigo-600 font-semibold transition-colors" href="#">My Items</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors" href="#">Activity</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ring-2 ring-indigo-100">
+<img alt="User profile with role badge" class="w-full h-full object-cover" data-alt="Close-up professional headshot of a woman with a confident expression, soft studio lighting, neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyjD69bjRx4PzdTlH76y4rETBFGpjGXHQTorMoqMRrhJUzFsyW2_SpbZSgFKGfk73V9In_BTwFHO0YNn1F4W_sZwjQt73BXHZendxzKaQxlFLLPK3VfRvjsHSlLXD3VwVfPyJ3RF8kwVb8_JWpGdUjSsPLJLsZCNLEsUXR0gbDVXEzZT-iIL9qrkoSaqM_h8WomeP5SjSEYOQGMslWKlM_Ez0voFsCixZ4yVoRYv4Ft7kXUn-0P7OP7yZA_EC6aRFNnWebNwdLoPo"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-12 px-8 max-w-7xl mx-auto">
+<!-- Editorial Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+<div class="max-w-2xl">
+<span class="label-md font-bold tracking-widest text-primary uppercase mb-2 block">CUSTODIAL RECORDS</span>
+<h1 class="text-5xl font-extrabold tracking-tight text-on-surface mb-4">Borrowing History</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed">A detailed chronicle of your managed assets. Every transaction represents a sustainable exchange in the Fluid ecosystem.</p>
+</div>
+<!-- Saved Money Widget -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_20px_40px_rgba(13,28,46,0.06)] border border-outline-variant/15 flex flex-col gap-1 min-w-[240px]">
+<div class="flex items-center gap-2 text-on-tertiary-fixed-variant mb-2">
+<span class="material-symbols-outlined text-xl" data-icon="savings">savings</span>
+<span class="font-bold text-sm tracking-tight">CUMULATIVE SAVINGS</span>
+</div>
+<div class="text-4xl font-black tracking-tighter text-on-surface">$1,482.50</div>
+<div class="text-xs text-on-surface-variant font-medium">Calculated as (Asset Value / 100) × Duration</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Table View Container -->
+<div class="lg:col-span-12 bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(13,28,46,0.06)]">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/10">
+<th class="px-8 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Asset</th>
+<th class="px-6 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Date Borrowed</th>
+<th class="px-6 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Date Returned</th>
+<th class="px-6 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Savings</th>
+<th class="px-8 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
+<img alt="MacBook Pro" class="w-full h-full object-cover" data-alt="High-end metallic laptop on a clean white desk surface with minimalist aesthetics and soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4BBoG3jLs4C1zElCX-KQD3ctCNA8NSzEzriMh29-hII_s_Z-5QcEsra3h7GxkpVZ4DGX9_75Oz0VxWrIdOh34gtNwdfTsoWXMl6jadltV6P108jHx5FhN6P89Z1k3OX46mWiySzSoRai0iiFBwbkf-nxadcQDFM-iaX1wO2I5Gt82eBAPFka9Y5f6LdQ4fx-gfeakrTB2rLOAYJwxOpV_OxEptw8_vyp4bGL36xfDx7gYG-40dw2MkVrgVBP2eHlu_PlS_zYsrkA"/>
+</div>
+<div>
+<div class="font-bold text-on-surface tracking-tight">MacBook Pro 16" M2</div>
+<div class="text-xs text-on-surface-variant">Electronics • IT-9024</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-sm text-on-surface-variant font-medium">Oct 12, 2023</td>
+<td class="px-6 py-6 text-sm text-on-surface-variant font-medium">Nov 15, 2023</td>
+<td class="px-6 py-6 font-bold text-primary">$1,122.00</td>
+<td class="px-8 py-6 text-right">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container text-on-tertiary-fixed-variant text-[10px] font-black tracking-widest uppercase">
+                                        COMPLETED
+                                    </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
+<img alt="Smart Watch" class="w-full h-full object-cover" data-alt="Modern minimalist smartwatch with a white strap on a textured grey background, professional product photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzpaup2CfQjwevtKHgmSAIAHEnQQWW7Sdl-021FhTK4vtNtyTNCtazHxIJfN-wg4guvO1OnnDwzCN6D1ycQI3FbbyCbFFkNiN4f9XnR3AXtlym1XC7V_oer-GxeD7GJ37zcKj6CIP1SVbdHglKbdWij3eB0Dxp884aozVtZLKbL6bddIvMr9Px9NMUPc01dpbxThCIGqJZfbh-y1LvonJG91rCYNUq6haKvRluEGeQ1X5OZFprvOQLgYBBd7JvUByciG7KvGjKGaI"/>
+</div>
+<div>
+<div class="font-bold text-on-surface tracking-tight">Series 8 Health Watch</div>
+<div class="text-xs text-on-surface-variant">Wearables • IT-8812</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-sm text-on-surface-variant font-medium">Sep 01, 2023</td>
+<td class="px-6 py-6 text-sm text-on-surface-variant font-medium">Sep 15, 2023</td>
+<td class="px-6 py-6 font-bold text-primary">$56.00</td>
+<td class="px-8 py-6 text-right">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container text-on-tertiary-fixed-variant text-[10px] font-black tracking-widest uppercase">
+                                        COMPLETED
+                                    </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
+<img alt="Digital Tablet" class="w-full h-full object-cover" data-alt="Professional tablet device with a stylus leaning against it, soft studio lighting on a neutral surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgaxX3C9gOE_zW2VAR2Ca79hUYdEGHO1tLiqy3Y7PxxRtxJfqw-ddlwMtuw7W6641gdtFOEtD42q_SApPQKPrwJSA73l-dkwfB9TAPJGW5Uju7LZMX1_mT_56k3auC2kJRJO0JRCylwQ8_mr4ROcGqI9UMHN-Bon5NYCkSW3lUaf3S-y7PgZmtm4sbetRtHfiXZxDb6ehp2mz3joaaXnxaG0MeZctpSVvx0UJlhISbSHVHtqvy17EOsQ3jNUALycx0Ve9uc87sm5g"/>
+</div>
+<div>
+<div class="font-bold text-on-surface tracking-tight">Pro Tablet Gen 5</div>
+<div class="text-xs text-on-surface-variant">Creative • IT-4402</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-sm text-on-surface-variant font-medium">Aug 15, 2023</td>
+<td class="px-6 py-6 text-sm text-on-surface-variant font-medium">Sep 01, 2023</td>
+<td class="px-6 py-6 font-bold text-primary">$136.00</td>
+<td class="px-8 py-6 text-right">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container text-on-tertiary-fixed-variant text-[10px] font-black tracking-widest uppercase">
+                                        COMPLETED
+                                    </span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">
+<img alt="Studio Headphones" class="w-full h-full object-cover" data-alt="Large studio monitor headphones on a wooden table, artistic depth of field, warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8j9MCI5hEH72rVNjDamLAO_PXWG5mMaZlcSc2IaYZyTjLab86vTkL1QZqKz7bhNYgR9Tv7fulRp4QpJ1g83hB1IJW82D1V1tqCzffyg6y7ZbXg54rOBjvZRKmemlS2I7PRFahbQSZ5OdBcb0usyk_ehW7gfNBvIYsaOnjzxex5A8zDI-NjPYTHU6XJJ8Gm7eWoErsIa8re8U9quJBXMCJ_Kjz3NB7u2IBI8GwWcbIa5XIJqoIOJGr74BOzFosJ2wwC_jNN3aGPSo"/>
+</div>
+<div>
+<div class="font-bold text-on-surface tracking-tight">Acoustic Studio 500</div>
+<div class="text-xs text-on-surface-variant">Audio • IT-1129</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-6 text-sm text-on-surface-variant font-medium">Jul 20, 2023</td>
+<td class="px-6 py-6 text-sm text-on-surface-variant font-medium">Jul 25, 2023</td>
+<td class="px-6 py-6 font-bold text-primary">$168.50</td>
+<td class="px-8 py-6 text-right">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-error-container text-on-error-container text-[10px] font-black tracking-widest uppercase">
+                                        OVERDUE
+                                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer -->
+<div class="p-6 bg-surface-container-low flex items-center justify-between">
+<div class="text-sm font-medium text-on-surface-variant">Showing 1 to 4 of 28 transactions</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container-highest transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-white font-bold text-sm">1</button>
+<button class="px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors text-on-surface-variant font-bold text-sm">2</button>
+<button class="px-4 py-2 rounded-lg hover:bg-surface-container-highest transition-colors text-on-surface-variant font-bold text-sm">3</button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Insights (Asymmetric Layout) -->
+<div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="relative rounded-2xl overflow-hidden aspect-video shadow-2xl">
+<img alt="Corporate Office" class="w-full h-full object-cover scale-105" data-alt="Interior of a modern high-end office lobby with marble floors, wood paneling, and soft corporate atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-hBfFzMz42H02lqp0P12OxFxBONc3Xcpg7j8hdH3wXx-HFGgD9czUZcIcM2z9wObiLl9mCJYxwox9J1w-AO14F0TXa1X6tJHyF5F-mBNU083EuTTQuja6o7XWgN7zkBf_i3URp8I6LxBr1Y-CCSTxXk85JT11UB-25Esd4BDYvqEPZxPch59BGkSPLlzG_TEiUVy5IUe64N-F2AoeYtahjolC-iq7laIpup_jJ04gmNbehuxZSHBMo7r0FKhUh5bSPiKUBWRCJio"/>
+<div class="absolute inset-0 bg-indigo-900/20 flex items-end p-8">
+<div class="glass-header p-6 rounded-xl w-full">
+<p class="italic text-on-surface-variant leading-relaxed">"The Fluid Custodian system has reduced our hardware turnover by 42% this fiscal year."</p>
+<div class="mt-4 flex items-center gap-3">
+<div class="h-1 bg-primary w-12 rounded-full"></div>
+<span class="text-xs font-black tracking-widest text-on-surface uppercase">Impact Report 2023</span>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-6 md:pl-12">
+<h3 class="text-3xl font-extrabold tracking-tight">Your Sustainability Footprint</h3>
+<p class="text-on-surface-variant leading-relaxed">By choosing to borrow instead of purchasing new assets, you've helped mitigate approximately <span class="text-primary font-bold">124kg of CO2</span> emissions this year. This custodial approach extends the lifecycle of premium equipment and reduces electronic waste.</p>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface-container-low">
+<div class="h-10 w-10 rounded-full signature-gradient flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl" data-icon="eco">eco</span>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface uppercase tracking-tight">Carbon Credits Earned</div>
+<div class="text-2xl font-black text-on-surface">12.5 pts</div>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface-container-low">
+<div class="h-10 w-10 rounded-full signature-gradient flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl" data-icon="inventory_2">inventory_2</span>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface uppercase tracking-tight">Assets Conserved</div>
+<div class="text-2xl font-black text-on-surface">08 items</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full glass-header flex justify-around items-center h-16 px-4 shadow-[0_-10px_30px_rgba(13,28,46,0.08)] z-50">
+<button class="flex flex-col items-center justify-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Dash</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 text-indigo-700">
+<span class="material-symbols-outlined text-2xl" data-icon="history">history</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">History</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl" data-icon="inventory_2">inventory_2</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Assets</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 text-slate-500">
+<span class="material-symbols-outlined text-2xl" data-icon="settings">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Sets</span>
+</button>
+</nav>
+</body></html>

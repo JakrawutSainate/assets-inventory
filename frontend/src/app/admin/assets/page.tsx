@@ -1,5 +1,13 @@
-import { AdminAssetsClientPage } from "@/app/admin/assets/AssetsClientPage";
+import { AdminLayout } from "@/components/layout/AdminLayout";
+import { AdminAssetsContent } from "@/components/admin/assets/AdminAssetsContent";
+import { AssetService } from "@/services/AssetService";
 
-export default function AdminAssetsPage() {
-  return <AdminAssetsClientPage />;
+export default async function AdminAssetsPage() {
+  const assets = await AssetService.getAllAssets();
+
+  return (
+    <AdminLayout activePath="/admin/assets">
+      <AdminAssetsContent assets={assets} />
+    </AdminLayout>
+  );
 }

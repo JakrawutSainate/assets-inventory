@@ -1,18 +1,17 @@
-export enum AssetStatus {
-  AVAILABLE = "AVAILABLE",
-  BORROWED = "BORROWED",
-  RESERVED = "RESERVED",
-  IN_TRANSIT = "IN_TRANSIT",
-}
+export type AssetStatus = "Available" | "Assigned" | "Borrowed" | "Reserved" | "Maintenance" | "In Transit";
 
 export class Asset {
   constructor(
-    public id: string,
-    public name: string,
-    public image: string,
-    public category: string,
-    public status: AssetStatus,
-    public location: string,
-    public price: number,
+    public readonly id: string,
+    public readonly name: string,
+    public readonly serial: string,
+    public readonly category: string,
+    public readonly location: string,
+    public readonly valueLabel: string,
+    public readonly status: AssetStatus,
+    public readonly imageUrl: string,
+    public readonly rateLabel?: string,
+    public readonly custodian?: string,
+    public readonly utilization?: number,
   ) {}
 }

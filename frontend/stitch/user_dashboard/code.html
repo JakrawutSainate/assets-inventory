@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#233144",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d5e3fc",
+                        "on-secondary-fixed": "#140f54",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "outline": "#777587",
+                        "surface-tint": "#4d44e3",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#d5e3fc",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#3525cd",
+                        "on-tertiary-container": "#ffd2be",
+                        "on-error": "#ffffff",
+                        "primary-container": "#4f46e5",
+                        "on-primary-container": "#dad7ff",
+                        "tertiary-container": "#a44100",
+                        "secondary-container": "#b6b4ff",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#464555",
+                        "inverse-primary": "#c3c0ff",
+                        "on-background": "#0d1c2e",
+                        "on-tertiary-fixed": "#351000",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-surface": "#0d1c2e",
+                        "on-error-container": "#93000a",
+                        "secondary": "#58579b",
+                        "surface-dim": "#ccdbf3",
+                        "primary-fixed": "#e2dfff",
+                        "on-secondary-fixed-variant": "#413f82",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "tertiary": "#7e3000",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "background": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-container": "#454386",
+                        "surface-container-low": "#eff4ff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e6eeff",
+                        "secondary-fixed": "#e2dfff",
+                        "outline-variant": "#c7c4d8",
+                        "on-primary-fixed": "#0f0069",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .signature-gradient {
+            background: linear-gradient(135deg, #3525cd 0%, #4f46e5 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-[0_20px_40px_rgba(13,28,46,0.06)] font-inter tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-indigo-700 dark:text-indigo-400">Fluid Custodian</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-indigo-700 dark:text-indigo-400 border-b-2 border-indigo-600 font-semibold transition-colors" href="#">Browse</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors" href="#">My Items</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors" href="#">Activity</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group hidden lg:block">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-sm">search</span>
+</div>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary/20 placeholder-on-surface-variant/50" placeholder="Search assets..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden border border-outline-variant/20">
+<img alt="User profile with role badge" class="w-full h-full object-cover" data-alt="Close up portrait of a professional man with a friendly expression in a bright corporate office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANW6J1h5DZfbc4QbKu7FWf-vncgYL3FZ8ezKXTe7TkjnwyJkVbMnYI8McwznGbBkyBe7IbJPN_CvE0CeekImLkRCiGFo5Ni8ZZSxM_tDH3Gd3Y_dTdNc28rBDZf5lmSc8Nh5fXSXHHV2F9FVYv-jjEBTyabGvdvVLcTfGzMFpTH5mqarFL6cflxlcpMrs-FzpG2dlSKydep-IQAwcizGEHqLKe9Eff8GwtjH0DhnnTlpGcFN8wKt_So6jirS-A-mTP8XF3VUvtJik"/>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-12 px-8 max-w-7xl mx-auto">
+<!-- Hero Section / Header -->
+<header class="mb-12">
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Explore Assets</h1>
+<p class="text-on-surface-variant max-w-2xl">Manage and request professional-grade equipment from our global custodial inventory with high-end precision.</p>
+</header>
+<!-- Filters & Tools Section -->
+<section class="flex flex-col md:flex-row gap-6 mb-12 items-start md:items-center justify-between">
+<div class="flex flex-wrap gap-3">
+<button class="px-6 py-2 rounded-full signature-gradient text-white text-sm font-semibold shadow-lg shadow-primary/20">All Assets</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-highest transition-colors">Production</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-highest transition-colors">Computing</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-highest transition-colors">Logistics</button>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-low p-1.5 rounded-xl">
+<button class="p-2 bg-surface-container-lowest shadow-sm rounded-lg text-primary">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">list</span>
+</button>
+</div>
+</section>
+<!-- Asset Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+<!-- Card 1: Available -->
+<div class="group bg-surface-container-lowest rounded-xl p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(13,28,46,0.06)] flex flex-col">
+<div class="relative aspect-square mb-4 rounded-lg overflow-hidden bg-surface-container">
+<img alt="Professional Cinema Camera" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Professional cinema camera on a tripod in a dimly lit studio with subtle blue highlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhdpPapBwpRxJjPuZ2i7R6WsAYZPH_aFl2mtujkMDnJ4J2jYcl9OZvpQvW5EFlQlZc01aBHEUZoPtw_l0JjEkc_UCwxZvXHSqeiJ2xBAadYBFtff1JtFdT26HaV--p5_REi-A_Kie1f7IcWMdgXy-P4b2wTYO0Mq5SCwJUU1jkYSyrU3cZKozdrOF0OKGS5wxehEjxgR9Ek6TpskghleB8Ztr3v7rZYDjmx9IBrruZL5gCsue1JHzeT01P1yexnALUaVS1TS2B_Kk"/>
+<div class="absolute top-3 right-3">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur text-[10px] font-bold text-on-tertiary-fixed-variant flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            AVAILABLE
+                        </span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-lg font-bold text-on-surface leading-tight">ARRI Alexa Mini LF</h3>
+<span class="text-sm font-semibold text-primary">$450/day</span>
+</div>
+<p class="text-xs font-medium text-on-surface-variant/70 uppercase tracking-widest mb-3">Production • Stage 4</p>
+<div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>London, UK</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg signature-gradient text-white font-bold text-sm transition-transform active:scale-95">Request Asset</button>
+</div>
+<!-- Card 2: Borrowed -->
+<div class="group bg-surface-container-lowest rounded-xl p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(13,28,46,0.06)] flex flex-col">
+<div class="relative aspect-square mb-4 rounded-lg overflow-hidden bg-surface-container">
+<img alt="High-End Laptop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Sleek modern silver laptop open on a white minimalist desk with soft daylight and plant in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARTKFDSfOMCnp4fEmkFBe9K-2WuJCDl5VpgmQ3O07ltruO3pv_eBanukJMYocuJbRUHOyRM1ThHkJbDDn9sveGWqJ33wQTvMa4V5bUWhNSn9T2TsN3l86nWDpi0ZkBonyYrRScNQlKcRPyTsKE_hIDARCbsStGSOrPsw98XoXMqTqF8qMdoMuBIRL5e6fZzIBHjdlS3JoLypOyN2znqFKp2NK_ECdTf274E41hVyp6BipzXdWuCxel5gwW97gjNiSSY1iPLjCV1ac"/>
+<div class="absolute top-3 right-3">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur text-[10px] font-bold text-on-surface-variant flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                            BORROWED
+                        </span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-lg font-bold text-on-surface leading-tight">MacBook Pro M3 Max</h3>
+<span class="text-sm font-semibold text-primary">$120/day</span>
+</div>
+<p class="text-xs font-medium text-on-surface-variant/70 uppercase tracking-widest mb-3">Computing • Hub A</p>
+<div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>New York, USA</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg bg-secondary-container text-on-secondary-container font-bold text-sm transition-transform active:scale-95">View Details</button>
+</div>
+<!-- Card 3: Reserved -->
+<div class="group bg-surface-container-lowest rounded-xl p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(13,28,46,0.06)] flex flex-col">
+<div class="relative aspect-square mb-4 rounded-lg overflow-hidden bg-surface-container">
+<img alt="Studio Lighting Kit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Collection of professional photography softboxes and studio lights standing in a clean white cyclorama wall studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIAQdzjw12C-XHTTH_kjvUKoS9Vnlz0KoeigYadOkJu3_ldj306546dUOVYQUV6O-SMpuxtMYEkxh95hX3KrGzKDWMyViMhjGBTiDbyYVuDGaobwiJ2QahEXpe61avKADFr8_ENSSKGIPnGqafh3kyNBWC2ome4uE8acNHxneVtgqueoUKF67qtFB6f5r5TwkFKQfD7Ka3WDG5yxVUya8fennUBHBW2mNJIZu4oIHp0UTqM5kI1p-nB9qnVpzHXwk8M5A6vmtbFOk"/>
+<div class="absolute top-3 right-3">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur text-[10px] font-bold text-tertiary flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                            RESERVED
+                        </span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-lg font-bold text-on-surface leading-tight">Profoto D2 Duo Kit</h3>
+<span class="text-sm font-semibold text-primary">$200/day</span>
+</div>
+<p class="text-xs font-medium text-on-surface-variant/70 uppercase tracking-widest mb-3">Production • Studio B</p>
+<div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>Berlin, DE</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg bg-surface-container-low text-on-surface-variant font-bold text-sm transition-transform active:scale-95">Notify When Free</button>
+</div>
+<!-- Card 4: In Transit -->
+<div class="group bg-surface-container-lowest rounded-xl p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(13,28,46,0.06)] flex flex-col">
+<div class="relative aspect-square mb-4 rounded-lg overflow-hidden bg-surface-container">
+<img alt="DJI Inspire 3 Drone" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Advanced professional cinema drone flying in clear blue sky with soft white clouds" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC0UHQDOlidDuH8_VI98nxbTsSOrjhIQSzhj1V-tnldiASSL2HuimB9rxK3qXV2SXvGd_zxO8g9ieQnPGZwvfkH2iVcOjvoOZXMCA777LoVG1EldEQiGwt5prkC6hDMawK5cb-XPlABXy3yjeTvgbaTwWkkdP-n9YHdktR-oHlxdFo2JBJXhFDdy0zx1IWW_GOY_cYxqPNG3oMwy_NuiW1SnJCdwK_Kh_e8sRFudo5gbQiyle6aYS1dbpOW3trSZ1YaBYRnvbdROA"/>
+<div class="absolute top-3 right-3">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur text-[10px] font-bold text-primary flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                            IN_TRANSIT
+                        </span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-lg font-bold text-on-surface leading-tight">DJI Inspire 3 Combo</h3>
+<span class="text-sm font-semibold text-primary">$380/day</span>
+</div>
+<p class="text-xs font-medium text-on-surface-variant/70 uppercase tracking-widest mb-3">Production • Transit</p>
+<div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+<span class="material-symbols-outlined text-base">local_shipping</span>
+<span>Arriving Today</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg border-2 border-primary-container text-primary font-bold text-sm transition-transform active:scale-95">Track Shipment</button>
+</div>
+<!-- Card 5: Available (Bento Grid Style Break) -->
+<div class="group bg-surface-container-lowest rounded-xl p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(13,28,46,0.06)] flex flex-col lg:col-span-2 lg:flex-row gap-6">
+<div class="relative lg:w-1/2 aspect-video lg:aspect-auto rounded-lg overflow-hidden bg-surface-container">
+<img alt="Workstation Server" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Macro close up of a high performance server rack with glowing blue and green led lights in a data center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYZbydLdbrksfG21FMieGdHFnbEAJVz0vm4GTqHyvmZqLdWXZcHzhtg_BnIFMMKOREC7YJAyYt0yOdd7w07pFzt-1rWiscC-mbn1jMwMPai06eSeY_5v9uYVi7yNOFMDFkEbT0STC2HNQ88vu36CrXTfAREReIv0fkMCP021fOmEAEfRrdQZE3XwUBf_j3AyPCxYcVub2G2GpiTQBF62nMIy7rOXV6kpodKeWMoa67HXxRAfPtoMP52soa3nCpB9b2nbPk3AOK0d8"/>
+<div class="absolute top-3 right-3">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur text-[10px] font-bold text-on-tertiary-fixed-variant flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            AVAILABLE
+                        </span>
+</div>
+</div>
+<div class="flex-grow flex flex-col justify-center">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-2xl font-black text-on-surface leading-tight tracking-tight">RenderNode Prime X8</h3>
+<p class="text-xs font-semibold text-on-surface-variant/70 uppercase tracking-[0.2em] mt-1">High Performance Computing</p>
+</div>
+<div class="text-right">
+<span class="text-xl font-bold text-primary block">$890</span>
+<span class="text-[10px] text-on-surface-variant font-bold">PER WEEK</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Enterprise-grade rendering node with 256GB RAM and dual RTX 4090s. Perfect for heavy 3D workloads and AI training simulations.</p>
+<div class="flex items-center gap-4 text-sm text-on-surface-variant mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>Data Center 01</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">memory</span>
+<span>GPU Cluster</span>
+</div>
+</div>
+<button class="w-full lg:w-max px-12 py-3 rounded-lg signature-gradient text-white font-bold text-sm transition-transform active:scale-95 shadow-lg shadow-primary/25">Deploy Instance</button>
+</div>
+</div>
+<!-- Card 6: Reserved -->
+<div class="group bg-surface-container-lowest rounded-xl p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(13,28,46,0.06)] flex flex-col">
+<div class="relative aspect-square mb-4 rounded-lg overflow-hidden bg-surface-container">
+<img alt="Electronic Diagnostic Kit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Professional electronic multimeter and testing equipment on a technical workbench with circuit boards" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeELx9kPVz_0xUd4kVoa6DTLAXDT0PR4pooFsZ0MRtGekprtkrI-d40blgpgDgyzJz9fdsmk8fuOc3xqNdXcEPrUaUZB9GdK1mZROln5b_8_hKKz57Mr9iUNZMPQmH8p7nAwd3ko98qgRK6ix_LjPtfoaax15sJsDXtIQ0CpoG8IH3AyiFURjI4wTbK9oqZe-z_QwlhswIUVVjXE2UlLFaSM_7CA3m1HKIviqkUzSjH4VzMbAhHX1tFDBQ6l-EDoCV_Y7IPZnCdHo"/>
+<div class="absolute top-3 right-3">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur text-[10px] font-bold text-tertiary flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                            RESERVED
+                        </span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-lg font-bold text-on-surface leading-tight">Fluke Industrial Kit</h3>
+<span class="text-sm font-semibold text-primary">$45/day</span>
+</div>
+<p class="text-xs font-medium text-on-surface-variant/70 uppercase tracking-widest mb-3">Maintenance • Hub B</p>
+<div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>Tokyo, JP</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg bg-surface-container-low text-on-surface-variant font-bold text-sm transition-transform active:scale-95">View Timeline</button>
+</div>
+<!-- Card 7: Available -->
+<div class="group bg-surface-container-lowest rounded-xl p-4 transition-all duration-300 hover:shadow-[0_20px_40px_rgba(13,28,46,0.06)] flex flex-col">
+<div class="relative aspect-square mb-4 rounded-lg overflow-hidden bg-surface-container">
+<img alt="High-end Studio Headphones" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Premium studio over-ear headphones on a clean wooden stand with soft bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPtk3-yGT6G5sRYLUX4bmPLmIxlrbwvhbGuH5Aw65r4PZ4hvysmpubMYgaWEo6pOF0UBbT_u7BdWmdT2yIH-ewhieaPpQfc_ba-k01mVpK8KmoiVN7DCwoB2PpRNi2p-PbXwdAoieN5zX1apJVaK65_orLrX3WoW0uqGKjaoISLT_IijbGcLOsKV2c47xNBJqPk6ZyXQ7bCmt78NJKEOwh7U_gauVZnjW0L-rYzG_N8iSK3XAnRHt7180Ee5Ji6DhCc-uF7N7ABYU"/>
+<div class="absolute top-3 right-3">
+<span class="px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur text-[10px] font-bold text-on-tertiary-fixed-variant flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            AVAILABLE
+                        </span>
+</div>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-lg font-bold text-on-surface leading-tight">Sennheiser HD 800 S</h3>
+<span class="text-sm font-semibold text-primary">$25/day</span>
+</div>
+<p class="text-xs font-medium text-on-surface-variant/70 uppercase tracking-widest mb-3">Production • Suite 2</p>
+<div class="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>London, UK</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg signature-gradient text-white font-bold text-sm transition-transform active:scale-95">Request Asset</button>
+</div>
+</div>
+</main>
+<!-- FAB for adding new asset (contextual) -->
+<button class="fixed bottom-8 right-8 w-16 h-16 rounded-full signature-gradient text-white shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95 z-50">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</body></html>

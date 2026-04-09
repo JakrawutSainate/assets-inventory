@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fluid Custodian | Admin Requests</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#233144",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-variant": "#d5e3fc",
+                    "on-secondary-fixed": "#140f54",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "outline": "#777587",
+                    "surface-tint": "#4d44e3",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#d5e3fc",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-tertiary-container": "#ffd2be",
+                    "on-error": "#ffffff",
+                    "primary-container": "#4f46e5",
+                    "on-primary-container": "#dad7ff",
+                    "tertiary-container": "#a44100",
+                    "secondary-container": "#b6b4ff",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#464555",
+                    "inverse-primary": "#c3c0ff",
+                    "on-background": "#0d1c2e",
+                    "on-tertiary-fixed": "#351000",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb695",
+                    "on-surface": "#0d1c2e",
+                    "on-error-container": "#93000a",
+                    "secondary": "#58579b",
+                    "surface-dim": "#ccdbf3",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed-variant": "#413f82",
+                    "tertiary-fixed": "#ffdbcc",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "tertiary": "#7e3000",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-secondary-container": "#454386",
+                    "surface-container-low": "#eff4ff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e6eeff",
+                    "secondary-fixed": "#e2dfff",
+                    "outline-variant": "#c7c4d8",
+                    "on-primary-fixed": "#0f0069",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #233144; /* inverse-surface for Admin Admin */
+            color: #eaf1ff;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-4 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 h-screen w-64 z-50">
+<div class="mb-8 px-2">
+<h1 class="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tighter">Admin Portal</h1>
+<p class="text-xs text-slate-500 font-medium">System Custodian</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#">
+<span class="material-symbols-outlined group-active:opacity-80" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#">
+<span class="material-symbols-outlined group-active:opacity-80" data-icon="inventory_2">inventory_2</span>
+<span>Assets</span>
+</a>
+<!-- Active Tab: Requests -->
+<a class="flex items-center gap-3 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-bold rounded-lg font-inter text-sm group" href="#">
+<span class="material-symbols-outlined" data-icon="sync_alt">sync_alt</span>
+<span>Requests</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#">
+<span class="material-symbols-outlined group-active:opacity-80" data-icon="analytics">analytics</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#">
+<span class="material-symbols-outlined group-active:opacity-80" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-slate-200 dark:border-slate-800 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:translate-x-1 transition-transform font-inter text-sm group" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-12 min-h-screen">
+<!-- Header Section: Editorial Voice -->
+<header class="mb-16">
+<div class="flex justify-between items-end">
+<div>
+<span class="text-indigo-400 font-semibold tracking-widest text-xs uppercase mb-2 block">System Queue</span>
+<h2 class="text-5xl font-bold tracking-tighter text-white mb-4">Pending Requests</h2>
+<p class="text-slate-400 text-lg max-w-xl">Review and manage asset lifecycle transitions. Currently 12 items require custodial oversight.</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-indigo-900/20 px-6 py-4 rounded-xl border border-indigo-500/20">
+<span class="block text-[10px] text-indigo-300 font-bold uppercase tracking-wider">Avg Response Time</span>
+<span class="text-2xl font-black text-indigo-100">14m</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Request Queue: Bento Style / Asymmetric Layout -->
+<div class="space-y-8">
+<!-- Request Card 1: Borrow Request -->
+<div class="grid grid-cols-12 gap-0 group">
+<!-- User Profile Sidebar (Asymmetric) -->
+<div class="col-span-3 bg-slate-900/40 p-8 rounded-l-2xl border-y border-l border-slate-700/30 flex flex-col justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-indigo-500/30 ring-offset-2 ring-offset-slate-900">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man in a minimal office setting with soft cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsO7Kh9GTkDNwQAkrXlCXZbg2x5BqnTZ_JkT9TR13tXko4WtxHJNABsD0k4p45rLp7n2XtQKMprt42yhsJkpat2alvESUpXCqPrCeptUKeJEG0DbhQYQD1btOeruskVEnrV3x9pjWeKc2ENCi1Mi4gSw5w3lP9L-wZ3M1Vm33gjyVq8dWKgQAgnd54YECyukY3PY3wB-Pl-cBlwGhKLdnlG0-4qc_YEnbdE4cUXSOCZ3icU6khhuemS5k2xt0QyZHNkOppp8-Yyg0"/>
+</div>
+<div>
+<h4 class="font-bold text-white">Julian Vance</h4>
+<p class="text-xs text-slate-500">Lead Architect</p>
+</div>
+</div>
+<div class="mt-8 space-y-4">
+<div>
+<label class="text-[10px] text-slate-600 font-bold uppercase tracking-tighter">Dept</label>
+<p class="text-sm text-slate-300">Design Operations</p>
+</div>
+<div>
+<label class="text-[10px] text-slate-600 font-bold uppercase tracking-tighter">Reliability</label>
+<div class="flex gap-1 mt-1">
+<div class="w-4 h-1 bg-indigo-500 rounded-full"></div>
+<div class="w-4 h-1 bg-indigo-500 rounded-full"></div>
+<div class="w-4 h-1 bg-indigo-500 rounded-full"></div>
+<div class="w-4 h-1 bg-slate-700 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Request Detail -->
+<div class="col-span-6 bg-slate-800/20 p-8 border-y border-slate-700/30 relative">
+<div class="flex items-start justify-between mb-8">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold rounded-full uppercase">Borrow Request</span>
+<span class="text-slate-600 text-[10px] font-medium tracking-widest uppercase">• 2 hours ago</span>
+</div>
+<h3 class="text-3xl font-bold text-white tracking-tight">Phase One XF Camera System</h3>
+<p class="text-slate-400 mt-2 text-sm leading-relaxed">Required for the "Altos Horizon" editorial shoot. High-priority equipment for digital medium format captures.</p>
+</div>
+</div>
+<!-- Asset Metadata Grid -->
+<div class="grid grid-cols-3 gap-8">
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Asset ID</span>
+<span class="text-sm font-mono text-slate-300">#CAM-88902</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Duration</span>
+<span class="text-sm text-slate-300">4 Days (Mon - Thu)</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Condition</span>
+<span class="text-sm text-slate-300">Pristine</span>
+</div>
+</div>
+</div>
+<!-- Action Controls -->
+<div class="col-span-3 bg-slate-900/60 p-8 rounded-r-2xl border-y border-r border-slate-700/30 flex flex-col justify-center gap-4">
+<button class="w-full py-4 px-6 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-[0_10px_20px_rgba(53,37,205,0.2)] hover:scale-[1.02] transition-transform active:opacity-80 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="check_circle" data-weight="fill">check_circle</span>
+                        Approve Request
+                    </button>
+<button class="w-full py-4 px-6 bg-slate-800 text-slate-300 font-bold rounded-xl hover:bg-error/10 hover:text-error transition-all active:opacity-80 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="cancel">cancel</span>
+                        Decline
+                    </button>
+</div>
+</div>
+<!-- Request Card 2: Return Request -->
+<div class="grid grid-cols-12 gap-0 group">
+<!-- User Profile Sidebar -->
+<div class="col-span-3 bg-slate-900/40 p-8 rounded-l-2xl border-y border-l border-slate-700/30 flex flex-col justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-indigo-500/30 ring-offset-2 ring-offset-slate-900">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young creative woman with artistic lighting and soft colorful background bokeh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA48bTI1FheJDnrsv_YJeNvw4ftTRHppHt-fErtNtm9zIMUGeeqOz6Ew0-MSBpQaCYCbW-M40Eq-8hMgZv3nfEh38WZuJkEU38IBwXoC1HD6KlFfqPfppupFYs_2ruueb4oa8P_4YwGI1Gdc3tIX8lOz86bjs3CTqXUYQv7TVpNADQUx8eQRGqmPyiArrxTa7G2YwPznhGX4n8M24PHKlzFiYs6AIqZyLs35A0CexgWrMsFMptUESZBdGJHfiJqQFi6kNuRAhY9ko"/>
+</div>
+<div>
+<h4 class="font-bold text-white">Elena Rossi</h4>
+<p class="text-xs text-slate-500">Video Specialist</p>
+</div>
+</div>
+<div class="mt-8 space-y-4">
+<div>
+<label class="text-[10px] text-slate-600 font-bold uppercase tracking-tighter">Dept</label>
+<p class="text-sm text-slate-300">Motion Graphics</p>
+</div>
+<div>
+<label class="text-[10px] text-slate-600 font-bold uppercase tracking-tighter">Reliability</label>
+<div class="flex gap-1 mt-1">
+<div class="w-4 h-1 bg-indigo-500 rounded-full"></div>
+<div class="w-4 h-1 bg-indigo-500 rounded-full"></div>
+<div class="w-4 h-1 bg-indigo-500 rounded-full"></div>
+<div class="w-4 h-1 bg-indigo-500 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Request Detail -->
+<div class="col-span-6 bg-slate-800/20 p-8 border-y border-slate-700/30 relative">
+<div class="flex items-start justify-between mb-8">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-3 py-1 bg-on-tertiary-fixed-variant/20 text-tertiary-fixed-dim text-[10px] font-bold rounded-full uppercase">Return Request</span>
+<span class="text-slate-600 text-[10px] font-medium tracking-widest uppercase">• 15 mins ago</span>
+</div>
+<h3 class="text-3xl font-bold text-white tracking-tight">Zhiyun Crane 3S Stabilizer</h3>
+<p class="text-slate-400 mt-2 text-sm leading-relaxed">Asset returning after 2-week field use. Reported condition remains "Like New". Ready for inspection.</p>
+</div>
+</div>
+<!-- Asset Metadata Grid -->
+<div class="grid grid-cols-3 gap-8">
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Asset ID</span>
+<span class="text-sm font-mono text-slate-300">#GIM-44120</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Location</span>
+<span class="text-sm text-slate-300">Storage Bay B</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Status</span>
+<span class="text-sm text-emerald-400">Available soon</span>
+</div>
+</div>
+</div>
+<!-- Action Controls -->
+<div class="col-span-3 bg-slate-900/60 p-8 rounded-r-2xl border-y border-r border-slate-700/30 flex flex-col justify-center gap-4">
+<button class="w-full py-4 px-6 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-[0_10px_20px_rgba(53,37,205,0.2)] hover:scale-[1.02] transition-transform active:opacity-80 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="inventory" data-weight="fill">inventory</span>
+                        Confirm Return
+                    </button>
+<button class="w-full py-4 px-6 bg-slate-800 text-slate-300 font-bold rounded-xl hover:bg-slate-700 transition-all active:opacity-80 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="report">report</span>
+                        Flag Damage
+                    </button>
+</div>
+</div>
+<!-- Request Card 3: Borrow Request (Compact/Offset Style) -->
+<div class="grid grid-cols-12 gap-0 group opacity-80 hover:opacity-100 transition-opacity">
+<!-- User Profile Sidebar -->
+<div class="col-span-3 bg-slate-900/40 p-8 rounded-l-2xl border-y border-l border-slate-700/30 flex flex-col justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-indigo-500/30 ring-offset-2 ring-offset-slate-900">
+<img class="w-full h-full object-cover" data-alt="Portrait of a male developer in a modern dark studio with neon blue accent lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBafPm8iRjx3M4fBK20FjSGJKgCt6tIxaOlsDHXvzF84RPhnaNBxWW30RFFJFMkpsYtOJhc71_TcAGKxHTBGRd-0TjCybhO0OwfrQRnCRZE6N36Rm6Xo7E_oJFWbmBp8JfsnkAzSlYcEqfzLiIK5TzAn7heahLXSpxpY6qIM7EmPlgguBKA45S-GpFDii4UT_mbgW80aHJxes1PA39dXfk_JgTBkGySQO8frpMzKcoKMamTZjBFMSX0q8KAwQh5sRi7dACiy7Jzbz0"/>
+</div>
+<div>
+<h4 class="font-bold text-white">Marcus Thorne</h4>
+<p class="text-xs text-slate-500">Unity Developer</p>
+</div>
+</div>
+<div class="mt-8 space-y-4">
+<div>
+<label class="text-[10px] text-slate-600 font-bold uppercase tracking-tighter">Dept</label>
+<p class="text-sm text-slate-300">R&amp;D Labs</p>
+</div>
+<div>
+<label class="text-[10px] text-slate-600 font-bold uppercase tracking-tighter">Reliability</label>
+<div class="flex gap-1 mt-1">
+<div class="w-4 h-1 bg-indigo-500 rounded-full"></div>
+<div class="w-4 h-1 bg-slate-700 rounded-full"></div>
+<div class="w-4 h-1 bg-slate-700 rounded-full"></div>
+<div class="w-4 h-1 bg-slate-700 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Request Detail -->
+<div class="col-span-6 bg-slate-800/20 p-8 border-y border-slate-700/30 relative">
+<div class="flex items-start justify-between mb-8">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold rounded-full uppercase">Borrow Request</span>
+<span class="text-slate-600 text-[10px] font-medium tracking-widest uppercase">• Yesterday</span>
+</div>
+<h3 class="text-3xl font-bold text-white tracking-tight">Varjo XR-3 Mixed Reality Headset</h3>
+<p class="text-slate-400 mt-2 text-sm leading-relaxed">Testing session for the "Project Icarus" interactive prototype. Requires calibration in Lab 4.</p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-8">
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Asset ID</span>
+<span class="text-sm font-mono text-slate-300">#XR-0019</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Priority</span>
+<span class="text-sm text-amber-400">Standard</span>
+</div>
+<div>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest block mb-1">Auth Level</span>
+<span class="text-sm text-slate-300">Cleared</span>
+</div>
+</div>
+</div>
+<!-- Action Controls -->
+<div class="col-span-3 bg-slate-900/60 p-8 rounded-r-2xl border-y border-r border-slate-700/30 flex flex-col justify-center gap-4">
+<button class="w-full py-4 px-6 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-[0_10px_20px_rgba(53,37,205,0.2)] hover:scale-[1.02] transition-transform active:opacity-80 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="check_circle" data-weight="fill">check_circle</span>
+                        Approve
+                    </button>
+<button class="w-full py-4 px-6 bg-slate-800 text-slate-300 font-bold rounded-xl hover:bg-error/10 hover:text-error transition-all active:opacity-80 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="cancel">cancel</span>
+                        Decline
+                    </button>
+</div>
+</div>
+</div>
+<!-- System Summary / Asymmetric Sidebar Element (Contextual) -->
+<div class="mt-24 editorial-grid">
+<div class="col-span-4 bg-primary/10 p-10 rounded-3xl border border-primary/20 relative overflow-hidden">
+<div class="relative z-10">
+<h5 class="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-6">Custodial Insights</h5>
+<div class="space-y-6">
+<div class="flex justify-between items-center">
+<span class="text-slate-300 text-sm">Active Loans</span>
+<span class="text-white font-bold">142</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-slate-300 text-sm">Overdue Assets</span>
+<span class="text-error font-bold">3</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-slate-300 text-sm">Storage Capacity</span>
+<span class="text-white font-bold">88%</span>
+</div>
+</div>
+<button class="mt-8 text-indigo-400 font-bold text-sm flex items-center gap-2 group">
+                        View Full System Report
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="absolute -bottom-10 -right-10 opacity-10">
+<span class="material-symbols-outlined text-9xl text-indigo-500" data-icon="shield_person">shield_person</span>
+</div>
+</div>
+<div class="col-span-8 flex flex-col justify-end pb-4">
+<div class="border-l-4 border-indigo-500/30 pl-8">
+<p class="text-slate-400 italic text-xl leading-relaxed">
+                        "Precision in management leads to longevity in assets. The Fluid Custodian ensures every transition is documented and every request is measured against utility."
+                    </p>
+<cite class="block mt-4 text-slate-500 font-bold not-italic">— System Protocol 8.4</cite>
+</div>
+</div>
+</div>
+</main>
+</body></html>
