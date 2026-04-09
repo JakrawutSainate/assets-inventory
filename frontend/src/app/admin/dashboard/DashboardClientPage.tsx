@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -12,6 +13,13 @@ const chartData = [
 ];
 
 export function AdminDashboardClientPage() {
+  const [isChartReady, setIsChartReady] = useState(false);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setIsChartReady(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <div className="space-y-8">
       <section>
@@ -26,9 +34,15 @@ export function AdminDashboardClientPage() {
       <Card className="min-w-0">
         <CardHeader><CardTitle className="text-xl font-semibold">Asset Activity</CardTitle><p className="text-sm text-muted-foreground">Real-time throughput and utilization metrics</p></CardHeader>
         <CardContent className="h-80 min-w-0">
-          <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-            <BarChart data={chartData}><CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" /><XAxis dataKey="name" stroke="#a3a3a3" /><YAxis stroke="#a3a3a3" /><Tooltip /><Bar dataKey="borrowings" fill="var(--color-chart-1)" radius={8} /></BarChart>
-          </ResponsiveContainer>
+          <div className="h-full min-h-[320px] w-full min-w-0">
+            {isChartReady ? (
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={320}>
+                <BarChart data={chartData}><CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" /><XAxis dataKey="name" stroke="#a3a3a3" /><YAxis stroke="#a3a3a3" /><Tooltip /><Bar dataKey="borrowings" fill="var(--color-chart-1)" radius={8} /></BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="h-full w-full animate-pulse rounded-2xl bg-white/5" />
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>

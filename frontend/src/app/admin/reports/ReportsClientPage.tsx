@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -10,6 +11,13 @@ const utilizationData = [
 const damageSummary = [{ name: "Minor", count: 6 }, { name: "Moderate", count: 2 }, { name: "Severe", count: 1 }];
 
 export function ReportsClientPage() {
+  const [isChartReady, setIsChartReady] = useState(false);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setIsChartReady(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <div className="space-y-6">
       <header>
@@ -20,7 +28,13 @@ export function ReportsClientPage() {
         <Card className="min-w-0">
           <CardHeader><CardTitle>Utilization</CardTitle></CardHeader>
           <CardContent className="h-72 min-w-0">
-            <ResponsiveContainer width="100%" height="100%" minWidth={0}><PieChart><Pie data={utilizationData} dataKey="value" nameKey="name" outerRadius={90} label>{utilizationData.map((entry) => <Cell key={entry.name} fill={entry.color} />)}</Pie><Tooltip /></PieChart></ResponsiveContainer>
+            <div className="h-full min-h-[288px] w-full min-w-0">
+              {isChartReady ? (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={288}><PieChart><Pie data={utilizationData} dataKey="value" nameKey="name" outerRadius={90} label>{utilizationData.map((entry) => <Cell key={entry.name} fill={entry.color} />)}</Pie><Tooltip /></PieChart></ResponsiveContainer>
+              ) : (
+                <div className="h-full w-full animate-pulse rounded-2xl bg-white/5" />
+              )}
+            </div>
           </CardContent>
         </Card>
         <Card>
