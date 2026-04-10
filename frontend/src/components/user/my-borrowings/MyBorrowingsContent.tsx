@@ -19,7 +19,10 @@ export function MyBorrowingsContent({ borrows }: MyBorrowingsContentProps) {
 
       <div className="grid grid-cols-1 gap-6">
         {borrows.map((borrow) => (
-          <article key={borrow.id} className="group flex flex-col overflow-hidden rounded-xl bg-white md:flex-row">
+          <article
+            key={borrow.id}
+            className="group flex flex-col overflow-hidden rounded-xl bg-white transition-colors duration-200 dark:bg-slate-900 md:flex-row"
+          >
             <div className="relative h-48 overflow-hidden md:h-auto md:w-64">
               <Image
                 src={borrow.assetImageUrl}
@@ -32,12 +35,18 @@ export function MyBorrowingsContent({ borrows }: MyBorrowingsContentProps) {
             <div className="flex flex-1 flex-col justify-between gap-6 p-8">
               <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
                 <div>
-                  <h2 className="text-[1.375rem] font-bold tracking-tight">{borrow.assetName}</h2>
-                  <p className="mt-2 text-sm text-slate-500">{borrow.category}</p>
+                  <h2 className="text-[1.375rem] font-bold tracking-tight text-slate-900 dark:text-white">
+                    {borrow.assetName}
+                  </h2>
+                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{borrow.category}</p>
                 </div>
                 <div className="text-right">
-                  <span className="block text-xs font-bold tracking-widest text-slate-500 uppercase">Due Date</span>
-                  <span className="text-xl font-black tracking-tighter">{borrow.dueAt}</span>
+                  <span className="block text-xs font-bold tracking-widest text-slate-500 uppercase dark:text-slate-400">
+                    Due Date
+                  </span>
+                  <span className="text-xl font-black tracking-tighter text-slate-900 dark:text-white">
+                    {borrow.dueAt}
+                  </span>
                 </div>
               </div>
               <div className="flex gap-3">

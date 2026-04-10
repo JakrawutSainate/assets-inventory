@@ -3,21 +3,21 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 
-type ThemeMode = "dark" | "light";
+import { applyTheme, getPreferredTheme, type ThemeMode } from "@/components/theme/theme-utils";
 
-function applyTheme(mode: ThemeMode) {
-  const root = document.documentElement;
-  root.classList.toggle("dark", mode === "dark");
-}
+type ThemeToggleProps = {
+  className?: string;
+  showLabel?: boolean;
+};
 
-export function ThemeToggle() {
-  const [mode, setMode] = useState<ThemeMode>(() => {
-    if (typeof window === "undefined") {
-      return "dark";
-    }
-    const stored = window.localStorage.getItem("theme-mode");
-    return stored === "light" ? "light" : "dark";
-  });
+export function ThemeToggle({ className, showLabel = true }: ThemeToggleProps) {
+  const [mode, setMode] = useState<ThemeMode>("light");
+
+  useEffect(() => {
+    const preferredMode = getPreferredTheme();
+    setMode(preferredMode);
+    applyTheme(preferredMode);
+  }, []);
 
   useEffect(() => {
     applyTheme(mode);
@@ -27,7 +27,13 @@ export function ThemeToggle() {
     const nextMode: ThemeMode = mode === "dark" ? "light" : "dark";
     setMode(nextMode);
     applyTheme(nextMode);
-    window.localStorage.setItem("theme-mode", nextMode);
+    console.log("TOGGLE CLICKED", nextMode);
+    console.log("HTML CLASS:", document.documentElement.className);
+    console.log(document.documentElement.outerHTML);
+    document.documentElement.style.background = "red";
+    window.setTimeout(() => {
+      document.documentElement.style.background = "";
+    }, 300);
   }
 
   const isDark = mode === "dark";
@@ -36,9 +42,10 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={handleToggle}
-      className="flex w-full items-center justify-between rounded-lg border border-slate-300/70 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+      className={`flex w-full items-center rounded-lg border border-slate-300/70 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 ${showLabel ? "justify-between" : "justify-center"} ${className ?? ""}`}
+      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
-      <span>{isDark ? "Dark" : "White"}</span>
+      {showLabel ? <span>{isDark ? "Dark" : "Light"}</span> : null}
       {isDark ? <Moon size={14} /> : <Sun size={14} />}
     </button>
   );

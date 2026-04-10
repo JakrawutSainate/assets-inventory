@@ -26,9 +26,9 @@ export function AssetRow({ asset }: AssetRowProps) {
     <tr className="group transition-colors hover:bg-slate-100 dark:hover:bg-slate-900/30">
       <td className="px-6 py-5">
         <div className="flex items-center gap-4">
-          <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
+          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
             <Image
-              className="h-full w-full object-cover"
+              className="object-cover"
               src={asset.imageUrl}
               alt={asset.name}
               width={48}

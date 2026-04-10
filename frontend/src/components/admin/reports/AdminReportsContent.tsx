@@ -6,13 +6,15 @@ export function AdminReportsContent() {
           <p className="text-xs font-bold tracking-[0.2em] text-indigo-400 uppercase">
             Executive Intelligence
           </p>
-          <h1 className="text-4xl font-black tracking-tighter">System Reports</h1>
+          <h1 className="text-4xl font-black tracking-tighter text-slate-900 dark:text-slate-100">
+            System Reports
+          </h1>
         </div>
       </header>
 
       <div className="grid grid-cols-12 gap-8">
-        <div className="col-span-8 rounded-xl bg-white p-8 dark:bg-slate-900">
-          <h3 className="text-xl font-bold">Utilization Velocity</h3>
+        <div className="col-span-8 rounded-xl bg-white p-8 shadow-[0_20px_40px_rgba(13,28,46,0.06)] dark:bg-slate-900 dark:shadow-none">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">Utilization Velocity</h3>
           <p className="mb-8 text-sm text-slate-500 dark:text-slate-400">
             Monthly asset checkout frequency vs. returns
           </p>
@@ -26,8 +28,8 @@ export function AdminReportsContent() {
             <div className="h-28 w-full rounded-t-sm bg-slate-200 dark:bg-slate-800" />
           </div>
         </div>
-        <div className="col-span-4 rounded-xl bg-white p-8 dark:bg-slate-900">
-          <h3 className="mb-6 text-xl font-bold">Integrity Health</h3>
+        <div className="col-span-4 rounded-xl bg-white p-8 shadow-[0_20px_40px_rgba(13,28,46,0.06)] dark:bg-slate-900 dark:shadow-none">
+          <h3 className="mb-6 text-xl font-bold text-slate-900 dark:text-slate-100">Integrity Health</h3>
           <div className="space-y-6">
             <div>
               <div className="mb-2 flex justify-between text-xs font-bold text-slate-600 dark:text-slate-300">

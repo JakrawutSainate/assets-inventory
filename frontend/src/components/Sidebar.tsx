@@ -27,7 +27,7 @@ type SidebarProps = {
 
 export function Sidebar({ active }: SidebarProps) {
   return (
-    <aside className="fixed left-0 top-0 z-50 h-screen w-64 border-r border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
+    <aside className="fixed left-0 top-0 z-50 h-screen w-64 border-r border-slate-200 bg-white p-4 transition-colors duration-200 dark:border-slate-700 dark:bg-slate-950">
       <div className="mb-10 px-4">
         <h1 className="text-lg font-black tracking-tighter text-slate-900 dark:text-slate-100">
           Admin Portal
