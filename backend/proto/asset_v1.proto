@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package asset_v1;
+
+service AssetService {
+  rpc ListAdminAssets (Empty) returns (ListAdminAssetsReply);
+  rpc ListDashboardAssets (Empty) returns (ListDashboardAssetsReply);
+  rpc GetUserAsset (GetUserAssetRequest) returns (GetUserAssetReply);
+  rpc ListSimilarAssets (Empty) returns (ListSimilarAssetsReply);
+}
+
+message Empty {}
+
+message GetUserAssetRequest { string id = 1; }
+
+message ListAdminAssetsReply { repeated AdminAsset items = 1; }
+
+message AdminAsset {
+  string id = 1;
+  string name = 2;
+  string serial_number = 3;
+  string image_url = 4;
+  AssetStatus status = 5;
+  string category = 6;
+  string custodian_name = 7;
+  bool has_custodian = 8;
+  double value_usd = 9;
+}
+
+enum AssetStatus {
+  AS_UNKNOWN = 0;
+  AS_ASSIGNED = 1;
+  AS_AVAILABLE = 2;
+  AS_MAINTENANCE = 3;
+}
+
+message ListDashboardAssetsReply { repeated UserAsset items = 1; }
+
+message ListSimilarAssetsReply { repeated UserAsset items = 1; }
+
+message UserAsset {
+  string id = 1;
+  string name = 2;
+  string image_url = 3;
+  UserAssetStatus status = 4;
+  string category = 5;
+  string location_label = 6;
+  double daily_rate_usd = 7;
+  string action_label = 8;
+}
+
+enum UserAssetStatus {
+  UA_UNKNOWN = 0;
+  UA_AVAILABLE = 1;
+  UA_BORROWED = 2;
+  UA_RESERVED = 3;
+  UA_IN_TRANSIT = 4;
+}
+
+message GetUserAssetReply { optional UserAsset asset = 1; }

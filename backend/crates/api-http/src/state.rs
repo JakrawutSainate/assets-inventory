@@ -1,8 +1,7 @@
 use std::sync::Arc;
 
-use crate::services::AssetService;
+use common::services::AssetService;
 
-/// Shared application state injected into handlers (thin controllers).
 #[derive(Clone)]
 pub struct AppState {
     pub assets: Arc<AssetService>,
@@ -13,5 +12,9 @@ impl AppState {
         Self {
             assets: Arc::new(assets),
         }
+    }
+
+    pub fn from_arc(assets: Arc<AssetService>) -> Self {
+        Self { assets }
     }
 }

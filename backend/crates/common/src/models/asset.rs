@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
-/// Admin asset row — mirrors `frontend/src/models/Asset.ts`.
 #[derive(Debug, Clone, Serialize, Deserialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct Asset {

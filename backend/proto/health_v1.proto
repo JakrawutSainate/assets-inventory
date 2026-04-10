@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package health_v1;
+
+service Health {
+  rpc Ping (Empty) returns (Pong);
+}
+
+message Empty {}
+
+message Pong {
+  string status = 1;
+}

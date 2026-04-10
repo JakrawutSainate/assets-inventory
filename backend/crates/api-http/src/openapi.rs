@@ -1,13 +1,13 @@
 use utoipa::OpenApi;
 
 use crate::handlers::asset;
-use crate::models::{Asset, UserAsset};
+use common::models::{Asset, UserAsset};
 
 #[derive(OpenApi)]
 #[openapi(
     info(
         title = "Assets Inventory API",
-        description = "Rust backend for the assets-inventory frontend",
+        description = "REST facade + OpenAPI; same domain logic as gRPC (`asset-grpc`).",
         version = "0.1.0"
     ),
     paths(
@@ -18,8 +18,8 @@ use crate::models::{Asset, UserAsset};
     ),
     components(schemas(Asset, UserAsset)),
     tags(
-        (name = "admin", description = "Admin asset registry"),
-        (name = "user", description = "User dashboard and discovery")
+        (name = "admin", description = "Admin registry"),
+        (name = "user", description = "User dashboard")
     )
 )]
 pub struct ApiDoc;

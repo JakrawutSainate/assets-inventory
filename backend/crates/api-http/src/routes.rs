@@ -8,14 +8,6 @@ use crate::handlers::asset;
 use crate::openapi::ApiDoc;
 use crate::state::AppState;
 
-fn cors_layer() -> CorsLayer {
-    CorsLayer::new()
-        .allow_origin(Any)
-        .allow_methods(Any)
-        .allow_headers(Any)
-}
-
-/// Builds the HTTP router: JSON API + Swagger UI.
 pub fn create_router(state: AppState) -> Router {
     let openapi = ApiDoc::openapi();
 
@@ -32,6 +24,11 @@ pub fn create_router(state: AppState) -> Router {
             get(asset::list_similar_assets),
         )
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", openapi))
-        .layer(cors_layer())
+        .layer(
+            CorsLayer::new()
+                .allow_origin(Any)
+                .allow_methods(Any)
+                .allow_headers(Any),
+        )
         .with_state(state)
 }

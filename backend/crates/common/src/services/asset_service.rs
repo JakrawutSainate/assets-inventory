@@ -1,6 +1,7 @@
 use crate::models::{Asset, AssetStatus, UserAsset, UserAssetStatus};
 
-/// Domain / application service: owns asset-related rules and data access (in-memory for now).
+/// Domain service: business rules + in-memory data (swap for DB later).
+#[derive(Clone)]
 pub struct AssetService {
     admin_assets: Vec<Asset>,
     user_assets: Vec<UserAsset>,

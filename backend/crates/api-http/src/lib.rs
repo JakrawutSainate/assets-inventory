@@ -1,10 +1,8 @@
-//! Assets inventory API — layered MVC-style layout for HTTP JSON services.
+//! REST + OpenAPI (Swagger UI); uses the same [`common::services::AssetService`] as gRPC.
 pub mod config;
 pub mod handlers;
-pub mod models;
 pub mod openapi;
 pub mod routes;
-pub mod services;
 pub mod state;
 
 pub use routes::create_router;

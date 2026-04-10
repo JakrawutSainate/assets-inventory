@@ -1,0 +1,14 @@
+[package]
+name = "runner"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+api-http = { path = "../api-http" }
+axum = "0.8"
+asset-grpc = { path = "../asset-grpc" }
+common = { path = "../common" }
+health-grpc = { path = "../health-grpc" }
+tokio = { version = "1", features = ["full", "signal"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
