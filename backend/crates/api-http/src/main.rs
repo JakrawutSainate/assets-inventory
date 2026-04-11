@@ -1,6 +1,5 @@
-use api_http::{create_router, AppState};
 use api_http::config::listen_addr;
-use common::services::AssetService;
+use api_http::{create_router, AppState};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
@@ -13,7 +12,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let state = AppState::new(AssetService::new());
+    let repo = db::init_from_env().await?;
+    let state = AppState::new(repo);
     let app = create_router(state);
 
     let addr = listen_addr();

@@ -1,11 +1,9 @@
-//! One process: REST + Swagger, asset gRPC, health gRPC — shared [`AssetService`].
+//! One process: REST + Swagger, asset gRPC, health gRPC — shared DB-backed [`AssetRepository`].
 
 use std::io;
 use std::net::SocketAddr;
-use std::sync::Arc;
 
 use api_http::{create_router, AppState};
-use common::services::AssetService;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 fn ensure_tcp_available(addr: SocketAddr, what: &str, hint: &str) -> io::Result<()> {
@@ -36,7 +34,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let assets = Arc::new(AssetService::new());
+    let repo = db::init_from_env().await?;
+    let assets = repo.clone();
 
     let http_addr = http_listen_addr();
     let http_listener = tokio::net::TcpListener::bind(&http_addr).await.map_err(|e| {
@@ -69,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         .or_else(|_| std::env::var("PORT"))
         .unwrap_or_else(|_| "3001".to_string());
 
-    let app = create_router(AppState::from_arc(assets.clone()));
+    let app = create_router(AppState::new(assets.clone()));
 
     tracing::info!("http + swagger: http://127.0.0.1:{http_port}/  (swagger: http://localhost:{http_port}/swagger-ui/)");
     tracing::info!("asset gRPC: grpc://127.0.0.1:{asset_port}");

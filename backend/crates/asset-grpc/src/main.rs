@@ -1,9 +1,6 @@
-//! Standalone gRPC server (same logic as [`asset_grpc::serve`]).
+//! Standalone gRPC server.
 
 use std::net::SocketAddr;
-use std::sync::Arc;
-
-use common::services::AssetService;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -14,12 +11,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         )
         .init();
 
-    let port = std::env::var("ASSET_GRPC_PORT").unwrap_or_else(|_| "50051".into());
+    let repo = db::init_from_env().await?;
+    let port = std::env::var("ASSET_GRPC_PORT").unwrap_or_else(|_| "50051".to_string());
     let addr: SocketAddr = format!("127.0.0.1:{port}").parse()?;
-    let assets = Arc::new(AssetService::new());
 
     tracing::info!("asset-grpc listening on grpc://127.0.0.1:{}", port);
 
-    asset_grpc::serve(addr, assets).await?;
+    asset_grpc::serve(addr, repo).await?;
     Ok(())
 }

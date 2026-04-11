@@ -4,7 +4,8 @@ use std::net::SocketAddr;
 use std::sync::Arc;
 
 use common::models::{Asset, AssetStatus, UserAsset, UserAssetStatus};
-use common::services::AssetService;
+use common::repository::AssetRepository;
+use common::validation;
 use tonic::{transport::Server, Request, Response, Status};
 
 pub mod pb {
@@ -20,7 +21,7 @@ use pb::{
 
 #[derive(Clone)]
 struct AssetGrpc {
-    inner: Arc<AssetService>,
+    inner: Arc<dyn AssetRepository>,
 }
 
 #[tonic::async_trait]
@@ -29,12 +30,15 @@ impl AssetServiceTrait for AssetGrpc {
         &self,
         _req: Request<Empty>,
     ) -> Result<Response<ListAdminAssetsReply>, Status> {
-        let items = self
+        let list = self
             .inner
             .list_admin_assets()
-            .into_iter()
-            .map(to_pb_admin)
-            .collect();
+            .await
+            .map_err(|e| {
+                tracing::error!(error = %e, "list_admin_assets");
+                Status::internal("unavailable")
+            })?;
+        let items = list.into_iter().map(to_pb_admin).collect();
         Ok(Response::new(ListAdminAssetsReply { items }))
     }
 
@@ -42,12 +46,15 @@ impl AssetServiceTrait for AssetGrpc {
         &self,
         _req: Request<Empty>,
     ) -> Result<Response<ListDashboardAssetsReply>, Status> {
-        let items = self
+        let list = self
             .inner
             .list_user_dashboard_assets()
-            .iter()
-            .map(to_pb_user)
-            .collect();
+            .await
+            .map_err(|e| {
+                tracing::error!(error = %e, "list_dashboard_assets");
+                Status::internal("unavailable")
+            })?;
+        let items = list.iter().map(to_pb_user).collect();
         Ok(Response::new(ListDashboardAssetsReply { items }))
     }
 
@@ -56,20 +63,34 @@ impl AssetServiceTrait for AssetGrpc {
         req: Request<GetUserAssetRequest>,
     ) -> Result<Response<GetUserAssetReply>, Status> {
         let id = req.into_inner().id;
-        let asset = self.inner.get_user_asset(&id).map(|a| to_pb_user(&a));
-        Ok(Response::new(GetUserAssetReply { asset }))
+        if validation::validate_asset_id(&id).is_err() {
+            return Err(Status::invalid_argument("invalid id"));
+        }
+        let asset = self
+            .inner
+            .get_user_asset(&id)
+            .await
+            .map_err(|e| {
+                tracing::error!(error = %e, "get_user_asset");
+                Status::internal("unavailable")
+            })?;
+        let pb = asset.as_ref().map(to_pb_user);
+        Ok(Response::new(GetUserAssetReply { asset: pb }))
     }
 
     async fn list_similar_assets(
         &self,
         _req: Request<Empty>,
     ) -> Result<Response<ListSimilarAssetsReply>, Status> {
-        let items = self
+        let list = self
             .inner
             .list_similar_user_assets(3)
-            .iter()
-            .map(to_pb_user)
-            .collect();
+            .await
+            .map_err(|e| {
+                tracing::error!(error = %e, "list_similar");
+                Status::internal("unavailable")
+            })?;
+        let items = list.iter().map(to_pb_user).collect();
         Ok(Response::new(ListSimilarAssetsReply { items }))
     }
 }
@@ -124,9 +145,9 @@ fn user_status(s: UserAssetStatus) -> PbUserStatus {
 
 pub async fn serve(
     addr: SocketAddr,
-    assets: Arc<AssetService>,
+    repo: Arc<dyn AssetRepository>,
 ) -> Result<(), tonic::transport::Error> {
-    let svc = AssetGrpc { inner: assets };
+    let svc = AssetGrpc { inner: repo };
     Server::builder()
         .add_service(AssetServiceServer::new(svc))
         .serve(addr)

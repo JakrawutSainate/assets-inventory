@@ -8,6 +8,7 @@ api-http = { path = "../api-http" }
 axum = "0.8"
 asset-grpc = { path = "../asset-grpc" }
 common = { path = "../common" }
+db = { path = "../db" }
 health-grpc = { path = "../health-grpc" }
 tokio = { version = "1", features = ["full", "signal"] }
 tracing = "0.1"

@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 common = { path = "../common" }
+db = { path = "../db" }
 prost = "0.13"
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
 tonic = "0.12"

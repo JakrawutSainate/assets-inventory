@@ -1,0 +1,156 @@
+//! PostgreSQL access: parameterized queries only (OWASP: injection-safe patterns).
+
+use std::sync::Arc;
+
+use anyhow::Context;
+use async_trait::async_trait;
+use common::models::{Asset, AssetStatus, UserAsset, UserAssetStatus};
+use common::repository::AssetRepository;
+use sqlx::postgres::PgPoolOptions;
+use sqlx::postgres::PgRow;
+use sqlx::Row;
+use sqlx::PgPool;
+
+/// Build pool (TLS from `DATABASE_URL`, e.g. Neon `sslmode=require`).
+pub async fn connect_pool(database_url: &str) -> anyhow::Result<PgPool> {
+    PgPoolOptions::new()
+        .max_connections(
+            std::env::var("DB_MAX_CONNECTIONS")
+                .ok()
+                .and_then(|s| s.parse().ok())
+                .unwrap_or(5),
+        )
+        .connect(database_url)
+        .await
+        .context("database connection failed (check DATABASE_URL and network; secrets are not logged)")
+}
+
+pub async fn run_migrations(pool: &PgPool) -> anyhow::Result<()> {
+    sqlx::migrate!("../../migrations")
+        .run(pool)
+        .await
+        .context("database migrations failed")?;
+    Ok(())
+}
+
+/// Load `.env` (if present), connect, migrate. **Never** logs the connection string.
+pub async fn init_from_env() -> anyhow::Result<Arc<dyn AssetRepository>> {
+    let _ = dotenvy::dotenv();
+    let url = std::env::var("DATABASE_URL").context("DATABASE_URL is not set — copy .env.example to .env")?;
+    let pool = connect_pool(&url).await?;
+    run_migrations(&pool).await?;
+    Ok(Arc::new(PgAssets::new(pool)))
+}
+
+pub struct PgAssets {
+    pool: PgPool,
+}
+
+impl PgAssets {
+    pub fn new(pool: PgPool) -> Self {
+        Self { pool }
+    }
+}
+
+#[async_trait]
+impl AssetRepository for PgAssets {
+    async fn list_admin_assets(&self) -> anyhow::Result<Vec<Asset>> {
+        let rows = sqlx::query(
+            r#"SELECT id, name, serial_number, image_url, status, category, custodian_name, value_usd
+               FROM admin_assets ORDER BY id"#,
+        )
+        .fetch_all(&self.pool)
+        .await
+        .context("list admin_assets")?;
+
+        rows.iter().map(admin_from_row).collect::<Result<Vec<_>, _>>()
+    }
+
+    async fn list_user_dashboard_assets(&self) -> anyhow::Result<Vec<UserAsset>> {
+        let rows = sqlx::query(
+            r#"SELECT id, name, image_url, status, category, location_label, daily_rate_usd, action_label
+               FROM user_assets ORDER BY id"#,
+        )
+        .fetch_all(&self.pool)
+        .await
+        .context("list user_assets")?;
+
+        rows.iter().map(user_from_row).collect::<Result<Vec<_>, _>>()
+    }
+
+    async fn get_user_asset(&self, id: &str) -> anyhow::Result<Option<UserAsset>> {
+        let row = sqlx::query(
+            r#"SELECT id, name, image_url, status, category, location_label, daily_rate_usd, action_label
+               FROM user_assets WHERE id = $1"#,
+        )
+        .bind(id)
+        .fetch_optional(&self.pool)
+        .await
+        .context("get user_assets by id")?;
+
+        row.map(|r| user_from_row(&r)).transpose()
+    }
+
+    async fn list_similar_user_assets(&self, limit: usize) -> anyhow::Result<Vec<UserAsset>> {
+        let lim = (limit as i64).clamp(1, 100);
+        let rows = sqlx::query(
+            r#"SELECT id, name, image_url, status, category, location_label, daily_rate_usd, action_label
+               FROM user_assets ORDER BY id LIMIT $1"#,
+        )
+        .bind(lim)
+        .fetch_all(&self.pool)
+        .await
+        .context("list similar user_assets")?;
+
+        rows.iter().map(user_from_row).collect::<Result<Vec<_>, _>>()
+    }
+}
+
+fn admin_from_row(row: &PgRow) -> anyhow::Result<Asset> {
+    let status_s: String = row.try_get("status")?;
+    let status = parse_admin_status(&status_s).with_context(|| format!("bad admin status: {status_s}"))?;
+    Ok(Asset {
+        id: row.try_get("id")?,
+        name: row.try_get("name")?,
+        serial_number: row.try_get("serial_number")?,
+        image_url: row.try_get("image_url")?,
+        status,
+        category: row.try_get("category")?,
+        custodian_name: row.try_get("custodian_name")?,
+        value_usd: row.try_get("value_usd")?,
+    })
+}
+
+fn user_from_row(row: &PgRow) -> anyhow::Result<UserAsset> {
+    let status_s: String = row.try_get("status")?;
+    let status = parse_user_status(&status_s).with_context(|| format!("bad user status: {status_s}"))?;
+    Ok(UserAsset {
+        id: row.try_get("id")?,
+        name: row.try_get("name")?,
+        image_url: row.try_get("image_url")?,
+        status,
+        category: row.try_get("category")?,
+        location_label: row.try_get("location_label")?,
+        daily_rate_usd: row.try_get("daily_rate_usd")?,
+        action_label: row.try_get("action_label")?,
+    })
+}
+
+fn parse_admin_status(s: &str) -> anyhow::Result<AssetStatus> {
+    match s {
+        "assigned" => Ok(AssetStatus::Assigned),
+        "available" => Ok(AssetStatus::Available),
+        "maintenance" => Ok(AssetStatus::Maintenance),
+        _ => anyhow::bail!("unknown"),
+    }
+}
+
+fn parse_user_status(s: &str) -> anyhow::Result<UserAssetStatus> {
+    match s {
+        "available" => Ok(UserAssetStatus::Available),
+        "borrowed" => Ok(UserAssetStatus::Borrowed),
+        "reserved" => Ok(UserAssetStatus::Reserved),
+        "in_transit" => Ok(UserAssetStatus::InTransit),
+        _ => anyhow::bail!("unknown"),
+    }
+}

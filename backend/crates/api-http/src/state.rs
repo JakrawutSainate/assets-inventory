@@ -1,20 +1,14 @@
 use std::sync::Arc;
 
-use common::services::AssetService;
+use common::repository::AssetRepository;
 
 #[derive(Clone)]
 pub struct AppState {
-    pub assets: Arc<AssetService>,
+    pub assets: Arc<dyn AssetRepository>,
 }
 
 impl AppState {
-    pub fn new(assets: AssetService) -> Self {
-        Self {
-            assets: Arc::new(assets),
-        }
-    }
-
-    pub fn from_arc(assets: Arc<AssetService>) -> Self {
+    pub fn new(assets: Arc<dyn AssetRepository>) -> Self {
         Self { assets }
     }
 }

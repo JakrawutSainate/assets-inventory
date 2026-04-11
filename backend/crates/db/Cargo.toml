@@ -1,0 +1,18 @@
+[package]
+name = "db"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1"
+async-trait = "0.1"
+common = { path = "../common" }
+sqlx = { version = "0.8", default-features = false, features = [
+    "runtime-tokio-rustls",
+    "postgres",
+    "migrate",
+    "macros",
+] }
+tokio = { version = "1", features = ["sync"] }
+tracing = "0.1"
+dotenvy = "0.15"
