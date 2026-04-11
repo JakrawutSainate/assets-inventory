@@ -1,8 +1,12 @@
 use utoipa::openapi::security::{HttpAuthScheme, HttpBuilder, SecurityScheme};
 use utoipa::{Modify, OpenApi};
 
-use crate::handlers::{asset, auth};
-use common::models::{Asset, AuthResponse, LoginRequest, PublicUser, RegisterRequest, UserAsset};
+use crate::handlers::{admin, asset, auth};
+use common::models::{
+    ActivityEventRow, AdminDashboardResponse, AdminDashboardStats, Asset, AuthResponse, BorrowRequestRow,
+    IntegrityHealth, LoginRequest, MonthlyFlowPoint, PlatformSettings, PlatformSettingsPatch, PublicUser,
+    RegisterRequest, RegistrySummary, ReportsResponse, UserAsset,
+};
 
 struct SecurityAddon;
 
@@ -28,7 +32,7 @@ impl Modify for SecurityAddon {
     info(
         title = "Assets Inventory API",
         description = "REST + JWT auth; same asset data as gRPC (`asset-grpc`).",
-        version = "0.2.0"
+        version = "0.3.0"
     ),
     paths(
         auth::register,
@@ -38,6 +42,14 @@ impl Modify for SecurityAddon {
         asset::list_dashboard_assets,
         asset::get_user_asset,
         asset::list_similar_assets,
+        admin::get_dashboard,
+        admin::get_registry_summary,
+        admin::list_borrow_requests,
+        admin::approve_borrow_request,
+        admin::decline_borrow_request,
+        admin::get_reports,
+        admin::get_settings,
+        admin::patch_settings,
     ),
     components(schemas(
         Asset,
@@ -47,6 +59,16 @@ impl Modify for SecurityAddon {
         AuthResponse,
         PublicUser,
         common::models::UserRole,
+        AdminDashboardResponse,
+        AdminDashboardStats,
+        ActivityEventRow,
+        MonthlyFlowPoint,
+        RegistrySummary,
+        BorrowRequestRow,
+        ReportsResponse,
+        IntegrityHealth,
+        PlatformSettings,
+        PlatformSettingsPatch,
     )),
     tags(
         (name = "auth", description = "Register / login / session"),

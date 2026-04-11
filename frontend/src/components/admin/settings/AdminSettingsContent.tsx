@@ -1,21 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { applyTheme, getPreferredTheme, type ThemeMode } from "@/components/theme/theme-utils";
+import type { PlatformSettings } from "@/models/AdminApi";
 
-export function AdminSettingsContent() {
+type AdminSettingsContentProps = {
+  settings: PlatformSettings;
+};
+
+function formatBackup(iso: string | null): string {
+  if (!iso) {
+    return "—";
+  }
+  return formatRelativeTimeShort(iso);
+}
+
+function formatRelativeTimeShort(iso: string): string {
+  const d = new Date(iso);
+  const diffMs = Date.now() - d.getTime();
+  const min = Math.floor(diffMs / 60000);
+  if (min < 60) {
+    return `${min}m ago`;
+  }
+  const hr = Math.floor(min / 60);
+  if (hr < 48) {
+    return `${hr}h ago`;
+  }
+  return d.toLocaleDateString();
+}
+
+export function AdminSettingsContent({ settings: initial }: AdminSettingsContentProps) {
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
-  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [terms, setTerms] = useState(initial.terms_text);
+  const [maintenanceMode, setMaintenanceMode] = useState(initial.maintenance_mode);
+  const [saving, setSaving] = useState(false);
+  const lastSyncedTerms = useRef(initial.terms_text);
 
   useEffect(() => {
     const mode = getPreferredTheme();
     setThemeMode(mode);
     applyTheme(mode);
-
-    const storedMaintenance = window.localStorage.getItem("maintenance-mode") === "true";
-    setMaintenanceMode(storedMaintenance);
   }, []);
+
+  useEffect(() => {
+    setTerms(initial.terms_text);
+    setMaintenanceMode(initial.maintenance_mode);
+    lastSyncedTerms.current = initial.terms_text;
+  }, [initial.terms_text, initial.maintenance_mode]);
+
+  async function patchSettings(body: { terms_text?: string; maintenance_mode?: boolean }) {
+    setSaving(true);
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        return;
+      }
+      const next = (await res.json()) as PlatformSettings;
+      setTerms(next.terms_text);
+      lastSyncedTerms.current = next.terms_text;
+      setMaintenanceMode(next.maintenance_mode);
+    } finally {
+      setSaving(false);
+    }
+  }
 
   function handleThemeToggle() {
     const nextMode: ThemeMode = themeMode === "dark" ? "light" : "dark";
@@ -23,10 +75,17 @@ export function AdminSettingsContent() {
     applyTheme(nextMode);
   }
 
-  function handleMaintenanceToggle() {
+  async function handleMaintenanceToggle() {
     const nextValue = !maintenanceMode;
     setMaintenanceMode(nextValue);
-    window.localStorage.setItem("maintenance-mode", String(nextValue));
+    await patchSettings({ maintenance_mode: nextValue });
+  }
+
+  async function handleTermsBlur() {
+    if (terms === lastSyncedTerms.current) {
+      return;
+    }
+    await patchSettings({ terms_text: terms });
   }
 
   return (
@@ -36,26 +95,9 @@ export function AdminSettingsContent() {
           Platform Configuration
         </h1>
         <p className="max-w-2xl text-slate-600 dark:text-slate-400">
-          Manage system-wide parameters, compliance documentation, and interface preferences for all
-          custodial tiers.
+          Manage system-wide parameters, compliance documentation, and interface preferences for all custodial
+          tiers. Terms and maintenance mode are stored in the database.
         </p>
-      </div>
-
-      <div className="mb-6 rounded-xl border border-slate-200 bg-white p-4 transition-colors duration-200 dark:border-slate-700 dark:bg-slate-900">
-        <button
-          type="button"
-          onClick={() => {
-            document.documentElement.classList.toggle("dark");
-            console.log("TEST DARK");
-            console.log("HTML CLASS:", document.documentElement.className);
-          }}
-          className="rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-900 dark:bg-slate-800 dark:text-white"
-        >
-          TEST DARK
-        </button>
-        <div className="mt-4 bg-white p-10 text-sm font-bold text-slate-900 dark:bg-green-500 dark:text-white">
-          TEST COLOR
-        </div>
       </div>
 
       <div className="grid grid-cols-12 gap-12 transition-colors duration-200">
@@ -66,9 +108,13 @@ export function AdminSettingsContent() {
             </h3>
             <textarea
               rows={8}
+              value={terms}
+              disabled={saving}
+              onChange={(e) => setTerms(e.target.value)}
+              onBlur={() => void handleTermsBlur()}
               className="w-full rounded-lg border border-slate-300 bg-slate-50 p-4 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300"
-              defaultValue="Users must treat all assets with care and report damage within 24 hours."
             />
+            <p className="mt-2 text-xs text-slate-500">Blur the field to save to the server.</p>
           </section>
           <section className="grid grid-cols-2 gap-8">
             <button
@@ -79,7 +125,7 @@ export function AdminSettingsContent() {
               <div>
                 <p className="font-bold text-slate-900 dark:text-slate-100">Dark Mode</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Switch admin interface theme instantly
+                  Switch admin interface theme instantly (local)
                 </p>
               </div>
               <div
@@ -98,13 +144,14 @@ export function AdminSettingsContent() {
             </button>
             <button
               type="button"
-              onClick={handleMaintenanceToggle}
+              onClick={() => void handleMaintenanceToggle()}
+              disabled={saving}
               className="flex items-center justify-between rounded-xl border border-slate-300/60 bg-white p-6 text-left transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
             >
               <div>
                 <p className="font-bold text-slate-900 dark:text-slate-100">Maintenance Mode</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  {maintenanceMode ? "Enabled" : "Disabled"}
+                  {maintenanceMode ? "Enabled (database)" : "Disabled (database)"}
                 </p>
               </div>
               <div
@@ -128,15 +175,15 @@ export function AdminSettingsContent() {
           <ul className="space-y-3 text-xs text-slate-600 dark:text-slate-400">
             <li className="flex justify-between">
               <span>Core Version</span>
-              <span className="font-mono text-slate-900 dark:text-white">v4.8.2-stable</span>
+              <span className="font-mono text-slate-900 dark:text-white">{initial.core_version}</span>
             </li>
             <li className="flex justify-between">
               <span>Database Latency</span>
-              <span className="font-mono text-green-500">14ms</span>
+              <span className="font-mono text-green-500">{initial.database_latency_ms}ms</span>
             </li>
             <li className="flex justify-between">
               <span>Last Backup</span>
-              <span className="text-slate-900 dark:text-white">2h 14m ago</span>
+              <span className="text-slate-900 dark:text-white">{formatBackup(initial.last_backup_at)}</span>
             </li>
           </ul>
         </aside>

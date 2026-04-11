@@ -1,11 +1,10 @@
-//! One process: REST + Swagger, asset gRPC, health gRPC — shared DB-backed [`AssetRepository`].
+//! One process: unified gRPC (assets + auth + admin) and health gRPC — shared DB-backed [`AssetRepository`].
 
 use std::io;
 use std::net::SocketAddr;
-
 use std::sync::Arc;
 
-use api_http::{create_router, AppState};
+use asset_grpc::GrpcState;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 fn ensure_tcp_available(addr: SocketAddr, what: &str, hint: &str) -> io::Result<()> {
@@ -16,14 +15,6 @@ fn ensure_tcp_available(addr: SocketAddr, what: &str, hint: &str) -> io::Result<
         )
     })?;
     Ok(())
-}
-
-fn http_listen_addr() -> String {
-    let host = std::env::var("HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
-    let port = std::env::var("HTTP_PORT")
-        .or_else(|_| std::env::var("PORT"))
-        .unwrap_or_else(|_| "3001".to_string());
-    format!("{host}:{port}")
 }
 
 #[tokio::main]
@@ -47,16 +38,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         .into_boxed_str(),
     );
 
-    let http_addr = http_listen_addr();
-    let http_listener = tokio::net::TcpListener::bind(&http_addr).await.map_err(|e| {
-        io::Error::new(
-            e.kind(),
-            format!(
-                "HTTP: cannot bind {http_addr} — {e}\n  Port may be in use. Close the other terminal, or run: taskkill /IM runner.exe /F\n  Or use another port: set HTTP_PORT=3002"
-            ),
-        )
-    })?;
-
     let asset_port = std::env::var("ASSET_GRPC_PORT").unwrap_or_else(|_| "50051".to_string());
     let asset_addr: SocketAddr = format!("127.0.0.1:{asset_port}").parse()?;
 
@@ -65,7 +46,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
     ensure_tcp_available(
         asset_addr,
-        "asset gRPC",
+        "main gRPC",
         "Stop the process using this port or: set ASSET_GRPC_PORT=50061",
     )?;
     ensure_tcp_available(
@@ -74,31 +55,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         "Stop the process using this port or: set HEALTH_GRPC_PORT=50062",
     )?;
 
-    let http_port = std::env::var("HTTP_PORT")
-        .or_else(|_| std::env::var("PORT"))
-        .unwrap_or_else(|_| "3001".to_string());
+    let state = GrpcState::new(handles.assets, handles.pool, jwt_secret);
 
-    let app = create_router(AppState::new(
-        handles.assets.clone(),
-        handles.pool.clone(),
-        jwt_secret.clone(),
-    ));
-
-    tracing::info!("http + swagger: http://127.0.0.1:{http_port}/  (swagger: http://localhost:{http_port}/swagger-ui/)");
-    tracing::info!("asset gRPC: grpc://127.0.0.1:{asset_port}");
+    tracing::info!("gRPC (asset + auth + admin): grpc://127.0.0.1:{asset_port}");
     tracing::info!("health gRPC: grpc://127.0.0.1:{health_port}");
     tracing::info!("press Ctrl+C to stop");
 
-    let http_task = tokio::spawn(async move {
-        if let Err(e) = axum::serve(http_listener, app).await {
-            tracing::error!(error = %e, "http server exited");
-        }
-    });
-
-    let assets_grpc = handles.assets.clone();
     let grpc_task = tokio::spawn(async move {
-        if let Err(e) = asset_grpc::serve(asset_addr, assets_grpc).await {
-            tracing::error!(error = %e, "asset gRPC exited");
+        if let Err(e) = asset_grpc::serve(asset_addr, state).await {
+            tracing::error!(error = %e, "gRPC server exited");
         }
     });
 
@@ -110,7 +75,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
     tokio::signal::ctrl_c().await?;
 
-    http_task.abort();
     grpc_task.abort();
     health_task.abort();
 

@@ -1,5 +1,6 @@
 //! PostgreSQL access: parameterized queries only (OWASP: injection-safe patterns).
 
+pub mod admin;
 pub mod users;
 
 use std::sync::Arc;

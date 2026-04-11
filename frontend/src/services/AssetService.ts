@@ -1,15 +1,15 @@
 import type { Asset } from "@/models/Asset";
 import type { UserAsset } from "@/models/UserAsset";
 import {
-  createDefaultAssetRepository,
-  type AssetHttpRepository,
-} from "@/services/AssetHttpRepository";
+  AssetGrpcRepository,
+  createAssetGrpcRepository,
+} from "@/services/grpc/AssetGrpcRepository";
 
 /**
- * Application facade: pages use `createAssetService(token)` so each request carries the JWT.
+ * Application facade: Server Components call `createAssetService(token)` — data is loaded on the server (SSR), not in the browser.
  */
 export class AssetService {
-  constructor(private readonly repo: AssetHttpRepository) {}
+  constructor(private readonly repo: AssetGrpcRepository) {}
 
   async getAllAssets(): Promise<Asset[]> {
     return this.repo.listAdminAssets();
@@ -28,8 +28,8 @@ export class AssetService {
   }
 }
 
-export function createAssetService(token: string | null): AssetService {
-  return new AssetService(createDefaultAssetRepository(token));
+export function createAssetService(token: string): AssetService {
+  return new AssetService(createAssetGrpcRepository(token));
 }
 
 export type { UserAsset, UserAssetStatus } from "@/models/UserAsset";

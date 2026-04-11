@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package admin_v1;
+
+service AdminService {
+  rpc GetDashboard (Empty) returns (DashboardReply);
+  rpc GetRegistrySummary (Empty) returns (RegistrySummaryReply);
+  rpc ListBorrowRequests (Empty) returns (BorrowRequestsReply);
+  rpc ApproveBorrowRequest (IdRequest) returns (OkReply);
+  rpc DeclineBorrowRequest (IdRequest) returns (OkReply);
+  rpc GetReports (Empty) returns (ReportsReply);
+  rpc GetSettings (Empty) returns (SettingsReply);
+  rpc PatchSettings (PatchSettingsRequest) returns (SettingsReply);
+}
+
+message Empty {}
+
+message IdRequest { string id = 1; }
+
+message OkReply { bool ok = 1; }
+
+message DashboardReply {
+  DashboardStats stats = 1;
+  repeated ActivityEvent recent_activity = 2;
+  repeated MonthlyFlowPoint monthly_flow = 3;
+}
+
+message DashboardStats {
+  int64 total_assets = 1;
+  int64 pending_requests = 2;
+  int64 active_borrows = 3;
+  int32 avg_wait_minutes = 4;
+  double assets_trend_pct = 5;
+}
+
+message ActivityEvent {
+  string id = 1;
+  string actor_name = 2;
+  string actor_avatar_url = 3;
+  string action_summary = 4;
+  string created_at = 5;
+}
+
+message MonthlyFlowPoint {
+  int32 year = 1;
+  int32 month = 2;
+  string label = 3;
+  int32 checkouts = 4;
+  int32 returns_count = 5;
+}
+
+message RegistrySummaryReply {
+  double total_inventory_value_usd = 1;
+  int64 total_assets = 2;
+  int64 assigned_count = 3;
+  int64 available_count = 4;
+  int64 maintenance_count = 5;
+  int64 pending_requests = 6;
+  double compliance_rate_pct = 7;
+}
+
+message BorrowRequestsReply {
+  repeated BorrowRequestRow items = 1;
+}
+
+message BorrowRequestRow {
+  string id = 1;
+  string asset_id = 2;
+  string asset_name = 3;
+  string requester_name = 4;
+  string requester_email = 5;
+  string status = 6;
+  string request_type = 7;
+  string created_at = 8;
+}
+
+message ReportsReply {
+  repeated MonthlyFlowPoint monthly = 1;
+  IntegrityHealth integrity = 2;
+}
+
+message IntegrityHealth {
+  int64 critical_malfunction_count = 1;
+  int64 operational_wear_count = 2;
+}
+
+message SettingsReply {
+  string terms_text = 1;
+  bool maintenance_mode = 2;
+  string core_version = 3;
+  optional string last_backup_at = 4;
+  uint64 database_latency_ms = 5;
+}
+
+message PatchSettingsRequest {
+  optional string terms_text = 1;
+  optional bool maintenance_mode = 2;
+}

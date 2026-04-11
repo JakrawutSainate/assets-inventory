@@ -3,8 +3,8 @@ import * as grpc from "@grpc/grpc-js";
 import type { Asset, AssetStatus } from "@/models/Asset";
 import type { UserAsset, UserAssetStatus } from "@/models/UserAsset";
 import { assertSafeAssetId } from "@/lib/security/asset-id";
-import { getAssetGrpcClient } from "@/services/grpc/createAssetGrpcClient";
-import { unaryPromise } from "@/services/grpc/grpc-unary";
+import { getAssetGrpcClient } from "@/services/grpc/grpcClients";
+import { bearerMetadata, unaryPromise } from "@/services/grpc/grpc-unary";
 
 type AdminAssetPb = {
   id: string;
@@ -84,23 +84,29 @@ function mapUserAsset(a: UserAssetPb): UserAsset {
 }
 
 /**
- * Data access via gRPC (`asset_v1.AssetService` on Rust).
+ * Data access via gRPC (`asset_v1.AssetService` on Rust). Requires Bearer JWT on every RPC.
  */
 export class AssetGrpcRepository {
+  constructor(private readonly token: string) {}
+
   private get client(): grpc.Client {
     return getAssetGrpcClient();
   }
 
+  private md(): grpc.Metadata {
+    return bearerMetadata(this.token);
+  }
+
   async listAdminAssets(): Promise<Asset[]> {
     const reply = await unaryPromise<{ items: AdminAssetPb[] }>((cb) =>
-      (this.client as any).listAdminAssets({}, cb),
+      (this.client as any).listAdminAssets({}, this.md(), cb),
     );
     return (reply.items ?? []).map(mapAdminAsset);
   }
 
   async listUserDashboardAssets(): Promise<UserAsset[]> {
     const reply = await unaryPromise<{ items: UserAssetPb[] }>((cb) =>
-      (this.client as any).listDashboardAssets({}, cb),
+      (this.client as any).listDashboardAssets({}, this.md(), cb),
     );
     return (reply.items ?? []).map(mapUserAsset);
   }
@@ -109,7 +115,7 @@ export class AssetGrpcRepository {
     assertSafeAssetId(id);
     try {
       const reply = await unaryPromise<{ asset?: UserAssetPb }>((cb) =>
-        (this.client as any).getUserAsset({ id }, cb),
+        (this.client as any).getUserAsset({ id }, this.md(), cb),
       );
       if (!reply.asset) {
         return null;
@@ -125,10 +131,14 @@ export class AssetGrpcRepository {
 
   async listSimilarUserAssets(): Promise<UserAsset[]> {
     const reply = await unaryPromise<{ items: UserAssetPb[] }>((cb) =>
-      (this.client as any).listSimilarAssets({}, cb),
+      (this.client as any).listSimilarAssets({}, this.md(), cb),
     );
     return (reply.items ?? []).map(mapUserAsset);
   }
+}
+
+export function createAssetGrpcRepository(token: string): AssetGrpcRepository {
+  return new AssetGrpcRepository(token);
 }
 
 function isGrpcNotFound(err: unknown): boolean {

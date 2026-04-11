@@ -1,11 +1,11 @@
 import { AdminRequestsContent } from "@/components/admin/requests/AdminRequestsContent";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { requireAdmin } from "@/lib/auth-server";
-import { BorrowService } from "@/services/BorrowService";
+import { createAdminApiRepository } from "@/services/AdminApiRepository";
 
 export default async function AdminRequestsPage() {
-  const { user } = await requireAdmin();
-  const requests = await BorrowService.getPendingRequests();
+  const { token, user } = await requireAdmin();
+  const requests = await createAdminApiRepository(token).listBorrowRequests();
 
   return (
     <AdminLayout active="requests" user={user}>

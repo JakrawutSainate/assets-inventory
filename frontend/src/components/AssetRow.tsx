@@ -22,18 +22,26 @@ function formatCurrency(valueUsd: number): string {
 }
 
 export function AssetRow({ asset }: AssetRowProps) {
+  const hasImage = asset.imageUrl.trim().length > 0;
+
   return (
     <tr className="group transition-colors hover:bg-slate-100 dark:hover:bg-slate-900/30">
       <td className="px-6 py-5">
         <div className="flex items-center gap-4">
           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
-            <RemoteAssetImage
-              src={asset.imageUrl}
-              alt={asset.name}
-              fill
-              sizes="48px"
-              className="object-cover"
-            />
+            {hasImage ? (
+              <RemoteAssetImage
+                src={asset.imageUrl}
+                alt=""
+                fill
+                sizes="48px"
+                className="object-cover"
+              />
+            ) : (
+              <span className="flex h-full w-full items-center justify-center text-[10px] font-bold text-slate-500">
+                —
+              </span>
+            )}
           </div>
           <div>
             <p className="font-bold tracking-tight text-slate-900 dark:text-slate-100">{asset.name}</p>

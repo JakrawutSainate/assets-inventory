@@ -6,11 +6,24 @@ import { SearchBar } from "@/components/SearchBar";
 import { StatsCard } from "@/components/StatsCard";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { requireAdmin } from "@/lib/auth-server";
+import { createAdminApiRepository } from "@/services/AdminApiRepository";
 import { createAssetService } from "@/services/AssetService";
+
+function usd(n: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(n);
+}
 
 export default async function AdminAssetsPage() {
   const { token, user } = await requireAdmin();
-  const assets = await createAssetService(token).getAllAssets();
+  const adminApi = createAdminApiRepository(token);
+  const [assets, summary] = await Promise.all([
+    createAssetService(token).getAllAssets(),
+    adminApi.getRegistrySummary(),
+  ]);
 
   return (
     <AdminLayout active="assets" user={user}>
@@ -21,52 +34,50 @@ export default async function AdminAssetsPage() {
       />
 
       <SearchBar />
-      <AssetTable assets={assets} />
+      <AssetTable assets={assets} totalCount={summary.total_assets} />
 
       <section className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-4">
         <StatsCard
           label="Total Inventory Value"
-          value="$1,240,400"
+          value={usd(summary.total_inventory_value_usd)}
           detail={
             <div className="flex items-center gap-1 text-xs text-emerald-500 dark:text-emerald-400">
               <TrendingUp size={14} />
-              <span>+12.4% this quarter</span>
+              <span>Live total from registry</span>
             </div>
           }
         />
 
         <StatsCard
           label="Active Deployments"
-          value="182 Items"
+          value={`${summary.assigned_count} Items`}
           detail={
-            <div className="flex items-center gap-2">
-              <div className="flex -space-x-2">
-                <div className="h-6 w-6 rounded-full border-2 border-slate-950 bg-slate-800" />
-                <div className="h-6 w-6 rounded-full border-2 border-slate-950 bg-slate-700" />
-                <div className="h-6 w-6 rounded-full border-2 border-slate-950 bg-slate-600" />
-              </div>
-              <span className="text-xs text-slate-600 dark:text-slate-400">+14 pending</span>
+            <div className="flex gap-2 text-xs text-slate-600 dark:text-slate-400">
+              <span>{summary.pending_requests} pending requests</span>
             </div>
           }
         />
 
         <StatsCard
           label="Compliance Rate"
-          value="99.2%"
+          value={`${summary.compliance_rate_pct.toFixed(1)}%`}
           detail={
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
-              <div className="h-full w-[99%] bg-indigo-500" />
+              <div
+                className="h-full bg-indigo-500"
+                style={{ width: `${Math.min(100, summary.compliance_rate_pct)}%` }}
+              />
             </div>
           }
         />
 
         <StatsCard
           label="Maintenance Alerts"
-          value="3 Priority"
+          value={`${summary.maintenance_count} Priority`}
           detail={
             <div className="flex items-center gap-1 text-xs text-red-500">
               <TriangleAlert size={14} />
-              <span>Immediate action required</span>
+              <span>Assets in maintenance status</span>
             </div>
           }
         />

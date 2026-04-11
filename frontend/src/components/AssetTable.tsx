@@ -6,9 +6,14 @@ import { AssetRow } from "@/components/AssetRow";
 
 type AssetTableProps = {
   assets: Asset[];
+  /** When set, footer shows "Showing start to end of total". */
+  totalCount?: number;
 };
 
-export function AssetTable({ assets }: AssetTableProps) {
+export function AssetTable({ assets, totalCount }: AssetTableProps) {
+  const total = totalCount ?? assets.length;
+  const start = total === 0 ? 0 : 1;
+  const end = assets.length;
   return (
     <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800/50 dark:bg-slate-950">
       <table className="w-full border-collapse text-left">
@@ -43,7 +48,7 @@ export function AssetTable({ assets }: AssetTableProps) {
 
       <footer className="flex items-center justify-between bg-slate-100/60 px-6 py-4 dark:bg-slate-900/30">
         <p className="text-xs font-medium text-slate-500 dark:text-slate-500">
-          Showing 1 to 10 of 248 assets
+          Showing {start} to {end} of {total} assets
         </p>
         <div className="flex gap-2">
           <button

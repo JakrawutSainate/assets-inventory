@@ -1,13 +1,13 @@
 use axum::http::HeaderValue;
 use axum::middleware;
-use axum::routing::{get, post};
+use axum::routing::{get, patch, post};
 use axum::Router;
 use tower_http::cors::{AllowOrigin, Any, CorsLayer};
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
 use crate::auth;
-use crate::handlers::{asset, auth as auth_handlers};
+use crate::handlers::{admin, asset, auth as auth_handlers};
 use crate::openapi::ApiDoc;
 use crate::state::AppState;
 
@@ -49,6 +49,20 @@ pub fn create_router(state: AppState) -> Router {
     let protected = Router::new()
         .route("/api/v1/auth/me", get(auth_handlers::me))
         .route("/api/v1/admin/assets", get(asset::list_admin_assets))
+        .route("/api/v1/admin/dashboard", get(admin::get_dashboard))
+        .route("/api/v1/admin/registry/summary", get(admin::get_registry_summary))
+        .route("/api/v1/admin/borrow-requests", get(admin::list_borrow_requests))
+        .route(
+            "/api/v1/admin/borrow-requests/{id}/approve",
+            post(admin::approve_borrow_request),
+        )
+        .route(
+            "/api/v1/admin/borrow-requests/{id}/decline",
+            post(admin::decline_borrow_request),
+        )
+        .route("/api/v1/admin/reports", get(admin::get_reports))
+        .route("/api/v1/admin/settings", get(admin::get_settings))
+        .route("/api/v1/admin/settings", patch(admin::patch_settings))
         .route(
             "/api/v1/user/dashboard-assets",
             get(asset::list_dashboard_assets),

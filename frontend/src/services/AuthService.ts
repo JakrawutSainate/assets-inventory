@@ -1,37 +1,31 @@
-import { getApiBaseUrl } from "@/config/app-config";
 import type { User } from "@/models/User";
+import { getAuthGrpcClient } from "@/services/grpc/grpcClients";
+import { mapPublicUserToUser } from "@/services/grpc/authActions";
+import { bearerMetadata, unaryPromise } from "@/services/grpc/grpc-unary";
 
-type MeResponse = {
+type PublicUserPb = {
   id: string;
   email: string;
-  role: "admin" | "user";
+  role: string;
   name: string;
   avatar_url: string;
 };
 
-function mapUser(m: MeResponse): User {
-  return {
-    id: m.id,
-    email: m.email,
-    role: m.role,
-    name: m.name,
-    avatarUrl: m.avatar_url || "",
-  };
-}
-
 export class AuthService {
+  /** Server-only: `AuthService.Me` with Bearer metadata. */
   static async fetchMe(token: string): Promise<User | null> {
-    const res = await fetch(`${getApiBaseUrl()}/api/v1/auth/me`, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store",
-    });
-    if (!res.ok) {
+    try {
+      const client = getAuthGrpcClient();
+      const reply = await unaryPromise<{ user?: PublicUserPb }>((cb) =>
+        (client as any).me({}, bearerMetadata(token), cb),
+      );
+      const u = reply.user;
+      if (!u) {
+        return null;
+      }
+      return mapPublicUserToUser(u);
+    } catch {
       return null;
     }
-    const data = (await res.json()) as MeResponse;
-    return mapUser(data);
   }
 }
