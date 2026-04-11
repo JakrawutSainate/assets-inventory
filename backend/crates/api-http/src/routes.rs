@@ -9,23 +9,36 @@ use crate::handlers::asset;
 use crate::openapi::ApiDoc;
 use crate::state::AppState;
 
+/// CORS is driven only by env — no hardcoded browser origins in code.
+/// - `CORS_ALLOW_ANY=1`: permissive (dev only).
+/// - Else `CORS_ORIGIN` is required (e.g. where Next.js runs — often port 3000, not the API port).
 fn cors_layer() -> CorsLayer {
-    match std::env::var("CORS_ORIGIN") {
-        Ok(origin) => match HeaderValue::from_str(&origin) {
-            Ok(hv) => CorsLayer::new()
-                .allow_origin(AllowOrigin::exact(hv))
-                .allow_methods(Any)
-                .allow_headers(Any),
-            Err(_) => CorsLayer::new()
-                .allow_origin(Any)
-                .allow_methods(Any)
-                .allow_headers(Any),
-        },
-        Err(_) => CorsLayer::new()
+    let allow_any = std::env::var("CORS_ALLOW_ANY")
+        .map(|v| matches!(v.to_lowercase().as_str(), "1" | "true" | "yes"))
+        .unwrap_or(false);
+
+    if allow_any {
+        return CorsLayer::new()
             .allow_origin(Any)
             .allow_methods(Any)
-            .allow_headers(Any),
+            .allow_headers(Any);
     }
+
+    let origin = std::env::var("CORS_ORIGIN").unwrap_or_else(|_| {
+        panic!(
+            "Set CORS_ORIGIN in .env to your frontend origin (scheme+host+port), e.g. the Next.js URL. \
+             It is not the API port. Or set CORS_ALLOW_ANY=1 for local dev."
+        )
+    });
+
+    let hv = HeaderValue::from_str(origin.trim()).unwrap_or_else(|_| {
+        panic!("CORS_ORIGIN must be a valid Origin value (e.g. http://localhost:3000)");
+    });
+
+    CorsLayer::new()
+        .allow_origin(AllowOrigin::exact(hv))
+        .allow_methods(Any)
+        .allow_headers(Any)
 }
 
 pub fn create_router(state: AppState) -> Router {
