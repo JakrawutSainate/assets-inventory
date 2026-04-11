@@ -5,14 +5,22 @@ edition = "2021"
 
 [dependencies]
 axum = { version = "0.8", features = ["macros"] }
+chrono = "0.4"
 common = { path = "../common" }
 db = { path = "../db" }
 dotenvy = "0.15"
+jsonwebtoken = "9"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+sqlx = { version = "0.8", default-features = false, features = [
+    "runtime-tokio-rustls",
+    "postgres",
+] }
 tokio = { version = "1", features = ["full"] }
+tower = "0.5"
 tower-http = { version = "0.6", features = ["cors"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 utoipa = { version = "5", features = ["axum_extras"] }
 utoipa-swagger-ui = { version = "9", features = ["axum"] }
+uuid = { version = "1", features = ["serde"] }

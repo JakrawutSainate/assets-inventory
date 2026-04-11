@@ -1,11 +1,13 @@
 use axum::http::HeaderValue;
-use axum::routing::get;
+use axum::middleware;
+use axum::routing::{get, post};
 use axum::Router;
 use tower_http::cors::{AllowOrigin, Any, CorsLayer};
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::handlers::asset;
+use crate::auth;
+use crate::handlers::{asset, auth as auth_handlers};
 use crate::openapi::ApiDoc;
 use crate::state::AppState;
 
@@ -44,18 +46,25 @@ fn cors_layer() -> CorsLayer {
 pub fn create_router(state: AppState) -> Router {
     let openapi = ApiDoc::openapi();
 
-    Router::new()
-        .route("/health", get(|| async { "ok" }))
+    let protected = Router::new()
+        .route("/api/v1/auth/me", get(auth_handlers::me))
         .route("/api/v1/admin/assets", get(asset::list_admin_assets))
         .route(
             "/api/v1/user/dashboard-assets",
             get(asset::list_dashboard_assets),
         )
         .route("/api/v1/user/assets/{id}", get(asset::get_user_asset))
-        .route(
-            "/api/v1/user/similar-assets",
-            get(asset::list_similar_assets),
-        )
+        .route("/api/v1/user/similar-assets", get(asset::list_similar_assets))
+        .layer(middleware::from_fn_with_state(
+            state.clone(),
+            auth::require_auth,
+        ));
+
+    Router::new()
+        .route("/health", get(|| async { "ok" }))
+        .route("/api/v1/auth/register", post(auth_handlers::register))
+        .route("/api/v1/auth/login", post(auth_handlers::login))
+        .merge(protected)
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", openapi))
         .layer(cors_layer())
         .with_state(state)

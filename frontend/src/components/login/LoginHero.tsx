@@ -1,4 +1,12 @@
-export function LoginHero() {
+type LoginHeroProps = {
+  title?: string;
+  subtitle?: string;
+};
+
+export function LoginHero({
+  title = "Welcome Back.",
+  subtitle = "Please enter your credentials to access the ledger.",
+}: LoginHeroProps) {
   return (
     <div className="mb-12 text-center md:text-left">
       <div className="mb-4 flex items-center justify-center gap-3 md:justify-start">
@@ -9,10 +17,8 @@ export function LoginHero() {
           Fluid Custodian
         </span>
       </div>
-      <h1 className="mb-2 text-4xl font-bold tracking-tight text-slate-900">Welcome Back.</h1>
-      <p className="text-sm font-medium text-slate-500">
-        Please enter your credentials to access the ledger.
-      </p>
+      <h1 className="mb-2 text-4xl font-bold tracking-tight text-slate-900">{title}</h1>
+      <p className="text-sm font-medium text-slate-500">{subtitle}</p>
     </div>
   );
 }

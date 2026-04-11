@@ -1,4 +1,5 @@
 //! REST + OpenAPI (Swagger UI); uses the same [`common::services::AssetService`] as gRPC.
+pub mod auth;
 pub mod config;
 pub mod handlers;
 pub mod openapi;

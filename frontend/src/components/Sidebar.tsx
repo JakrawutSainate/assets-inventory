@@ -1,10 +1,11 @@
 import type { ComponentType } from "react";
 
-import Image from "next/image";
-import Link from "next/link";
-import { LayoutDashboard, LogOut, Package, ReceiptText, Settings, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Package, ReceiptText, Settings, ShieldCheck } from "lucide-react";
 
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
+import type { User } from "@/models/User";
 
 type SidebarItem = {
   label: string;
@@ -23,9 +24,12 @@ const items: SidebarItem[] = [
 
 type SidebarProps = {
   active: SidebarItem["key"];
+  user: User;
 };
 
-export function Sidebar({ active }: SidebarProps) {
+export function Sidebar({ active, user }: SidebarProps) {
+  const subtitle = user.role === "admin" ? "Administrator" : "User";
+
   return (
     <aside className="fixed left-0 top-0 z-50 h-screen w-64 border-r border-slate-200 bg-white p-4 transition-colors duration-200 dark:border-slate-700 dark:bg-slate-950">
       <div className="mb-10 px-4">
@@ -60,28 +64,28 @@ export function Sidebar({ active }: SidebarProps) {
           </div>
 
           <div className="mb-4 flex items-center gap-3 px-4 py-3">
-            <Image
-              className="h-8 w-8 rounded-full border border-slate-300 dark:border-slate-700"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxB0yRSNTs_fNtbhN5xEkorOKbv24B8XMLUQjBuv6TyzU7JXpmYTsWZOwNFO-bP87IEBRo0Urj_AJ16y3Uo5bkQ5RVOFgfcbNPjpFb2eu_aOQbH_uJx51E3NCr7xe3FcKFmvPfklkYxicBSka7HwdoXgK_9V-iMEsfdkkTMtITu598Acqmb9Z3oCVkco_wvjBTwM41cT4Io0AfhoJNB4Nr1os6vMJ-BxekgekJFRaHsqlH5btbwzyYm5tGnL1GVi2kCb-p4bLX6pk"
-              alt="Admin avatar"
-              width={32}
-              height={32}
-            />
+            <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-slate-300 dark:border-slate-700">
+              {user.avatarUrl ? (
+                <RemoteAssetImage
+                  src={user.avatarUrl}
+                  alt=""
+                  fill
+                  sizes="32px"
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-indigo-100 text-xs font-bold text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200">
+                  {user.name.slice(0, 1).toUpperCase()}
+                </div>
+              )}
+            </div>
             <div className="overflow-hidden">
-              <p className="truncate text-xs font-bold text-slate-900 dark:text-slate-100">
-                Admin User
-              </p>
-              <p className="text-[10px] text-slate-500 dark:text-slate-500">Super Admin</p>
+              <p className="truncate text-xs font-bold text-slate-900 dark:text-slate-100">{user.name}</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-500">{subtitle}</p>
             </div>
           </div>
 
-          <Link
-            href="/login"
-            className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900"
-          >
-            <LogOut size={16} />
-            <span>Logout</span>
-          </Link>
+          <LogoutButton />
         </div>
       </nav>
     </aside>

@@ -1,22 +1,31 @@
 use axum::{
-    extract::{Path, State},
+    extract::{Extension, Path, State},
     http::StatusCode,
     Json,
 };
 
-use common::models::{Asset, UserAsset};
+use common::models::{Asset, UserAsset, UserRole};
 use common::validation;
+use crate::auth::AuthUser;
 use crate::state::AppState;
 
 #[utoipa::path(
     get,
     path = "/api/v1/admin/assets",
-    responses((status = 200, description = "Admin assets", body = [Asset])),
+    responses((status = 200, description = "Admin assets", body = [Asset]),
+        (status = 401, description = "Unauthorized"),
+        (status = 403, description = "Forbidden"),
+        (status = 500, description = "Server error")),
+    security(("bearer_auth" = [])),
     tag = "admin"
 )]
 pub async fn list_admin_assets(
     State(state): State<AppState>,
+    Extension(auth): Extension<AuthUser>,
 ) -> Result<Json<Vec<Asset>>, StatusCode> {
+    if auth.role != UserRole::Admin {
+        return Err(StatusCode::FORBIDDEN);
+    }
     state
         .assets
         .list_admin_assets()
@@ -31,11 +40,15 @@ pub async fn list_admin_assets(
 #[utoipa::path(
     get,
     path = "/api/v1/user/dashboard-assets",
-    responses((status = 200, description = "User dashboard cards", body = [UserAsset])),
+    responses((status = 200, description = "User dashboard cards", body = [UserAsset]),
+        (status = 401, description = "Unauthorized"),
+        (status = 500, description = "Server error")),
+    security(("bearer_auth" = [])),
     tag = "user"
 )]
 pub async fn list_dashboard_assets(
     State(state): State<AppState>,
+    Extension(_auth): Extension<AuthUser>,
 ) -> Result<Json<Vec<UserAsset>>, StatusCode> {
     state
         .assets
@@ -55,12 +68,16 @@ pub async fn list_dashboard_assets(
     responses(
         (status = 200, description = "Found", body = UserAsset),
         (status = 400, description = "Bad id"),
-        (status = 404, description = "Not found")
+        (status = 401, description = "Unauthorized"),
+        (status = 404, description = "Not found"),
+        (status = 500, description = "Server error")
     ),
+    security(("bearer_auth" = [])),
     tag = "user"
 )]
 pub async fn get_user_asset(
     State(state): State<AppState>,
+    Extension(_auth): Extension<AuthUser>,
     Path(id): Path<String>,
 ) -> Result<Json<UserAsset>, StatusCode> {
     validation::validate_asset_id(&id).map_err(|_| StatusCode::BAD_REQUEST)?;
@@ -78,11 +95,15 @@ pub async fn get_user_asset(
 #[utoipa::path(
     get,
     path = "/api/v1/user/similar-assets",
-    responses((status = 200, description = "Similar assets", body = [UserAsset])),
+    responses((status = 200, description = "Similar assets", body = [UserAsset]),
+        (status = 401, description = "Unauthorized"),
+        (status = 500, description = "Server error")),
+    security(("bearer_auth" = [])),
     tag = "user"
 )]
 pub async fn list_similar_assets(
     State(state): State<AppState>,
+    Extension(_auth): Extension<AuthUser>,
 ) -> Result<Json<Vec<UserAsset>>, StatusCode> {
     state
         .assets

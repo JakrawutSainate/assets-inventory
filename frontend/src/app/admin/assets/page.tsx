@@ -5,13 +5,15 @@ import { PageHeader } from "@/components/PageHeader";
 import { SearchBar } from "@/components/SearchBar";
 import { StatsCard } from "@/components/StatsCard";
 import { AdminLayout } from "@/components/layout/AdminLayout";
-import { assetService } from "@/services/AssetService";
+import { requireAdmin } from "@/lib/auth-server";
+import { createAssetService } from "@/services/AssetService";
 
 export default async function AdminAssetsPage() {
-  const assets = await assetService.getAllAssets();
+  const { token, user } = await requireAdmin();
+  const assets = await createAssetService(token).getAllAssets();
 
   return (
-    <AdminLayout active="assets">
+    <AdminLayout active="assets" user={user}>
       <PageHeader
         title="Asset Registry"
         description="Centralized oversight of all high-value custodial items and organizational resources."

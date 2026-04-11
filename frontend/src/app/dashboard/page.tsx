@@ -1,11 +1,11 @@
 import { UserLayout } from "@/components/layout/UserLayout";
 import { UserDashboardContent } from "@/components/user/dashboard/UserDashboardContent";
-import { assetService } from "@/services/AssetService";
-import { AuthService } from "@/services/AuthService";
+import { requireUser } from "@/lib/auth-server";
+import { createAssetService } from "@/services/AssetService";
 
 export default async function UserDashboardPage() {
-  const user = await AuthService.getCurrentUser();
-  const assets = await assetService.getDashboardAssets();
+  const { token, user } = await requireUser();
+  const assets = await createAssetService(token).getDashboardAssets();
 
   return (
     <UserLayout active="browse" avatarUrl={user.avatarUrl}>

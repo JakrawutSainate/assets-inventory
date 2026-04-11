@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use api_http::config::listen_addr;
 use api_http::{create_router, AppState};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
@@ -14,8 +16,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let repo = db::init_from_env().await?;
-    let state = AppState::new(repo);
+    let handles = db::init_from_env().await?;
+    let jwt_secret: Arc<str> = Arc::from(
+        std::env::var("JWT_SECRET").unwrap_or_else(|_| {
+            tracing::warn!("JWT_SECRET unset — using insecure dev default");
+            "dev-only-change-me-use-at-least-32-characters-secret".into()
+        })
+        .into_boxed_str(),
+    );
+    let state = AppState::new(handles.assets, handles.pool, jwt_secret);
     let app = create_router(state);
 
     let addr = listen_addr();

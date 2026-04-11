@@ -1,8 +1,8 @@
 import { UserLayout } from "@/components/layout/UserLayout";
-import { AuthService } from "@/services/AuthService";
+import { requireUser } from "@/lib/auth-server";
 
 export default async function ProfilePage() {
-  const user = await AuthService.getCurrentUser();
+  const { user } = await requireUser();
 
   return (
     <UserLayout active="my-items" avatarUrl={user.avatarUrl}>

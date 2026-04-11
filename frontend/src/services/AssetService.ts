@@ -1,12 +1,15 @@
 import type { Asset } from "@/models/Asset";
 import type { UserAsset } from "@/models/UserAsset";
-import { AssetGrpcRepository } from "@/services/grpc/AssetGrpcRepository";
+import {
+  createDefaultAssetRepository,
+  type AssetHttpRepository,
+} from "@/services/AssetHttpRepository";
 
 /**
- * Application service (facade): pages use this; data comes from gRPC (`AssetGrpcRepository`).
+ * Application facade: pages use `createAssetService(token)` so each request carries the JWT.
  */
 export class AssetService {
-  constructor(private readonly repo: AssetGrpcRepository) {}
+  constructor(private readonly repo: AssetHttpRepository) {}
 
   async getAllAssets(): Promise<Asset[]> {
     return this.repo.listAdminAssets();
@@ -25,24 +28,8 @@ export class AssetService {
   }
 }
 
-let singleton: AssetService | null = null;
-
-function getSingleton(): AssetService {
-  if (!singleton) {
-    const repo = new AssetGrpcRepository();
-    singleton = new AssetService(repo);
-  }
-  return singleton;
+export function createAssetService(token: string | null): AssetService {
+  return new AssetService(createDefaultAssetRepository(token));
 }
-
-export const assetService = {
-  getAllAssets: (): Promise<Asset[]> => getSingleton().getAllAssets(),
-  getDashboardAssets: (): Promise<UserAsset[]> =>
-    getSingleton().getDashboardAssets(),
-  getAssetById: (id: string): Promise<UserAsset | null> =>
-    getSingleton().getAssetById(id),
-  getSimilarAssets: (): Promise<UserAsset[]> =>
-    getSingleton().getSimilarAssets(),
-};
 
 export type { UserAsset, UserAssetStatus } from "@/models/UserAsset";

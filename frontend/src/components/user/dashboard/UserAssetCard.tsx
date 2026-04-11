@@ -7,9 +7,11 @@ import type { UserAsset } from "@/models/UserAsset";
 
 type UserAssetCardProps = {
   asset: UserAsset;
+  /** First above-the-fold card: improves LCP (Next.js recommends `priority` + eager load). */
+  priority?: boolean;
 };
 
-export function UserAssetCard({ asset }: UserAssetCardProps) {
+export function UserAssetCard({ asset, priority = false }: UserAssetCardProps) {
   return (
     <article className="flex flex-col rounded-xl bg-white p-4 shadow-[0_20px_40px_rgba(13,28,46,0.06)] transition-colors duration-200 dark:bg-slate-900 dark:shadow-none">
       <div className="relative mb-4 aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
@@ -19,6 +21,8 @@ export function UserAssetCard({ asset }: UserAssetCardProps) {
           fill
           sizes="320px"
           className="object-cover"
+          priority={priority}
+          loading={priority ? "eager" : undefined}
         />
         <div className="absolute top-3 right-3">
           <AssetStatusBadge status={asset.status} />

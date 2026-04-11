@@ -6,8 +6,9 @@ import { useState } from "react";
 
 import { FormInput } from "@/components/FormInput";
 
-export function LoginFormCard() {
+export function RegisterFormCard() {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -18,26 +19,25 @@ export function LoginFormCard() {
     setError(null);
     setPending(true);
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          email,
+          password,
+          name: name.trim() || undefined,
+        }),
       });
-      const data = (await res.json().catch(() => ({}))) as {
-        user?: { role?: string };
-        message?: string;
-      };
+      const data = (await res.json().catch(() => ({}))) as { message?: string };
       if (!res.ok) {
-        setError(data.message ?? `Sign in failed (${res.status})`);
+        setError(
+          data.message ??
+            (res.status === 409 ? "Email already registered" : `Registration failed (${res.status})`),
+        );
         setPending(false);
         return;
       }
-      const role = data.user?.role;
-      if (role === "admin") {
-        router.replace("/admin/dashboard");
-      } else {
-        router.replace("/dashboard");
-      }
+      router.replace("/dashboard");
       router.refresh();
     } catch {
       setError("Network error");
@@ -47,13 +47,19 @@ export function LoginFormCard() {
 
   return (
     <div className="group relative rounded-xl bg-white p-8 shadow-[0_20px_40px_rgba(13,28,46,0.06)] transition-colors duration-200 dark:bg-slate-900 dark:shadow-none">
-      <div className="absolute -top-3 -right-3 rounded-full bg-linear-to-br from-indigo-700 to-indigo-500 px-4 py-1.5 shadow-lg">
-        <span className="text-[10px] font-bold tracking-widest text-white uppercase">
-          Portal Access
-        </span>
+      <div className="absolute -top-3 -right-3 rounded-full bg-linear-to-br from-emerald-700 to-emerald-500 px-4 py-1.5 shadow-lg">
+        <span className="text-[10px] font-bold tracking-widest text-white uppercase">New account</span>
       </div>
 
       <form className="space-y-6" onSubmit={(e) => void onSubmit(e)}>
+        <FormInput
+          id="name"
+          label="Display name"
+          type="text"
+          placeholder="Alex Sterling"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <FormInput
           id="email"
           label="Email Address"
@@ -71,9 +77,7 @@ export function LoginFormCard() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          labelAction={
-            <span className="text-xs font-bold text-slate-400">Min. 8 characters</span>
-          }
+          labelAction={<span className="text-xs font-bold text-slate-400">Min. 8 characters</span>}
         />
 
         {error ? (
@@ -86,27 +90,18 @@ export function LoginFormCard() {
           <button
             type="submit"
             disabled={pending}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-br from-indigo-700 to-indigo-500 px-6 py-4 font-bold text-white shadow-lg transition-all hover:shadow-indigo-500/20 active:scale-[0.98] disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-br from-emerald-700 to-emerald-500 px-6 py-4 font-bold text-white shadow-lg transition-all hover:shadow-emerald-500/20 active:scale-[0.98] disabled:opacity-60"
           >
-            {pending ? "Signing in…" : "Sign in"}
+            {pending ? "Creating account…" : "Create account"}
           </button>
           <p className="text-center text-sm text-slate-600 dark:text-slate-400">
-            No account?{" "}
-            <Link href="/register" className="font-bold text-indigo-700 hover:underline dark:text-indigo-400">
-              Register
+            Already have an account?{" "}
+            <Link href="/login" className="font-bold text-indigo-700 hover:underline dark:text-indigo-400">
+              Sign in
             </Link>
           </p>
         </div>
       </form>
-
-      <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 sm:flex-row dark:border-slate-700">
-        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Secured by Vanguard Protocol</span>
-        <div className="flex gap-4">
-          <span className="h-2 w-2 rounded-full bg-indigo-700" />
-          <span className="h-2 w-2 rounded-full bg-slate-300" />
-          <span className="h-2 w-2 rounded-full bg-slate-300" />
-        </div>
-      </div>
     </div>
   );
 }

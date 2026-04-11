@@ -1,9 +1,19 @@
 /**
+ * Rust HTTP API (`api-http` / runner). Used for auth + protected REST assets.
+ */
+export function getApiBaseUrl(): string {
+  const raw =
+    process.env.API_BASE_URL?.trim() ??
+    process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+  if (!raw) {
+    return "http://127.0.0.1:3001";
+  }
+  return raw.replace(/\/$/, "");
+}
+
+/**
  * gRPC address for the Rust `asset-grpc` service (`host:port`).
- * Must match runner / `ASSET_GRPC_PORT` (default 50051).
- *
- * OWASP: use `GRPC_ASSET_ADDRESS` (server-only). Avoid `NEXT_PUBLIC_*` unless a
- * Client Component must speak gRPC-Web via a proxy (not implemented here).
+ * Optional if the app uses REST-only asset loading.
  */
 export function getGrpcAssetAddress(): string {
   const raw =

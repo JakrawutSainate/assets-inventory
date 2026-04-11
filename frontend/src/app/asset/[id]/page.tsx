@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 
 import { UserLayout } from "@/components/layout/UserLayout";
 import { AssetDetailsContent } from "@/components/user/asset-details/AssetDetailsContent";
-import { assetService } from "@/services/AssetService";
-import { AuthService } from "@/services/AuthService";
+import { requireUser } from "@/lib/auth-server";
+import { createAssetService } from "@/services/AssetService";
 
 type AssetDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -11,9 +11,10 @@ type AssetDetailPageProps = {
 
 export default async function AssetDetailPage({ params }: AssetDetailPageProps) {
   const { id } = await params;
-  const user = await AuthService.getCurrentUser();
-  const asset = await assetService.getAssetById(id);
-  const similarAssets = await assetService.getSimilarAssets();
+  const { token, user } = await requireUser();
+  const svc = createAssetService(token);
+  const asset = await svc.getAssetById(id);
+  const similarAssets = await svc.getSimilarAssets();
 
   if (!asset) {
     notFound();

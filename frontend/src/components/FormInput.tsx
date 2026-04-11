@@ -6,6 +6,9 @@ type FormInputProps = {
   type?: "text" | "email" | "password";
   placeholder?: string;
   labelAction?: ReactNode;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
 };
 
 export function FormInput({
@@ -14,6 +17,9 @@ export function FormInput({
   type = "text",
   placeholder,
   labelAction,
+  value,
+  onChange,
+  required,
 }: FormInputProps) {
   return (
     <div className="space-y-2">
@@ -31,6 +37,9 @@ export function FormInput({
         name={id}
         type={type}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required={required}
         className="w-full rounded-lg border-0 border-b-2 border-transparent bg-slate-100 px-4 py-3 font-medium text-slate-900 placeholder:text-slate-400 transition-all focus:border-indigo-600 focus:ring-0"
       />
     </div>

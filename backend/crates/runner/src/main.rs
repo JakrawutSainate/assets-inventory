@@ -3,6 +3,8 @@
 use std::io;
 use std::net::SocketAddr;
 
+use std::sync::Arc;
+
 use api_http::{create_router, AppState};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -36,8 +38,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let repo = db::init_from_env().await?;
-    let assets = repo.clone();
+    let handles = db::init_from_env().await?;
+    let jwt_secret: Arc<str> = Arc::from(
+        std::env::var("JWT_SECRET").unwrap_or_else(|_| {
+            tracing::warn!("JWT_SECRET unset — using insecure dev default; set in production");
+            "dev-only-change-me-use-at-least-32-characters-secret".into()
+        })
+        .into_boxed_str(),
+    );
 
     let http_addr = http_listen_addr();
     let http_listener = tokio::net::TcpListener::bind(&http_addr).await.map_err(|e| {
@@ -70,7 +78,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         .or_else(|_| std::env::var("PORT"))
         .unwrap_or_else(|_| "3001".to_string());
 
-    let app = create_router(AppState::new(assets.clone()));
+    let app = create_router(AppState::new(
+        handles.assets.clone(),
+        handles.pool.clone(),
+        jwt_secret.clone(),
+    ));
 
     tracing::info!("http + swagger: http://127.0.0.1:{http_port}/  (swagger: http://localhost:{http_port}/swagger-ui/)");
     tracing::info!("asset gRPC: grpc://127.0.0.1:{asset_port}");
@@ -83,7 +95,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         }
     });
 
-    let assets_grpc = assets.clone();
+    let assets_grpc = handles.assets.clone();
     let grpc_task = tokio::spawn(async move {
         if let Err(e) = asset_grpc::serve(asset_addr, assets_grpc).await {
             tracing::error!(error = %e, "asset gRPC exited");

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { Bell } from "lucide-react";
+import { Bell, User } from "lucide-react";
 
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
 
 type NavbarProps = {
   active: "browse" | "my-items" | "activity";
@@ -41,6 +41,8 @@ export function Navbar({ active, avatarUrl }: NavbarProps) {
     key === active
       ? "border-b-2 border-indigo-600 font-semibold text-indigo-700 dark:text-indigo-300"
       : "font-medium text-slate-500 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-300";
+
+  const hasAvatar = avatarUrl.trim().length > 0;
 
   return (
     <header className="fixed top-0 z-50 flex h-16 w-full items-center justify-between bg-white/80 px-8 shadow-[0_20px_40px_rgba(13,28,46,0.06)] backdrop-blur-md transition-colors duration-200 dark:bg-slate-950/80 dark:shadow-none">
@@ -106,9 +108,21 @@ export function Navbar({ active, avatarUrl }: NavbarProps) {
             }}
             aria-label="Toggle user menu"
             aria-expanded={isUserMenuOpen}
-            className="h-8 w-8 overflow-hidden rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900"
+            className="relative h-8 w-8 overflow-hidden rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900"
           >
-            <Image src={avatarUrl} alt="User profile" width={32} height={32} />
+            {hasAvatar ? (
+              <RemoteAssetImage
+                src={avatarUrl}
+                alt=""
+                fill
+                sizes="32px"
+                className="object-cover"
+              />
+            ) : (
+              <span className="flex h-full w-full items-center justify-center bg-indigo-100 dark:bg-indigo-900/50">
+                <User size={16} className="text-indigo-700 dark:text-indigo-300" aria-hidden />
+              </span>
+            )}
           </button>
 
           {isUserMenuOpen ? (
@@ -119,12 +133,18 @@ export function Navbar({ active, avatarUrl }: NavbarProps) {
               >
                 Profile
               </Link>
-              <Link
-                href="/login"
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/50"
+              <button
+                type="button"
+                className="block w-full rounded-lg px-3 py-2 text-left text-sm font-semibold text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/50"
+                onClick={() => {
+                  void (async () => {
+                    await fetch("/api/auth/logout", { method: "POST" });
+                    window.location.href = "/login";
+                  })();
+                }}
               >
                 Logout
-              </Link>
+              </button>
             </div>
           ) : null}
         </div>

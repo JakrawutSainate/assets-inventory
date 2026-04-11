@@ -1,5 +1,7 @@
 //! PostgreSQL access: parameterized queries only (OWASP: injection-safe patterns).
 
+pub mod users;
+
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -10,7 +12,7 @@ use common::repository::AssetRepository;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::postgres::PgRow;
 use sqlx::Row;
-use sqlx::PgPool;
+pub use sqlx::PgPool;
 
 fn env_u64(name: &str, default: u64) -> u64 {
     std::env::var(name)
@@ -50,13 +52,21 @@ pub async fn run_migrations(pool: &PgPool) -> anyhow::Result<()> {
     Ok(())
 }
 
-/// Load `.env` (if present), connect, migrate. **Never** logs the connection string.
-pub async fn init_from_env() -> anyhow::Result<Arc<dyn AssetRepository>> {
+/// Shared DB handles for HTTP + gRPC (same pool).
+pub struct DbHandles {
+    pub assets: Arc<dyn AssetRepository>,
+    pub pool: PgPool,
+}
+
+/// Load `.env` (if present), connect, migrate, optional admin seed. **Never** logs secrets.
+pub async fn init_from_env() -> anyhow::Result<DbHandles> {
     let _ = dotenvy::dotenv();
     let url = std::env::var("DATABASE_URL").context("DATABASE_URL is not set — copy .env.example to .env")?;
     let pool = connect_pool(&url).await?;
     run_migrations(&pool).await?;
-    Ok(Arc::new(PgAssets::new(pool)))
+    users::seed_admin_from_env(&pool).await?;
+    let assets = Arc::new(PgAssets::new(pool.clone()));
+    Ok(DbHandles { assets, pool })
 }
 
 pub struct PgAssets {

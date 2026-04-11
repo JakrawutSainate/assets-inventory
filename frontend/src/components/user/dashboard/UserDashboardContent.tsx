@@ -34,8 +34,8 @@ export function UserDashboardContent({ assets }: UserDashboardContentProps) {
       </div>
 
       <section className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {assets.map((asset) => (
-          <UserAssetCard key={asset.id} asset={asset} />
+        {assets.map((asset, index) => (
+          <UserAssetCard key={asset.id} asset={asset} priority={index === 0} />
         ))}
       </section>
     </>
