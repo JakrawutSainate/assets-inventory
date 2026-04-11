@@ -1,6 +1,7 @@
 //! PostgreSQL access: parameterized queries only (OWASP: injection-safe patterns).
 
 use std::sync::Arc;
+use std::time::Duration;
 
 use anyhow::Context;
 use async_trait::async_trait;
@@ -11,15 +12,31 @@ use sqlx::postgres::PgRow;
 use sqlx::Row;
 use sqlx::PgPool;
 
+fn env_u64(name: &str, default: u64) -> u64 {
+    std::env::var(name)
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(default)
+}
+
 /// Build pool (TLS from `DATABASE_URL`, e.g. Neon `sslmode=require`).
+///
+/// Neon / serverless Postgres often closes idle TCP sessions; sqlx may log
+/// `ping on idle connection` when it drops a stale socket. Tuning
+/// `DB_IDLE_TIMEOUT_SECS` / `DB_MAX_LIFETIME_SECS` recycles connections before
+/// the remote side disappears (defaults are conservative for Neon).
 pub async fn connect_pool(database_url: &str) -> anyhow::Result<PgPool> {
+    let max = env_u64("DB_MAX_CONNECTIONS", 5) as u32;
+    let idle_secs = env_u64("DB_IDLE_TIMEOUT_SECS", 300);
+    let life_secs = env_u64("DB_MAX_LIFETIME_SECS", 1800);
+    let acquire_secs = env_u64("DB_ACQUIRE_TIMEOUT_SECS", 30);
+
     PgPoolOptions::new()
-        .max_connections(
-            std::env::var("DB_MAX_CONNECTIONS")
-                .ok()
-                .and_then(|s| s.parse().ok())
-                .unwrap_or(5),
-        )
+        .max_connections(max)
+        .acquire_timeout(Duration::from_secs(acquire_secs))
+        .idle_timeout(Some(Duration::from_secs(idle_secs)))
+        .max_lifetime(Some(Duration::from_secs(life_secs)))
+        .test_before_acquire(true)
         .connect(database_url)
         .await
         .context("database connection failed (check DATABASE_URL and network; secrets are not logged)")

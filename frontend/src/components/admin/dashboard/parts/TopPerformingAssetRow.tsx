@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
 import type { Asset } from "@/models/Asset";
 
 type TopPerformingAssetRowProps = {
@@ -17,12 +16,12 @@ export function TopPerformingAssetRow({
     <tr className="transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/30">
       <td className="px-8 py-6">
         <div className="flex items-center gap-4">
-          <div className="h-12 w-12 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
-            <Image
+          <div className="relative h-12 w-12 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
+            <RemoteAssetImage
               src={asset.imageUrl}
               alt={asset.name}
-              width={48}
-              height={48}
+              fill
+              sizes="48px"
               className="object-cover"
             />
           </div>

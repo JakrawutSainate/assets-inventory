@@ -1,4 +1,4 @@
-import type { UserAsset } from "@/services/AssetService";
+import type { UserAsset } from "@/models/UserAsset";
 
 import { UserAssetCard } from "@/components/user/dashboard/UserAssetCard";
 

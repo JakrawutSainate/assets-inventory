@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { Pencil, Trash2 } from "lucide-react";
 
 import type { Asset } from "@/models/Asset";
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
 
 type AssetRowProps = {
   asset: Asset;
@@ -26,13 +26,13 @@ export function AssetRow({ asset }: AssetRowProps) {
     <tr className="group transition-colors hover:bg-slate-100 dark:hover:bg-slate-900/30">
       <td className="px-6 py-5">
         <div className="flex items-center gap-4">
-          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
-            <Image
-              className="object-cover"
+          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-800">
+            <RemoteAssetImage
               src={asset.imageUrl}
               alt={asset.name}
-              width={48}
-              height={48}
+              fill
+              sizes="48px"
+              className="object-cover"
             />
           </div>
           <div>

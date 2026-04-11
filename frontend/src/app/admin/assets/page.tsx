@@ -5,10 +5,10 @@ import { PageHeader } from "@/components/PageHeader";
 import { SearchBar } from "@/components/SearchBar";
 import { StatsCard } from "@/components/StatsCard";
 import { AdminLayout } from "@/components/layout/AdminLayout";
-import { AssetService } from "@/services/AssetService";
+import { assetService } from "@/services/AssetService";
 
 export default async function AdminAssetsPage() {
-  const assets = await AssetService.getAllAssets();
+  const assets = await assetService.getAllAssets();
 
   return (
     <AdminLayout active="assets">

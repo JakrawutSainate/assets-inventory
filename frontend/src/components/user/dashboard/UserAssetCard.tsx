@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
 import { AssetStatusBadge } from "@/components/user/shared/AssetStatusBadge";
-import type { UserAsset } from "@/services/AssetService";
+import type { UserAsset } from "@/models/UserAsset";
 
 type UserAssetCardProps = {
   asset: UserAsset;
@@ -13,7 +13,13 @@ export function UserAssetCard({ asset }: UserAssetCardProps) {
   return (
     <article className="flex flex-col rounded-xl bg-white p-4 shadow-[0_20px_40px_rgba(13,28,46,0.06)] transition-colors duration-200 dark:bg-slate-900 dark:shadow-none">
       <div className="relative mb-4 aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
-        <Image src={asset.imageUrl} alt={asset.name} fill sizes="320px" className="object-cover" />
+        <RemoteAssetImage
+          src={asset.imageUrl}
+          alt={asset.name}
+          fill
+          sizes="320px"
+          className="object-cover"
+        />
         <div className="absolute top-3 right-3">
           <AssetStatusBadge status={asset.status} />
         </div>

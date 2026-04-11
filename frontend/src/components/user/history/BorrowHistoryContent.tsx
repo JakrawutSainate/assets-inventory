@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
 import type { Borrow } from "@/models/Borrow";
 
 type BorrowHistoryContentProps = {
@@ -51,8 +50,14 @@ export function BorrowHistoryContent({ history }: BorrowHistoryContentProps) {
               <tr key={item.id} className="border-b border-slate-100 dark:border-slate-700">
                 <td className="px-8 py-6">
                   <div className="flex items-center gap-4">
-                    <div className="h-12 w-12 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
-                      <Image src={item.assetImageUrl} alt={item.assetName} width={48} height={48} />
+                    <div className="relative h-12 w-12 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+                      <RemoteAssetImage
+                        src={item.assetImageUrl}
+                        alt={item.assetName}
+                        fill
+                        sizes="48px"
+                        className="object-cover"
+                      />
                     </div>
                     <div>
                       <div className="font-bold text-slate-900 dark:text-white">{item.assetName}</div>

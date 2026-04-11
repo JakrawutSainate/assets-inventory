@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
 import type { RecentHandler } from "@/components/admin/dashboard/parts/types";
 
 type RecentHandlerItemProps = {
@@ -9,13 +8,13 @@ type RecentHandlerItemProps = {
 export function RecentHandlerItem({ handler }: RecentHandlerItemProps) {
   return (
     <div className="flex items-center gap-4">
-      <div className="relative">
-        <Image
+      <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full">
+        <RemoteAssetImage
           src={handler.avatar}
           alt={handler.name}
-          width={44}
-          height={44}
-          className="h-11 w-11 rounded-full object-cover"
+          fill
+          sizes="44px"
+          className="object-cover"
         />
         <span
           className={[

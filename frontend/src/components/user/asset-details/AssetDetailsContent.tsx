@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, ChevronDown, Info, Repeat2 } from "lucide-react";
 
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
 import { AssetSpecCard } from "@/components/user/shared/AssetSpecCard";
 import { SimilarAssetCard } from "@/components/user/shared/SimilarAssetCard";
-import type { UserAsset } from "@/services/AssetService";
+import type { UserAsset } from "@/models/UserAsset";
 
 type AssetDetailsContentProps = {
   asset: UserAsset;
@@ -27,7 +27,13 @@ export function AssetDetailsContent({ asset, similarAssets }: AssetDetailsConten
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12">
         <section className="space-y-8 lg:col-span-7">
           <div className="relative aspect-4/3 overflow-hidden rounded-xl bg-slate-100">
-            <Image src={asset.imageUrl} alt={asset.name} fill sizes="900px" className="object-cover" />
+            <RemoteAssetImage
+              src={asset.imageUrl}
+              alt={asset.name}
+              fill
+              sizes="900px"
+              className="object-cover"
+            />
             <div className="absolute bottom-6 left-8 max-w-md rounded-xl bg-white p-6 shadow-[0_20px_40px_rgba(13,28,46,0.06)] transition-colors duration-200 dark:bg-slate-900 dark:shadow-none">
               <span className="mb-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase dark:bg-slate-800">
                 Available Now

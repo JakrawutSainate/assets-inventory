@@ -1,4 +1,4 @@
-import type { UserAssetStatus } from "@/services/AssetService";
+import type { UserAssetStatus } from "@/models/UserAsset";
 
 type AssetStatusBadgeProps = {
   status: UserAssetStatus;

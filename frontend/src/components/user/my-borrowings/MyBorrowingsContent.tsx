@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { RemoteAssetImage } from "@/components/ui/RemoteAssetImage";
 import { GradientButton } from "@/components/ui/GradientButton";
 import { PageIntro } from "@/components/ui/PageIntro";
 import type { Borrow } from "@/models/Borrow";
@@ -24,7 +23,7 @@ export function MyBorrowingsContent({ borrows }: MyBorrowingsContentProps) {
             className="group flex flex-col overflow-hidden rounded-xl bg-white transition-colors duration-200 dark:bg-slate-900 md:flex-row"
           >
             <div className="relative h-48 overflow-hidden md:h-auto md:w-64">
-              <Image
+              <RemoteAssetImage
                 src={borrow.assetImageUrl}
                 alt={borrow.assetName}
                 fill
